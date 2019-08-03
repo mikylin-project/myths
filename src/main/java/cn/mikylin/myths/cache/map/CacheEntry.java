@@ -2,6 +2,11 @@ package cn.mikylin.myths.cache.map;
 
 import java.util.Map;
 
+/**
+ * base cache entry
+ * @author mikylin
+ * @date 20190722
+ */
 public abstract class CacheEntry<K,V> implements Map.Entry<K,V>{
 
     private int hash; // hash
@@ -11,7 +16,6 @@ public abstract class CacheEntry<K,V> implements Map.Entry<K,V>{
     private CacheEntry<K,V> after;
     private long expireTime; // 过期时间,如果为 0 则永不过期
     private long lately;
-
 
     CacheEntry(K key,V value,long expireTime){
         this.key = key;

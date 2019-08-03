@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Simple date util
+ * Simple date utils
  * @author mikylin
  * @date 20190714
  */

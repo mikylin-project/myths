@@ -29,7 +29,7 @@ public class ReadManager {
             valClass = String.class;
 
         TypeHandler typeHandler;
-        if(Objects.isNull(typeHandler = option.typeHandlers.get(valClass)))
+        if(null == (typeHandler = option.typeHandlers.get(valClass)))
             return null;
 
         return typeHandler.read(val);

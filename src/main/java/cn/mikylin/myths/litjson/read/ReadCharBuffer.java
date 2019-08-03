@@ -1,5 +1,7 @@
 package cn.mikylin.myths.litjson.read;
 
+import cn.mikylin.myths.common.Blank;
+
 /**
  * simple char buffer
  * @author mikylin
@@ -9,7 +11,6 @@ public class ReadCharBuffer {
     private char[] buffer; //chars
     private int pos; //read index
     private int limit; //chars length
-    private char blank = '\u0000';
 
     public ReadCharBuffer(char[] chars){
         buffer = chars;
@@ -23,7 +24,7 @@ public class ReadCharBuffer {
 
     public char read(int pos){
         if(pos > limit)
-            return blank;
+            return Blank.NULL_CHAR;
         return buffer[pos];
     }
 
@@ -41,7 +42,7 @@ public class ReadCharBuffer {
         while(isTil){
             char c = move();
 
-            if(c == blank)
+            if(c == Blank.NULL_CHAR)
                 return null;
 
             for(char til : tils){

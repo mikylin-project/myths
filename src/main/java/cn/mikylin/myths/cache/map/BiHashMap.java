@@ -1,22 +1,26 @@
-package cn.mikylin.myths.common;
+package cn.mikylin.myths.cache.map;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Bi Map
+ * @author mikylin
+ * @date 20190803
+ */
 public class BiHashMap<K,V> implements Map<K,V> {
 
     private Map<K,V> normalMap;
     private Map<V,K> reverseMap;
 
-    public BiHashMap(int cap){
-        normalMap = MapUtils.newHashMap(cap);
-        reverseMap = MapUtils.newHashMap(cap);
-    }
+    public BiHashMap(Map<K,V> normalMap,Map<V,K> reverseMap){
 
+        if(reverseMap.getClass() != normalMap.getClass())
+            throw new RuntimeException("map class must be same.");
 
-    public BiHashMap(){
-        this(8);
+        this.normalMap = normalMap;
+        this.reverseMap = reverseMap;
     }
 
     @Override

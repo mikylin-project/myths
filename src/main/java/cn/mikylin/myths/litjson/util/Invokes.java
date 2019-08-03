@@ -3,7 +3,6 @@ package cn.mikylin.myths.litjson.util;
 import cn.mikylin.myths.common.reflect.BeanUtils;
 import cn.mikylin.myths.common.reflect.ClassUtils;
 import cn.mikylin.myths.litjson.exception.JSONObjectInvokeException;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -58,7 +57,6 @@ public final class Invokes {
         try {
             setter.invoke(bean,value);
         } catch (Exception e) {
-            e.printStackTrace();
             throw new JSONObjectInvokeException("Value [" + value + "] set method [" + setter.getName() + "] exception");
         }
     }

@@ -1,5 +1,6 @@
 package cn.mikylin.myths.litjson.read;
 
+import cn.mikylin.myths.common.Blank;
 import cn.mikylin.myths.common.CollectionUtils;
 import cn.mikylin.myths.common.MapUtils;
 import cn.mikylin.myths.litjson.OptionBox;
@@ -7,7 +8,6 @@ import cn.mikylin.myths.litjson.exception.JSONCharException;
 import cn.mikylin.myths.litjson.util.Invokes;
 import cn.mikylin.myths.litjson.util.JsonAction;
 import cn.mikylin.myths.litjson.util.JsonType;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -81,7 +81,7 @@ public class ReadArrayBuilder {
             //ignore boolean
             //default to ignore the null-char
             while(option.isIgnoreChar(readChar = chars.move()))
-                if(Objects.isNull(readChar)) return;
+                if(readChar == Blank.NULL_CHAR) return;
 
             if(readTache == JsonAction.TACHE_BEGIN_READ_VALUE){
                 if(Objects.equals(readChar,option.openSquareBrackets)){ // readChar = '['

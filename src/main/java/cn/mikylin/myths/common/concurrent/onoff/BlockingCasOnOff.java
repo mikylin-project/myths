@@ -1,6 +1,5 @@
 package cn.mikylin.myths.common.concurrent.onoff;
 
-import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
