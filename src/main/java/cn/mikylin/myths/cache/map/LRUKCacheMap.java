@@ -100,10 +100,8 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
                 this.lately = now;
 
                 // 判断调用次数和阈值的关系,大于等于的话就会返回检测通过
-                if( ++ this.k >= this.kLimit){
-                    lru = true;
-                    return true;
-                }
+                if( ++ this.k >= this.kLimit)
+                    return (lru = true);
             }
             return false;
         }
