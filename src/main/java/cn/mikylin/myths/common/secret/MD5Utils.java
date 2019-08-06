@@ -1,10 +1,7 @@
 package cn.mikylin.myths.common.secret;
 
 import cn.mikylin.myths.common.NioLocal;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -54,7 +51,7 @@ public class MD5Utils {
 
         MessageDigest digest = getMessageDigest();
         digest.update(origin.getBytes());
-        byte messageDigest[] = digest.digest();
+        byte[] messageDigest = digest.digest();
         return toHexString(messageDigest);
     }
 
