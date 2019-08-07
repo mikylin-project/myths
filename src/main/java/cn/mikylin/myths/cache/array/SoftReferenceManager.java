@@ -1,7 +1,12 @@
-package cn.mikylin.myths.cache.reference;
+package cn.mikylin.myths.cache.array;
 
 import java.lang.ref.SoftReference;
 
+/**
+ * java soft reference manager
+ * @author mikylin
+ * @date 20190729
+ */
 public class SoftReferenceManager<T> extends ReferenceManager<T,SoftReference<T>> {
 
     public SoftReferenceManager(int size){
@@ -12,7 +17,6 @@ public class SoftReferenceManager<T> extends ReferenceManager<T,SoftReference<T>
     SoftReference<T> create(T t) {
         return new SoftReference<>(t);
     }
-
 
 
 }

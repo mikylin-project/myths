@@ -71,11 +71,11 @@ public abstract class CacheEntry<K,V> implements Map.Entry<K,V>{
 
     @Override
     public boolean equals(Object obj){
-        return obj.getClass() == this.getClass() && hash(obj) == hash;
+        return obj.getClass() == this.getClass() && ((CacheEntry)obj).getHash() == hash;
     }
 
     /**
-     * 判断是否过期
+     * 判断缓存是否过期
      */
     public boolean isExpire(){
         return this.expireTime > 0
