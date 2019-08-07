@@ -1,11 +1,8 @@
 package cn.mikylin.myths.cache;
 
-import org.junit.jupiter.api.Test;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class LRUKTest {
 
@@ -16,7 +13,7 @@ public class LRUKTest {
         CacheBuilder.LRUKMapBuilder<String, String> objectObjectLRUKMapBuilder = CacheBuilder.lurK();
         Map<String,String> map = objectObjectLRUKMapBuilder.cap(cap).build();
 
-        /*Map<String,String> map = new ConcurrentHashMap<>(cap);*/
+        //Map<String,String> map = new HashMap<>(cap);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
 
