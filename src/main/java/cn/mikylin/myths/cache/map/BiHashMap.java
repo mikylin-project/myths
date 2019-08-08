@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Bi Map
+ * bi Map
  * @author mikylin
  * @date 20190803
  */
-public class BiHashMap<K,V> implements Map<K,V> {
+public final class BiHashMap<K,V> implements Map<K,V> {
 
     private Map<K,V> normalMap;
     private Map<V,K> reverseMap;

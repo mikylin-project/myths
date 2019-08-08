@@ -11,7 +11,7 @@ import java.util.Map;
  * @author mikylin
  * @date 20190801
  */
-public class CacheBuilder {
+public final class CacheBuilder {
 
     /**
      * quick to create lru-k map

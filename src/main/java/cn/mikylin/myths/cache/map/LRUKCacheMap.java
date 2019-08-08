@@ -6,26 +6,52 @@ import cn.mikylin.myths.cache.array.ArrayManager;
 import cn.mikylin.myths.cache.array.DefaultArrayManager;
 import cn.mikylin.myths.cache.array.SoftReferenceManager;
 import java.util.*;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.*;
 
 /**
  * LRU-K Map
  * @author mikylin
  * @date 20190722
  */
-public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
+public final class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
 
-    private int cap; // 容量
-    private int softRefCap; // 软链接容量
-    private boolean defensePolicy; // 是否开启防止缓存穿透，默认不开启
-    private boolean expire; // 是否开启缓存过期
+    /**
+     * 容量
+     */
+    private int cap;
+    /**
+     * 软链接容量
+     */
+    private int softRefCap;
+    /**
+     * 是否开启防止缓存穿透，默认不开启
+     */
+    private boolean defensePolicy;
+    /**
+     * 是否开启缓存过期
+     */
+    private boolean expire;
 
-    private CacheEntryFactory<K,V> builder; // 用于创建节点的工厂类
-    private SoftReferenceManager<CacheEntry<K,V>> softEntries; // 软链接管理对象
-    private EntryArrayManager<K,V> arrayEntries; // 数组管理对象
-    private EntryLinkedManager<K,V> linkedEntries; // 链表管理对象
-    private CacheLoader<K,V> cacheLoader; // 缓存加载工厂
+    /**
+     * 用于创建节点的工厂类
+     */
+    private CacheEntryFactory<K,V> builder;
+    /**
+     * 软链接管理对象
+     */
+    private SoftReferenceManager<CacheEntry<K,V>> softEntries;
+    /**
+     * 数组管理对象
+     */
+    private EntryArrayManager<K,V> arrayEntries;
+    /**
+     * 链表管理对象
+     */
+    private EntryLinkedManager<K,V> linkedEntries;
+    /**
+     * 缓存加载工厂
+     */
+    private CacheLoader<K,V> cacheLoader;
 
     public LRUKCacheMap(int cap,int softRefCap,int k,long kTimes,
                         CacheLoader<K,V> loader, boolean defensePolicy,long expireTime){
@@ -36,6 +62,7 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
         this.cap = cap;
         this.softRefCap = softRefCap;
 
+
         // millisTime  LRU 触发的重置时间
         // k 触发 LRU 的次数
         this.builder = (key,value) -> new LRUKCacheEntry<>(key, value, k, kTimes, expireTime);
@@ -43,31 +70,25 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
         // 初始化数据区
         cacheInit(softRefCap);
 
+        // 缓存加载工厂
         if(loader != null)
             this.cacheLoader = loader;
         else
             this.cacheLoader = key -> null;
 
+        // 是否开启缓存防御机制
         this.defensePolicy = defensePolicy;
 
         if(expireTime > 0)
             expire = true;
     }
 
-    private void cacheInit(int softRefCap){
-
-        synchronized (this){
-            this.softEntries = new SoftReferenceManager<>(softRefCap);
-            this.arrayEntries = new EntryArrayManager<>(builder);
-            this.linkedEntries = new EntryLinkedManager<>(arrayEntries,builder);
-        }
-    }
 
 
     /**
      * LRUK 链表节点对象
      */
-    private static class LRUKCacheEntry<K,V> extends CacheEntry<K,V> {
+    private static final class LRUKCacheEntry<K,V> extends CacheEntry<K,V> {
 
         private volatile long lately; // 最近被调用的时间
         private int k; // 在规定时间内被调用的次数
@@ -112,8 +133,11 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
             return false;
         }
 
+        /**
+         * 检测 lruk 策略的静态方法
+         */
         private static <K,V> boolean checkLRU(CacheEntry<K,V> entry){
-            if(!(entry instanceof LRUKCacheEntry))
+            if(entry.getClass() != LRUKCacheEntry.class)
                 throw new RuntimeException("entry class exception");
             return ((LRUKCacheEntry<K,V>)entry).checkLRU();
         }
@@ -189,7 +213,7 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
         private EntryArrayManager<K,V> arrayEntries;
         private CacheEntryFactory<K,V> builder;
 
-        protected EntryLinkedManager(EntryArrayManager<K,V> arrayEntries,CacheEntryFactory<K,V> builder){
+        private EntryLinkedManager(EntryArrayManager<K,V> arrayEntries,CacheEntryFactory<K,V> builder){
             this.arrayEntries = arrayEntries;
             this.builder = builder;
         }
@@ -199,16 +223,19 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
          */
         private void add(K key,V value){
 
-            // 从链表中添加该元素
-
-            // 如果数组已满，此处需要执行过期策略
+            // 如果已满，此处需要执行过期策略
             if(cap == size && tail != null){
                 expire();
-                if(cap == size && tail != null)
+                if(cap == size)
                     remove(tail);
             }
 
             CacheEntry<K, V> entry = builder.build(key,value);
+
+            // 数组中新增该元素
+            arrayEntries.add(entry);
+
+            // 链表中新增该元素
             if(header == null) {
                 header = entry;
                 tail = entry;
@@ -218,9 +245,6 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
                 header = entry;
             }
 
-            // 添加到数组
-            arrayEntries.add(entry);
-
             size ++;
         }
 
@@ -229,7 +253,10 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
          */
         private void remove(CacheEntry<K,V> entry){
 
-            // 从链表中删除该元素
+            // 数组中删除该元素
+            arrayEntries.remove(entry);
+
+            // 链表中删除该元素
             if(entry == header && entry == tail){
                 header = tail = null;
             }else if (entry == header){
@@ -259,13 +286,12 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
                 entry.setAfter(null);
             }
 
-            // 从数组中删除该元素
-            arrayEntries.remove(entry);
-
-            this.size --;
-
+            size --;
         }
 
+        /**
+         * 对过期数据进行清洗
+         */
         private void expire(){
             if(expire){
                 CacheEntry<K,V> entry = header;
@@ -274,7 +300,6 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
                     after = entry.getAfter();
                     if(entry.isExpire()){
                         remove(entry);
-                        arrayEntries.remove(entry);
                     }
                     entry = after;
                 }
@@ -297,7 +322,16 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
         return arrayEntries.findByKey(key);
     }
 
-
+    /**
+     * 数据区初始化
+     */
+    private void cacheInit(int softRefCap){
+        synchronized (this){
+            this.softEntries = new SoftReferenceManager<>(softRefCap);
+            this.arrayEntries = new EntryArrayManager<>(builder);
+            this.linkedEntries = new EntryLinkedManager<>(arrayEntries,builder);
+        }
+    }
 
     private void doLRUChange(CacheEntry<K,V> entry){
         if(LRUKCacheEntry.checkLRU(entry)){
@@ -319,12 +353,12 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
 
     @Override
     public boolean containsKey(Object key) {
-        return false;
+        return keySet().contains(key);
     }
 
     @Override
     public boolean containsValue(Object value) {
-        return false;
+        return values().contains(value);
     }
 
     @Override
@@ -332,12 +366,14 @@ public class LRUKCacheMap<K,V> implements ConcurrentMap<K,V> {
 
         K k = (K)key;
 
+        // 从数组中获取节点
         CacheEntry<K, V> entity = find(k);
         if(entity != null && !entity.isExpire()){
             doLRUChange(entity);
             return entity.getValue();
         }
 
+        // 在数组没有获取到的情况
         CacheEntry<K, V> softEntry = softEntries.find(builder.build(k, null));
         if(softEntry != null)
             return softEntry.getValue();

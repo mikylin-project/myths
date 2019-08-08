@@ -2,7 +2,12 @@ package cn.mikylin.myths.cache.array;
 
 import java.util.Objects;
 
-public class DefaultArrayManager<T> implements ArrayManager<T>{
+/**
+ * array manager
+ * @author mikylin
+ * @date 20190806
+ */
+public final class DefaultArrayManager<T> implements ArrayManager<T>{
 
     private Object[] array;
     private int cap;
@@ -21,7 +26,8 @@ public class DefaultArrayManager<T> implements ArrayManager<T>{
 
         for(int i = 0 ; i <= index ; i ++){
             T e;
-            if((e = (T)array[i]) != null && t.equals(e))
+            if((e = (T)array[i]) != null
+                    && (t == e || t.equals(e)))
                 return e;
         }
         return null;
@@ -50,7 +56,8 @@ public class DefaultArrayManager<T> implements ArrayManager<T>{
 
         for(int i = 0 ; i <= index ; i ++){
             T e;
-            if((e = (T)array[i]) != null && oldElement.equals(e)){
+            if((e = (T)array[i]) != null
+                    && (e == oldElement || oldElement.equals(e))){
                 array[i] = newElement;
                 return true;
             }
