@@ -3,6 +3,7 @@ package cn.mikylin.myths.common;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * map utils
@@ -17,9 +18,7 @@ public final class MapUtils {
      * not empty - false
      */
     public static <K,V> boolean isBlank(Map<K,V> map){
-        if(map == null || map.isEmpty())
-            return true;
-        return false;
+        return map == null || map.isEmpty();
     }
 
     /**
@@ -46,16 +45,16 @@ public final class MapUtils {
     }
 
     /**
-     * create a ConcurrentHashMap with default size
+     * create a ConcurrentMap with default size
      */
-    public static <K,V> ConcurrentHashMap<K,V> newConcurrentHashMap(){
-        return newConcurrentHashMap(8);
+    public static <K,V> ConcurrentMap<K,V> newConcurrentMap(){
+        return newConcurrentMap(8);
     }
 
     /**
-     * create a ConcurrentHashMap with size
+     * create a ConcurrentMap with size
      */
-    public static <K,V> ConcurrentHashMap<K,V> newConcurrentHashMap(int size){
+    public static <K,V> ConcurrentMap<K,V> newConcurrentMap(int size){
         return new ConcurrentHashMap<>(size);
     }
 

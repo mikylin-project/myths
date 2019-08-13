@@ -10,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
  * @author mikylin
  * @date 20190714
  */
-public class MD5Utils {
+public final class MD5Utils {
 
     private static char[] HEX_DIGITS;
 

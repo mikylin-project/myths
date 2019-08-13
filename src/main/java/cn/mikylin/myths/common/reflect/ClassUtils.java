@@ -12,7 +12,7 @@ import java.util.List;
  * @author mikylin
  * @date 20190714
  */
-public class ClassUtils {
+public final class ClassUtils {
 
     /**
      * get class's package name

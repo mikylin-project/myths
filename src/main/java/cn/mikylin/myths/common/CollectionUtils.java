@@ -15,9 +15,7 @@ public final class CollectionUtils {
      * not blank - false
      */
     public static boolean isBlank(Collection<?> col){
-        if(col == null || col.isEmpty())
-            return true;
-        return false;
+        return col == null || col.isEmpty();
     }
 
     /**

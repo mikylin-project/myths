@@ -8,6 +8,4 @@ package cn.mikylin.myths.common;
 public final class Blank {
 
     public static final char NULL_CHAR = '\u0000';
-    public static final String BLANK_STRING = "";
-
 }

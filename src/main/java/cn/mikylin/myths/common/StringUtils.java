@@ -12,10 +12,8 @@ public final class StringUtils {
      * null - true
      * not null - false
      */
-    public static Boolean isEmpty(String str){
-        if(str == null || str.isEmpty())
-            return Boolean.TRUE;
-        return Boolean.FALSE;
+    public static boolean isEmpty(String str){
+        return str == null || str.isEmpty();
     }
 
     /**
@@ -23,7 +21,7 @@ public final class StringUtils {
      * null - false
      * not null - true
      */
-    public static Boolean isNotEmpty(String str){
+    public static boolean isNotEmpty(String str){
         return !isEmpty(str);
     }
 
@@ -32,15 +30,15 @@ public final class StringUtils {
      * blank - true
      * not blank - false
      */
-    public static Boolean isBlank(String str) {
+    public static boolean isBlank(String str) {
         if(isEmpty(str))
-            return Boolean.TRUE;
+            return true;
 
         String trimStr = str.trim();
         for (int i = 0; i < trimStr.length(); i ++)
             if (!Character.isWhitespace(str.charAt(i)))
-                return Boolean.FALSE;
-        return Boolean.TRUE;
+                return false;
+        return true;
     }
 
     /**
@@ -48,7 +46,7 @@ public final class StringUtils {
      * blank - false
      * not blank - true
      */
-    public static Boolean isNotBlank(String str){
+    public static boolean isNotBlank(String str){
         return !isBlank(str);
     }
 }

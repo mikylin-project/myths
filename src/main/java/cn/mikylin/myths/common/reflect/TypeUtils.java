@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author mikylin
  * @date 20190707
  */
-public class TypeUtils {
+public final class TypeUtils {
 
     /**
      * get the type list of some object's generic params

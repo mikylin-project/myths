@@ -16,9 +16,7 @@ public final class ArrayUtils {
      * 不是空的 - false
      */
     public static boolean isBlank(byte[] bs){
-        if(bs == null || bs.length == 0)
-            return true;
-        return false;
+        return bs == null || bs.length == 0;
     }
 
     /**
@@ -36,9 +34,7 @@ public final class ArrayUtils {
      * 不是空的 - false
      */
     public static boolean isBlank(Object[] bs){
-        if(bs == null || bs.length == 0)
-            return true;
-        return false;
+        return bs == null || bs.length == 0;
     }
 
     /**
