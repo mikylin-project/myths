@@ -58,8 +58,7 @@ public final class ArrayUtils {
             return false;
 
         for(T t : col)
-            if(Objects.equals(t,element))
-                return true;
+            if(Objects.equals(t,element)) return true;
         return false;
     }
 

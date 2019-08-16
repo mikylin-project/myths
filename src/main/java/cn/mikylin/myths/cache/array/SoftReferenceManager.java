@@ -7,7 +7,7 @@ import java.lang.ref.SoftReference;
  * @author mikylin
  * @date 20190729
  */
-public class SoftReferenceManager<T> extends ReferenceManager<T,SoftReference<T>> {
+public final class SoftReferenceManager<T> extends ReferenceManager<T,SoftReference<T>> {
 
     public SoftReferenceManager(int size){
         super(size);

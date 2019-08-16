@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common.concurrent.onoff;
+package cn.mikylin.myths.common.concurrent;
 
 import java.util.Map;
 import java.util.Objects;
@@ -12,15 +12,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author mikylin
  * @date 20190623
  */
-public interface CasOnOff<T> {
+public interface ThreadSafeExecutor<T> {
 
-    Map<CasOnOff,AtomicBoolean> lockMap = new ConcurrentHashMap<>();
+    Map<ThreadSafeExecutor,AtomicBoolean> lockMap = new ConcurrentHashMap<>();
 
     default AtomicBoolean getCasLock(){
         AtomicBoolean lock;
         if(Objects.isNull(lock = lockMap.get(this))){
             synchronized (this){
-                if(Objects.isNull(lock = lockMap.get(this))){
+                if(null == (lock = lockMap.get(this))){
                     lock = new AtomicBoolean(true); //true - open , false - close
                     lockMap.put(this,lock);
                 }
@@ -32,10 +32,10 @@ public interface CasOnOff<T> {
     /**
      * 由使用者去实现的业务代码
      */
-    void onOff0(T t);
+    Object doExecute(T t);
 
     /**
      * 不同的 on-off 策略所实现的线程安全策略代码
      */
-    void onOff(T t);
+    Object doSafeExecute(T t);
 }

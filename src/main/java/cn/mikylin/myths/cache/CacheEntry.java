@@ -1,4 +1,4 @@
-package cn.mikylin.myths.cache.map;
+package cn.mikylin.myths.cache;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public abstract class CacheEntry<K,V> implements Map.Entry<K,V>{
     private long expireTime; // 过期时间,如果为 0 则永不过期
     private long lately;
 
-    CacheEntry(K key,V value,long expireTime){
+    protected CacheEntry(K key,V value,long expireTime){
         this.key = key;
         this.value = value;
         this.hash = hash(key);
@@ -25,7 +25,7 @@ public abstract class CacheEntry<K,V> implements Map.Entry<K,V>{
         this.lately = System.currentTimeMillis();
     }
 
-    public boolean equals(int hashcode){
+    protected boolean equals(int hashcode){
         return hashcode == hash;
     }
 
@@ -63,10 +63,6 @@ public abstract class CacheEntry<K,V> implements Map.Entry<K,V>{
 
     public int getHash() {
         return hash;
-    }
-
-    public void setHash(int hash) {
-        this.hash = hash;
     }
 
     @Override

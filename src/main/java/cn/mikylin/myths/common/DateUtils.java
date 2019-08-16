@@ -10,7 +10,7 @@ import java.util.Date;
  * @author mikylin
  * @date 20190714
  */
-public final class SimpleDateUtils {
+public final class DateUtils {
 
     /**
      * date and string

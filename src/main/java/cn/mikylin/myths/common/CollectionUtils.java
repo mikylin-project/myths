@@ -11,6 +11,8 @@ public final class CollectionUtils {
 
     /**
      * bool the list is blank
+     * @param col -- collection
+     *
      * blank - true
      * not blank - false
      */
@@ -20,6 +22,8 @@ public final class CollectionUtils {
 
     /**
      * bool the list is not blank
+     * @param col -- collection
+     *
      * blank - false
      * not blank - true
      */
@@ -29,6 +33,9 @@ public final class CollectionUtils {
 
     /**
      * bool the some of one element in collection
+     * @param col  collection
+     * @param element  collection element
+     *
      * exist - true
      * not exist - false
      */
@@ -45,6 +52,7 @@ public final class CollectionUtils {
 
     /**
      * create a new ArrayList
+     * @param ts  array
      */
     public static <T> List<T> newArrayList(T... ts){
 

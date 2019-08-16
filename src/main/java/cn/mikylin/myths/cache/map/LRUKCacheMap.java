@@ -1,5 +1,6 @@
 package cn.mikylin.myths.cache.map;
 
+import cn.mikylin.myths.cache.CacheEntry;
 import cn.mikylin.myths.cache.CacheEntryFactory;
 import cn.mikylin.myths.cache.CacheLoader;
 import cn.mikylin.myths.cache.array.ArrayManager;

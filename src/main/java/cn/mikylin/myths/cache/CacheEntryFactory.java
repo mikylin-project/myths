@@ -1,7 +1,5 @@
 package cn.mikylin.myths.cache;
 
-import cn.mikylin.myths.cache.map.CacheEntry;
-
 /**
  * factory to create the entry
  * @author mikylin

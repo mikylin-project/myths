@@ -57,12 +57,12 @@ public class ReadArrayBuilder {
         //ignore boolean
         //default to ignore the null-char
         while(option.isIgnoreChar(beginChar = chars.move()))
-            if(Objects.isNull(beginChar)) return;
+            if(beginChar == Blank.NULL_CHAR) return;
 
         if(!Objects.equals(beginChar,option.openSquareBrackets))
             throw new JSONCharException("json array should begin with " + option.openSquareBrackets);
 
-        if(Objects.isNull(list))
+        if(null == list)
             list = CollectionUtils.newArrayList();
 
         controlType = JsonAction.CONTROL_BEGIN_COLLECTION;

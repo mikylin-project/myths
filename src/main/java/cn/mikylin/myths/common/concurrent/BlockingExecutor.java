@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common.concurrent.onoff;
+package cn.mikylin.myths.common.concurrent;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -15,20 +15,21 @@ import java.util.concurrent.locks.LockSupport;
  * @author mikylin
  * @date 20190623
  */
-public interface BlockingCasOnOff<T> extends CasOnOff<T> {
+public interface BlockingExecutor<T> extends ThreadSafeExecutor<T> {
 
     Queue<Thread> qt = new LinkedBlockingQueue<>(Runtime.getRuntime().availableProcessors() * 2);
 
-    default void onOff(T t){
+    @Override
+    default Object doSafeExecute(T t){
         AtomicBoolean casLock = getCasLock();
         for(;;){
             if(casLock.compareAndSet(true,false)){
                 try {
-                    onOff0(t);
+                    Object o = doExecute(t);
                     Thread thread;
                     if(null != (thread = qt.poll()))
                         LockSupport.unpark(thread);
-                    return;
+                    return o;
                 } finally {
                     casLock.set(true);
                 }

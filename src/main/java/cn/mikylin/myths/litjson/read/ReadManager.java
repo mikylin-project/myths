@@ -2,7 +2,6 @@ package cn.mikylin.myths.litjson.read;
 
 import cn.mikylin.myths.litjson.OptionBox;
 import cn.mikylin.myths.litjson.handler.TypeHandler;
-
 import java.util.Objects;
 
 /**
@@ -25,7 +24,7 @@ public class ReadManager {
     //use type handler to trans value
     protected Object valTrans(String val,Class clz){
         Class valClass = clz;
-        if(Objects.isNull(clz))
+        if(null == clz)
             valClass = String.class;
 
         TypeHandler typeHandler;

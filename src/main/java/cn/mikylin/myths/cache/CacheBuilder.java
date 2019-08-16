@@ -3,7 +3,6 @@ package cn.mikylin.myths.cache;
 import cn.mikylin.myths.cache.map.BiHashMap;
 import cn.mikylin.myths.cache.map.LRUKCacheMap;
 import cn.mikylin.myths.common.MapUtils;
-
 import java.util.Map;
 
 /**
@@ -108,7 +107,7 @@ public final class CacheBuilder {
     }
 
     public static <K,V> BiHashMap<K,V> bi(){
-        return bi(MapUtils.newConcurrentHashMap(),MapUtils.newConcurrentHashMap());
+        return bi(MapUtils.newConcurrentMap(),MapUtils.newConcurrentMap());
     }
 
 }

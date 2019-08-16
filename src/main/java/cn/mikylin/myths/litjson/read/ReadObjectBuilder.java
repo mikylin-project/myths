@@ -21,7 +21,7 @@ public class ReadObjectBuilder {
     //char[] to save key
     private char[] key;
 
-    //char[] to save key
+    //char[] to save value
     private char[] value;
 
     //control type
