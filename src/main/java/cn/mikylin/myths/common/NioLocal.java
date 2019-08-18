@@ -2,6 +2,7 @@ package cn.mikylin.myths.common;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -95,12 +96,26 @@ public final class NioLocal {
 
     /**
      * get the outputstream by file path.
-     * @Param filePath  file path in local computer you want to wrtie
-     * @Param isDeleteIfExists  if the file in file path is exists,is delete origin and write the new one?
+     * @param pathForFile  file path in local computer you want to wrtie
+     * @param isDeleteIfExists  if the file in file path is exists,is delete origin and write the new one?
      */
     public static OutputStream outputStream(String pathForFile,boolean isDeleteIfExists) throws IOException {
         Path path = getFilePath(pathForFile,isDeleteIfExists);
         return Files.newOutputStream(path);
+    }
+
+    /**
+     * get the inputstream by file path.
+     * @param pathForFile  file path in local computer you want to read
+     */
+    public static InputStream inputStream(String pathForFile) {
+        Path path = getFilePath(pathForFile,false);
+        try{
+            return Files.newInputStream(path);
+        }catch (IOException e){
+            throw new RuntimeException("get file input stream exception.");
+        }
+
     }
 
     /**
@@ -143,8 +158,6 @@ public final class NioLocal {
                     }catch (IOException e){
                         throw new RuntimeException("file delete failed");
                     }
-                }else{
-                    throw new RuntimeException("file is exits in the file path");
                 }
             }
         }

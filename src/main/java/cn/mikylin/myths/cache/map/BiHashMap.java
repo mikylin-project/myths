@@ -2,6 +2,7 @@ package cn.mikylin.myths.cache.map;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -16,7 +17,10 @@ public final class BiHashMap<K,V> implements Map<K,V> {
 
     public BiHashMap(Map<K,V> normalMap,Map<V,K> reverseMap){
 
-        if(reverseMap.getClass() != normalMap.getClass())
+        Objects.requireNonNull(normalMap);
+        Objects.requireNonNull(reverseMap);
+
+        if(!Objects.equals(reverseMap.getClass(),normalMap.getClass()))
             throw new RuntimeException("map class must be same.");
 
         this.normalMap = normalMap;
