@@ -1,6 +1,6 @@
 # myths
 ```
-the java tools build by jdk only.
+the java tools build by jdk11 only.
 ```
 
 ## Exam
