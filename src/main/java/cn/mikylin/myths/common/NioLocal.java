@@ -4,9 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
 
 /**
  * summarized by nio jdk7 Files
@@ -109,7 +110,7 @@ public final class NioLocal {
      * @param pathForFile  file path in local computer you want to read
      */
     public static InputStream inputStream(String pathForFile) {
-        Path path = getFilePath(pathForFile,false);
+        Path path = getFilePath(pathForFile);
         try{
             return Files.newInputStream(path);
         }catch (IOException e){
@@ -123,18 +124,13 @@ public final class NioLocal {
      * @Param filePath  file path in local computer you want to wrtie
      * @Param isDeleteIfExists  if the file in file path is exists,is delete origin and write the new one?
      */
-    private static Path getFilePath(String pathForFile,boolean isDeleteIfExists){
+    public static Path getFilePath(String pathForFile,boolean isDeleteIfExists){
 
-        //验证传入的文件路径不能为空
-        if(StringUtils.isBlank(pathForFile))
-            throw new RuntimeException("path can not be blank");
-
-        //获取路径封装对象 file path
-        Path filePath = FileSystems.getDefault().getPath(pathForFile);
+        Path filePath = path(pathForFile);
 
         //该路径不能是一个目录
         if(Files.isDirectory(filePath))
-            throw new RuntimeException("directory is not file");
+            throw new RuntimeException("directory is not file.");
 
         //获取目录路径封装对象 dir path
         Path dirPath = filePath.getParent();
@@ -145,23 +141,60 @@ public final class NioLocal {
             try {
                 Files.createDirectories(dirPath);
             }catch (IOException e){
-                throw new RuntimeException("directory create failed");
+                throw new RuntimeException("directory create failed.");
             }
         } else {
             //目录是存在的
             //需要判断是否有同名文件存在于指定路径下，并且已经指定了参数要删除该文件重新写入
             //则此处删除该文件，反之则抛出异常
-            if(Files.exists(filePath)){
-                if(isDeleteIfExists){
-                    try{
-                        Files.deleteIfExists(filePath);
-                    }catch (IOException e){
-                        throw new RuntimeException("file delete failed");
-                    }
+            if(Files.exists(filePath) && isDeleteIfExists)
+                try{
+                    Files.deleteIfExists(filePath);
+                }catch (IOException e){
+                    throw new RuntimeException("file delete failed.");
                 }
-            }
         }
         return filePath;
+    }
+
+    public static Path getFilePath(String pathForFile){
+        return getFilePath(pathForFile,false);
+    }
+
+
+    public static Path getDirPath(String pathForDir,boolean isDeleteIfExists){
+
+        Path dirPath = path(pathForDir);
+
+        // 必须是一个目录
+        if(!Files.isDirectory(dirPath))
+            throw new RuntimeException("must be a directory.");
+
+        if(!Files.isReadable(dirPath))
+            throw new RuntimeException("directory must can read.");
+
+        if(Files.exists(dirPath)
+                && isDeleteIfExists)
+            try{
+                Files.deleteIfExists(dirPath);
+            }catch (IOException e){
+                throw new RuntimeException("dir delete failed.");
+            }
+
+        return dirPath;
+    }
+
+    public static Path getDirPath(String pathForDir){
+        return getDirPath(pathForDir,false);
+    }
+
+
+
+    private static Path path(String path){
+        //验证传入的文件路径不能为空
+        Objects.requireNonNull(path,"path can not be blank.");
+        //获取路径封装对象 path
+        return Paths.get(path);
     }
 
 }
