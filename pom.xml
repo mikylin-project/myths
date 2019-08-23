@@ -6,7 +6,15 @@
 
     <groupId>cn.mikylin</groupId>
     <artifactId>myths</artifactId>
-    <version>0.0.1</version>
+    <packaging>pom</packaging>
+    <version>0.1.0</version>
+    <modules>
+        <module>myths-common</module>
+        <module>litjson</module>
+        <module>cache</module>
+        <module>exam</module>
+        <module>litioc</module>
+    </modules>
 
 
     <dependencies>
@@ -14,10 +22,9 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>RELEASE</version>
+            <version>5.5.1</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
