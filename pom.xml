@@ -4,16 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.mikylin</groupId>
+    <groupId>cn.mikylin.myths</groupId>
     <artifactId>myths</artifactId>
     <packaging>pom</packaging>
-    <version>0.1.0</version>
+    <version>1.0.0</version>
     <modules>
         <module>myths-common</module>
         <module>litjson</module>
         <module>cache</module>
         <module>exam</module>
     </modules>
+
+    <properties>
+        <!-- 版本 -->
+        <myths.version>1.0.0</myths.version>
+    </properties>
 
 
     <dependencies>
