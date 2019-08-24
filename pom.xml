@@ -13,7 +13,6 @@
         <module>litjson</module>
         <module>cache</module>
         <module>exam</module>
-        <module>litioc</module>
     </modules>
 
 
