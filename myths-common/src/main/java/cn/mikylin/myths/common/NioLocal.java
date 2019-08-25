@@ -166,6 +166,9 @@ public final class NioLocal {
 
         Path dirPath = path(pathForDir);
 
+        if(!Files.exists(dirPath))
+            throw new RuntimeException("directory must be exist.");
+
         // 必须是一个目录
         if(!Files.isDirectory(dirPath))
             throw new RuntimeException("must be a directory.");
@@ -173,8 +176,7 @@ public final class NioLocal {
         if(!Files.isReadable(dirPath))
             throw new RuntimeException("directory must can read.");
 
-        if(Files.exists(dirPath)
-                && isDeleteIfExists)
+        if(isDeleteIfExists)
             try{
                 Files.deleteIfExists(dirPath);
             }catch (IOException e){

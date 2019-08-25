@@ -4,7 +4,6 @@ import cn.mikylin.myths.litjson.read.JReader;
 import cn.mikylin.myths.litjson.read.ReadManager;
 import cn.mikylin.myths.litjson.write.JWriter;
 import cn.mikylin.myths.litjson.write.WriteManager;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -23,19 +22,15 @@ public final class JSONBootstrap {
         return new JWriter(t,writeManager).toJson();
     }
 
-    private static WriteManager initSimpleWriteManage() {
-        return new WriteManager(OptionBox.OptionBoxBuilder.builder().over());
-    }
-
     public static <T> T read(String json,Class<T> type){
-        if(Objects.isNull(readManager))
+        if(null == readManager)
             readManager = initSimpleReadManage();
         Object obj = new JReader(json,type,false,readManager).toObj();
         return (T)obj;
     }
 
-    public static <T> List<T> readList(String json, Class<T> type){
-        if(Objects.isNull(readManager))
+    public static <T> List<T> readArray(String json, Class<T> type){
+        if(null == readManager)
             readManager = initSimpleReadManage();
         List l = new JReader(json,type,true,readManager).toArray();
         return (List<T>)l;
@@ -45,7 +40,7 @@ public final class JSONBootstrap {
         return new ReadManager(OptionBox.OptionBoxBuilder.builder().over());
     }
 
-
-
-
+    private static WriteManager initSimpleWriteManage() {
+        return new WriteManager(OptionBox.OptionBoxBuilder.builder().over());
+    }
 }
