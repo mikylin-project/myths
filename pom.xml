@@ -10,9 +10,7 @@
     <version>1.0.0</version>
     <modules>
         <module>myths-common</module>
-        <module>litjson</module>
-        <module>cache</module>
-        <module>exam</module>
+        <module>myths-tools</module>
     </modules>
 
     <properties>

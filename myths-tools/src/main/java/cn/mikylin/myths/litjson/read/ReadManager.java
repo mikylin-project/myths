@@ -2,7 +2,6 @@ package cn.mikylin.myths.litjson.read;
 
 import cn.mikylin.myths.litjson.OptionBox;
 import cn.mikylin.myths.litjson.handler.TypeHandler;
-import java.util.Objects;
 
 /**
  * read type manager
