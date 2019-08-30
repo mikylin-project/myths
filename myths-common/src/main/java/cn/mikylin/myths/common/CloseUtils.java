@@ -12,7 +12,7 @@ public class CloseUtils {
      * close the object
      * @param closer  object wait to close.
      */
-    public static void close(AutoCloseable closer){
+    public static void close(final AutoCloseable closer){
 
         if(closer != null)
             try {
