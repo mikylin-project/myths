@@ -11,7 +11,6 @@
     <modules>
         <module>myths-common</module>
         <module>myths-tools</module>
-        <module>myths-interpreter</module>
     </modules>
 
     <properties>
