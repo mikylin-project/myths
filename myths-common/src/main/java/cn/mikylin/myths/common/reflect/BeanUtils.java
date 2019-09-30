@@ -17,6 +17,9 @@ import java.util.Map;
  */
 public final class BeanUtils {
 
+
+    private static final String CLASS = "class";
+
     /**
      * java bean to map
      * @param bean object
@@ -31,7 +34,7 @@ public final class BeanUtils {
 
             String key = descriptor.getName();
             Method getterMethod = descriptor.getReadMethod();
-            if(StringUtils.isNotBlank(key) && !key.equals("class")){
+            if(StringUtils.isNotBlank(key) && !key.equals(CLASS)){
                 Object value = getValue(getterMethod,bean);
                 map.put(key,value);
             }
@@ -51,7 +54,7 @@ public final class BeanUtils {
         for(PropertyDescriptor descriptor : info.getPropertyDescriptors()){
             String key = descriptor.getName();
 
-            if(StringUtils.isNotBlank(key) && !key.equals("class")){
+            if(StringUtils.isNotBlank(key) && !key.equals(CLASS)){
                 Method getterMethod = descriptor.getReadMethod();
                 map.put(key,getterMethod);
             }
@@ -70,7 +73,7 @@ public final class BeanUtils {
         for(PropertyDescriptor descriptor : info.getPropertyDescriptors()){
             String key = descriptor.getName();
 
-            if(StringUtils.isNotBlank(key) && !key.equals("class")){
+            if(StringUtils.isNotBlank(key) && !key.equals(CLASS)){
                 Method setterMethod = descriptor.getWriteMethod();
                 map.put(key,setterMethod);
             }
@@ -89,7 +92,7 @@ public final class BeanUtils {
         for(PropertyDescriptor descriptor : info.getPropertyDescriptors()){
             String key = descriptor.getName();
 
-            if(StringUtils.isNotBlank(key) && !key.equals("class")){
+            if(StringUtils.isNotBlank(key) && !key.equals(CLASS)){
                 Method setterMethod = descriptor.getWriteMethod();
                 Method getterMethod = descriptor.getReadMethod();
                 map.put(getterMethod,setterMethod);

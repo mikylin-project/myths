@@ -1,7 +1,7 @@
 package cn.mikylin.myths.common;
 
 /**
- * string utls
+ * string utils
  * @author mikylin
  * @date 20190619
  */

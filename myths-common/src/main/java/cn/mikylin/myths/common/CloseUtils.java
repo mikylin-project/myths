@@ -2,7 +2,7 @@ package cn.mikylin.myths.common;
 
 
 /**
- * close object
+ * close object utils
  * @author mikylin
  * @date 20190816
  */

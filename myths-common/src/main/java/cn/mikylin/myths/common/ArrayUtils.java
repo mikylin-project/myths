@@ -4,43 +4,43 @@ import java.lang.reflect.Array;
 import java.util.Objects;
 
 /**
- * 处理数组用的相关工具类
+ * array utils
  * @author mikylin
  * @date 20190621
  */
 public final class ArrayUtils {
 
     /**
-     * 判断 byte[] 是否为空
-     * 是空的 - true
-     * 不是空的 - false
+     * the byte[] is blank
+     * blank - true
+     * not blank - false
      */
     public static boolean isBlank(byte[] bs){
         return bs == null || bs.length == 0;
     }
 
     /**
-     * 判断 byte[] 是否不为空
-     * 不是空的 - true
-     * 是空的 - false
+     * the byte[] is not blank
+     * not blank - true
+     * blank - false
      */
     public static boolean isNotBlank(byte[] bs){
         return !isBlank(bs);
     }
 
     /**
-     * 判断 object[] 是否为空
-     * 是空的 - true
-     * 不是空的 - false
+     * the object[] is blank
+     * blank - true
+     * not blank - false
      */
     public static boolean isBlank(Object[] bs){
         return bs == null || bs.length == 0;
     }
 
     /**
-     * 判断 object[] 是否不为空
-     * 不是空的 - true
-     * 是空的 - false
+     * the object[] is not blank
+     * not blank - true
+     * blank - false
      */
     public static boolean isNotBlank(Object[] bs){
         return !isBlank(bs);
@@ -64,7 +64,7 @@ public final class ArrayUtils {
 
 
     /**
-     * 创建一个泛型数组
+     * create a array in type T
      */
     public static <T> T[] createInHeap(Class<T> clz,int cap){
         return (T[]) Array.newInstance(clz, cap);

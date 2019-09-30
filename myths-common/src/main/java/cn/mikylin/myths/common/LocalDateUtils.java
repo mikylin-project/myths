@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 /**
- * jdk8 local date util
+ * jdk8 local date utils
  * @author mikylin
  * @date 20190808
  */
