@@ -9,8 +9,14 @@ import cn.mikylin.myths.exam.base.*;
 import cn.mikylin.myths.exam.wrapper.FieldWrapper;
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+/**
+ * exam 门面类
+ * @author mikylin
+ * @date 20191012
+ */
 public class Examer {
 
     private FilterMap filterMap;
@@ -61,7 +67,6 @@ public class Examer {
         List<FieldWrapper> wrappers = wrapperFields(fields,entity);
 
         wrappers.forEach(fw -> examFields(fw));
-
     }
 
     private void examFields(FieldWrapper wrapper){
@@ -69,23 +74,27 @@ public class Examer {
         /**
          * 校验当前参数的有效性
          */
+
+        List<BaseFilter> filters = CollectionUtils.newArrayList();
         for(Class<? extends BaseFilter> filterClass : wrapper.check().filters()) {
-
             BaseFilter filter = filterMap.get(filterClass);
-
-            if(filter != null){
-                try{
-                    filter.filter(wrapper.value());
-                }catch (FilterException e){
-
-                    CheckResult result = CheckResult.getFailBuild()
-                                                    .message(filter.message(wrapper.name()))
-                                                    .build();
-                    throw new ExamException(result);
-                }
-            }
+            if(filter != null)
+                filters.add(filter);
         }
 
+        Collections.sort(filters,new FilterWeigtComparer());
+
+        for(BaseFilter f : filters) {
+            try{
+                f.filter(wrapper.value());
+            }catch (FilterException e){
+
+                CheckResult result = CheckResult.getFailBuild()
+                                                .message(f.message(wrapper.name()))
+                                                .build();
+                throw new ExamException(result);
+            }
+        }
 
         /**
          * 如果这个参数是集合，就进入此段逻辑
@@ -97,9 +106,7 @@ public class Examer {
 
             col.forEach(o -> exam0(o));
         }
-
     }
-
 
 
     /**
@@ -125,7 +132,5 @@ public class Examer {
         }
         return wrappers;
     }
-
-
 
 }

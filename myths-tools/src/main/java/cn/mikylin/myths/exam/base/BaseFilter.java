@@ -30,6 +30,7 @@ public abstract class BaseFilter<T> {
     /**
      * 判断传入参数的类型
      * @param t 传入的参数
+     * @return 转换类型之后的 t
      */
     private T transClass(Object t){
 
@@ -47,7 +48,7 @@ public abstract class BaseFilter<T> {
      * 过滤业务逻辑的包装方法
      * @param t
      */
-    public void filter(Object t){
+    public final void filter(Object t){
 
         T objT = transClass(t);
 
@@ -60,6 +61,14 @@ public abstract class BaseFilter<T> {
         }
     }
 
+    /**
+     * filter 权重设置
+     * 权重数值越大则越先
+     * @return 权重数值
+     */
+    public int weight(){
+        return 0;
+    }
 
 }
 

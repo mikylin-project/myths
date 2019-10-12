@@ -48,6 +48,4 @@ public final class FieldWrapper {
     public Class<?> type(){
         return type;
     }
-
-
 }
