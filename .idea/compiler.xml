@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="myths-tools" />
+        <module name="myths-common" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="cache" target="11" />
+      <module name="exam" target="11" />
+      <module name="litioc" target="11" />
+      <module name="litjson" target="11" />
+      <module name="myths" target="11" />
+      <module name="myths-common" target="11" />
+      <module name="myths-tools" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/myths.iml" filepath="$PROJECT_DIR$/.idea/myths.iml" />
+      <module fileurl="file://$PROJECT_DIR$/myths-common/myths-common.iml" filepath="$PROJECT_DIR$/myths-common/myths-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/myths-tools/myths-tools.iml" filepath="$PROJECT_DIR$/myths-tools/myths-tools.iml" />
+    </modules>
+  </component>
+</project>
