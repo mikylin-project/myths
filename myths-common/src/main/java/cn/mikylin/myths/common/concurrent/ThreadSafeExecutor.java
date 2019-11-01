@@ -18,7 +18,7 @@ public interface ThreadSafeExecutor<T> {
 
     default AtomicBoolean getCasLock(){
         AtomicBoolean lock;
-        if(Objects.isNull(lock = lockMap.get(this))){
+        if(null == (lock = lockMap.get(this))){
             synchronized (this){
                 if(null == (lock = lockMap.get(this))){
                     lock = new AtomicBoolean(true); //true - open , false - close
