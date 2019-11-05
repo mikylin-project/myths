@@ -33,6 +33,10 @@ public final class StringUtils {
         if(isBlank(str)) throw new NullPointerException(message);
     }
 
+    public static <T> void requireNotBlank(String str) {
+        requireNotBlank(str,"string can not be blank.");
+    }
+
 
     /**
      * check the string is not blank

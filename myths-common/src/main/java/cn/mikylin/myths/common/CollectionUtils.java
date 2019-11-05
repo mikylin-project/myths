@@ -73,6 +73,12 @@ public final class CollectionUtils {
         return new ArrayList<>(s);
     }
 
+    public static <T> void requireNotBlank(Collection<T> col,String message) {
+        if(isBlank(col)) throw new NullPointerException(message);
+    }
 
+    public static <T> void requireNotBlank(Collection<T> col) {
+        requireNotBlank(col,"collection can not be blank.");
+    }
 
 }

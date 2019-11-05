@@ -5,7 +5,7 @@ package cn.mikylin.myths.common;
  * @author mikylin
  * @date 20190824
  */
-public class StringBuilderUtils {
+public final class StringBuilderUtils {
 
     public static String toString(Object... objs) {
         StringBuilder builder = new StringBuilder();
