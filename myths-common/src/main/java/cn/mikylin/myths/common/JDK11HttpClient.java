@@ -23,7 +23,7 @@ public class JDK11HttpClient {
 
     private HttpClient client;
 
-    public JDK11HttpClient(){
+    public JDK11HttpClient() {
         this(TIMEOUT, HttpClient.Version.HTTP_1_1, Executors.newFixedThreadPool(5));
     }
 
@@ -61,7 +61,7 @@ public class JDK11HttpClient {
     }
 
 
-    public String json(String url,String json,HttpClient.Version version){
+    public String json(String url,String json,HttpClient.Version version) {
         //创建 builder
         HttpRequest.Builder reBuilder = HttpRequest.newBuilder();
 
@@ -95,7 +95,7 @@ public class JDK11HttpClient {
         return link(request);
     }
 
-    public String get(String url,HttpClient.Version version){
+    public String get(String url,HttpClient.Version version) {
         //创建 builder
         HttpRequest.Builder reBuilder = HttpRequest.newBuilder();
 
@@ -128,7 +128,7 @@ public class JDK11HttpClient {
 
 
 
-    private String link(HttpRequest request){
+    private String link(HttpRequest request) {
         HttpResponse<String> response = null;
         try {
             response =

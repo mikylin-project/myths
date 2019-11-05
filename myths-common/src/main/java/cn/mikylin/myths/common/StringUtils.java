@@ -29,7 +29,7 @@ public final class StringUtils {
         return true;
     }
 
-    public static void requireNotBlank(String str,String message){
+    public static void requireNotBlank(String str,String message) {
         if(isBlank(str)) throw new NullPointerException(message);
     }
 
@@ -39,7 +39,7 @@ public final class StringUtils {
      * blank - false
      * not blank - true
      */
-    public static boolean isNotBlank(String str){
+    public static boolean isNotBlank(String str) {
         return !isBlank(str);
     }
 }

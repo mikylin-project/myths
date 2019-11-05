@@ -20,7 +20,7 @@ public final class NioLocal {
      * read the file to byte[].
      * @Param filePath  file path in local computer
      */
-    public static byte[] fileToBytes(String filePath){
+    public static byte[] fileToBytes(String filePath) {
 
         //验证传入的文件路径不能为空
         if(StringUtils.isBlank(filePath))
@@ -37,7 +37,7 @@ public final class NioLocal {
         try {
             if(Files.size(path) >= Runtime.getRuntime().freeMemory())
                 throw new RuntimeException("file is too big to read for jvm's memory");
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException("get file size fail");
         }
 
@@ -48,7 +48,7 @@ public final class NioLocal {
      * read the file to byte[].
      * @Param file  the file
      */
-    public static byte[] fileToBytes(File file){
+    public static byte[] fileToBytes(File file) {
         return fileToBytes(file.toPath());
     }
 
@@ -72,7 +72,7 @@ public final class NioLocal {
      * @Param bytes  file context to be writer
      * @Param isDeleteIfExists  if the file in file path is exists,is delete origin and write the new one?
      */
-    public static void newLocalFile(String pathForFile,byte[] bytes,boolean isDeleteIfExists){
+    public static void newLocalFile(String pathForFile,byte[] bytes,boolean isDeleteIfExists) {
 
         //验证传入的文件路径和要被写入的 byte[] 不能为空
         if(StringUtils.isBlank(pathForFile) || ArrayUtils.isBlank(bytes))
@@ -90,7 +90,7 @@ public final class NioLocal {
         //写入文件
         try {
             Files.write(filePath,bytes);
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException("file write failed");
         }
     }
@@ -100,7 +100,8 @@ public final class NioLocal {
      * @param pathForFile  file path in local computer you want to wrtie
      * @param isDeleteIfExists  if the file in file path is exists,is delete origin and write the new one?
      */
-    public static OutputStream outputStream(String pathForFile,boolean isDeleteIfExists) throws IOException {
+    public static OutputStream outputStream(String pathForFile,boolean isDeleteIfExists)
+            throws IOException {
         Path path = getFilePath(pathForFile,isDeleteIfExists);
         return Files.newOutputStream(path);
     }
@@ -110,6 +111,7 @@ public final class NioLocal {
      * @param pathForFile  file path in local computer you want to read
      */
     public static InputStream inputStream(String pathForFile) {
+
         Path path = getFilePath(pathForFile);
         try{
             return Files.newInputStream(path);
@@ -124,7 +126,7 @@ public final class NioLocal {
      * @Param filePath  file path in local computer you want to wrtie
      * @Param isDeleteIfExists  if the file in file path is exists,is delete origin and write the new one?
      */
-    public static Path getFilePath(String pathForFile,boolean isDeleteIfExists){
+    public static Path getFilePath(String pathForFile,boolean isDeleteIfExists) {
 
         Path filePath = path(pathForFile);
 
@@ -157,12 +159,12 @@ public final class NioLocal {
         return filePath;
     }
 
-    public static Path getFilePath(String pathForFile){
+    public static Path getFilePath(String pathForFile) {
         return getFilePath(pathForFile,false);
     }
 
 
-    public static Path getDirPath(String pathForDir,boolean isDeleteIfExists){
+    public static Path getDirPath(String pathForDir,boolean isDeleteIfExists) {
 
         Path dirPath = path(pathForDir);
 
@@ -186,13 +188,13 @@ public final class NioLocal {
         return dirPath;
     }
 
-    public static Path getDirPath(String pathForDir){
+    public static Path getDirPath(String pathForDir) {
         return getDirPath(pathForDir,false);
     }
 
 
 
-    private static Path path(String path){
+    private static Path path(String path) {
         //验证传入的文件路径不能为空
         Objects.requireNonNull(path,"path can not be blank.");
         //获取路径封装对象 path

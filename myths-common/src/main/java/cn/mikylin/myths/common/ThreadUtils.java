@@ -13,28 +13,28 @@ public final class ThreadUtils {
     /**
      * thread sleep for minutes
      */
-    public void sleepMinutes(long time){
+    public void sleepMinutes(long time) {
         sleep(TimeUnit.MINUTES,time);
     }
 
     /**
      * thread sleep for second
      */
-    public void sleepSecond(long time){
+    public void sleepSecond(long time) {
         sleep(TimeUnit.SECONDS,time);
     }
 
     /**
      * thread sleep for second
      */
-    public void sleep(long time){
+    public void sleep(long time) {
         sleepSecond(time);
     }
 
     /**
      * thread sleep
      */
-    public void sleep(TimeUnit unit,long time){
+    public void sleep(TimeUnit unit,long time) {
         try {
             unit.sleep(time);
         } catch (InterruptedException e) {
@@ -45,7 +45,7 @@ public final class ThreadUtils {
     /**
      * create thread
      */
-    public Thread create(ThreadFactory factory,Runnable r){
+    public Thread create(ThreadFactory factory,Runnable r) {
         try{
             return factory.newThread(r);
         } catch (Exception e){
@@ -56,7 +56,7 @@ public final class ThreadUtils {
     /**
      * create thread
      */
-    public Thread create(Runnable r){
+    public Thread create(Runnable r) {
         return create(DEFAULT,r);
     }
 

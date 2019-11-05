@@ -26,7 +26,7 @@ public final class JdbcUtils {
     }
 
 
-    private interface ResultSetFactory<T>{
+    private interface ResultSetFactory<T> {
         T get(ResultSet rs, String columName) throws SQLException;
     }
 
@@ -35,7 +35,7 @@ public final class JdbcUtils {
      */
     public static <T> void invoke(ResultSet rs, T t,
                                   BeanNameUtils.BeanNameType originType,
-                                  BeanNameUtils.BeanNameType transType){
+                                  BeanNameUtils.BeanNameType transType) {
 
         Class tClass = t.getClass();
         Map<String, Method> setters = BeanUtils.sets(tClass);
@@ -55,13 +55,13 @@ public final class JdbcUtils {
 
     public static <T> void invoke(ResultSet rs, T t,
                                   String originType,
-                                  String transType){
+                                  String transType) {
         invoke(rs,t,
                 BeanNameUtils.nameTypeMap.get(originType),
                 BeanNameUtils.nameTypeMap.get(transType));
     }
 
-    public static <T> void invoke(ResultSet rs, T t){
+    public static <T> void invoke(ResultSet rs, T t) {
         invoke(rs,t,
                 BeanNameUtils.BeanNameType.UNDERLINE,
                 BeanNameUtils.BeanNameType.HUMP);

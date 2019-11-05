@@ -17,7 +17,7 @@ public final class MapUtils {
      * empty - true
      * not empty - false
      */
-    public static <K,V> boolean isBlank(Map<K,V> map){
+    public static <K,V> boolean isBlank(Map<K,V> map) {
         return map == null || map.isEmpty();
     }
 
@@ -40,28 +40,28 @@ public final class MapUtils {
     /**
      * create a HashMap with size
      */
-    public static <K,V> Map<K,V> newHashMap(int size){
+    public static <K,V> Map<K,V> newHashMap(int size) {
         return new HashMap<>(size);
     }
 
     /**
      * create a ConcurrentMap with default size
      */
-    public static <K,V> ConcurrentMap<K,V> newConcurrentMap(){
+    public static <K,V> ConcurrentMap<K,V> newConcurrentMap() {
         return newConcurrentMap(8);
     }
 
     /**
      * create a ConcurrentMap with size
      */
-    public static <K,V> ConcurrentMap<K,V> newConcurrentMap(int size){
+    public static <K,V> ConcurrentMap<K,V> newConcurrentMap(int size) {
         return new ConcurrentHashMap<>(size);
     }
 
     /**
      * create a one k-v map
      */
-    public static <K,V> Map<K,V> singleMap(K k,V v){
+    public static <K,V> Map<K,V> singleMap(K k,V v) {
         Map<K,V> singleMap = newHashMap(1);
         singleMap.put(k,v);
         return singleMap;
@@ -70,7 +70,7 @@ public final class MapUtils {
     /**
      * create map quick
      */
-    public static <K,V> Map<K,V> createMap(Object[]... kvs){
+    public static <K,V> Map<K,V> createMap(Object[]... kvs) {
 
         Map<K,V> map = newHashMap(kvs.length);
 
@@ -84,7 +84,7 @@ public final class MapUtils {
             try {
                 key = (K) kv[0];
                 value = (V) kv[1];
-            } catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("param type trans exception");
             }
 

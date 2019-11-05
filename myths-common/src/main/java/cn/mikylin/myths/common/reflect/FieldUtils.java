@@ -14,7 +14,7 @@ public final class FieldUtils {
      * @param f param name
      * @param refFrom the object
      */
-    public static Object refField(Field f,Object refFrom){
+    public static Object refField(Field f,Object refFrom) {
         try {
             f.setAccessible(true);
             return f.get(refFrom);

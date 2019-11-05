@@ -17,12 +17,12 @@ public final class LocalDateUtils {
         formatterMap = MapUtils.createMap();
     }
 
-    private static DateTimeFormatter formatter(String format){
+    private static DateTimeFormatter formatter(String format) {
 
         DateTimeFormatter formatter = formatterMap.get(format);
 
         if(formatter == null)
-            synchronized (LocalDateUtils.class){
+            synchronized (LocalDateUtils.class) {
                 if((formatter = formatterMap.get(format)) == null) {
                     formatter = DateTimeFormatter.ofPattern(format);
                     formatterMap.put(format,formatter);
@@ -32,12 +32,12 @@ public final class LocalDateUtils {
         return formatter;
     }
 
-    public static String dayTime(long changeDays,String format){
+    public static String dayTime(long changeDays,String format) {
         return dayTime(changeDays).format(formatter(format));
     }
 
 
-    public static LocalDateTime dayTime(long changeDays){
+    public static LocalDateTime dayTime(long changeDays) {
         return LocalDateTime.now().plusDays(changeDays);
     }
 

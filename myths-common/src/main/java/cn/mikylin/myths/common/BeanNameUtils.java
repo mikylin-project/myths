@@ -79,6 +79,6 @@ public final class BeanNameUtils {
 
     public enum BeanNameType {
         UNDERLINE,
-        HUMP;
+        HUMP
     }
 }

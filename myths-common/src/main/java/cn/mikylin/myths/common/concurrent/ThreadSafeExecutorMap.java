@@ -23,7 +23,7 @@ public class ThreadSafeExecutorMap<T> {
         return map.get(this);
     }
 
-    protected interface ValueFactory<T> {
+    interface ValueFactory<T> {
         T create();
     }
 

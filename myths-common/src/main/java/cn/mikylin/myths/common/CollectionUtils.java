@@ -16,7 +16,7 @@ public final class CollectionUtils {
      * blank - true
      * not blank - false
      */
-    public static boolean isBlank(Collection<?> col){
+    public static boolean isBlank(Collection<?> col) {
         return col == null || col.isEmpty();
     }
 
@@ -27,7 +27,7 @@ public final class CollectionUtils {
      * blank - false
      * not blank - true
      */
-    public static boolean isNotBlank(Collection<?> col){
+    public static boolean isNotBlank(Collection<?> col) {
         return !isBlank(col);
     }
 
@@ -39,7 +39,7 @@ public final class CollectionUtils {
      * exist - true
      * not exist - false
      */
-    public static <T> boolean isInCollection(Collection<T> col, T element){
+    public static <T> boolean isInCollection(Collection<T> col, T element) {
 
         if(isBlank(col)) //collection can not be blank
             return false;
@@ -54,7 +54,7 @@ public final class CollectionUtils {
      * create a new ArrayList
      * @param ts  array
      */
-    public static <T> List<T> newArrayList(T... ts){
+    public static <T> List<T> newArrayList(T... ts) {
 
         if(ArrayUtils.isNotBlank(ts)){
             List<T> l = new ArrayList<>(ts.length + 8);
@@ -67,7 +67,7 @@ public final class CollectionUtils {
     /**
      * create a new ArrayList
      */
-    public static <T> List<T> newArrayList(Set<T> s){
+    public static <T> List<T> newArrayList(Set<T> s) {
         if(isBlank(s))
             return newArrayList();
         return new ArrayList<>(s);

@@ -63,7 +63,7 @@ public class PropertiesUtils {
      * @param key properties key
      * @return value
      */
-    public static String getString(Properties properties,String key){
+    public static String getString(Properties properties,String key) {
         return properties.getProperty(key);
     }
 
@@ -73,7 +73,7 @@ public class PropertiesUtils {
      * @param key properties key
      * @return value
      */
-    public static String getString(String propFilePath,String key){
+    public static String getString(String propFilePath,String key) {
         Properties p = properties(propFilePath);
         return getString(p,key);
     }
@@ -85,7 +85,7 @@ public class PropertiesUtils {
      * @param clz class for get classload
      * @return value
      */
-    public static String getString(String propFilePath,String key,Class clz){
+    public static String getString(String propFilePath,String key,Class clz) {
         Properties p = properties(propFilePath,clz);
         return getString(p,key);
     }
@@ -97,7 +97,7 @@ public class PropertiesUtils {
      * @param key properties key
      * @return value
      */
-    public static Integer getInt(Properties properties,String key){
+    public static Integer getInt(Properties properties,String key) {
         try{
             return Integer.valueOf(getString(properties,key));
         }catch (Exception e){
@@ -111,7 +111,7 @@ public class PropertiesUtils {
      * @param key properties key
      * @return value
      */
-    public static Double getDouble(Properties properties,String key){
+    public static Double getDouble(Properties properties,String key) {
         try{
             return Double.valueOf(getString(properties,key));
         }catch (Exception e){

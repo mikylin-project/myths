@@ -6,13 +6,13 @@ package cn.mikylin.myths.common;
  * @author mikylin
  * @date 20190816
  */
-public class CloseUtils {
+public final class CloseUtils {
 
     /**
      * close the object
      * @param closer  object wait to close.
      */
-    public static void close(final AutoCloseable closer){
+    public static void close(final AutoCloseable closer) {
 
         if(closer != null)
             try {

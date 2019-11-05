@@ -20,23 +20,23 @@ public final class DateUtils {
     public static final String TIME_FORMAT = "HH:mm:ss";
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
-    public static String toString(Date d,String format){
+    public static String toString(Date d,String format) {
         return new SimpleDateFormat(format).format(d);
     }
 
-    public static String toDateTimeString(Date d){
+    public static String toDateTimeString(Date d) {
         return toString(d,DATE_TIME_FORMAT);
     }
 
-    public static String toDateString(Date d){
+    public static String toDateString(Date d) {
         return toString(d,DATE_FORMAT);
     }
 
-    public static String toTimeString(Date d){
+    public static String toTimeString(Date d) {
         return toString(d,TIME_FORMAT);
     }
 
-    public static Date toDateTime(String dateString,String format){
+    public static Date toDateTime(String dateString,String format) {
         try {
             return new SimpleDateFormat(format).parse(dateString);
         } catch (ParseException e) {
@@ -44,11 +44,11 @@ public final class DateUtils {
         }
     }
 
-    public static Date toDateTime(String dateString){
+    public static Date toDateTime(String dateString) {
         return toDateTime(dateString,DATE_TIME_FORMAT);
     }
 
-    public static Date toDate(String dateString){
+    public static Date toDate(String dateString) {
         return toDateTime(dateString,DATE_FORMAT);
     }
 
@@ -57,31 +57,31 @@ public final class DateUtils {
      * calendar change method
      */
 
-    public static Date dayBeforeHours(Date d,int hours){
+    public static Date dayBeforeHours(Date d,int hours) {
         return dayBaseChange(d,Calendar.HOUR_OF_DAY,- hours);
     }
 
-    public static Date dayAfterHours(Date d,int hours){
+    public static Date dayAfterHours(Date d,int hours) {
         return dayBaseChange(d,Calendar.HOUR_OF_DAY,hours);
     }
 
-    public static Date dayBeforeDays(Date d,int days){
+    public static Date dayBeforeDays(Date d,int days) {
         return dayBaseChange(d,Calendar.DATE,- days);
     }
 
-    public static Date dayAfterDays(Date d,int days){
+    public static Date dayAfterDays(Date d,int days) {
         return dayBaseChange(d,Calendar.DATE,days);
     }
 
-    public static Date dayBeforeMinutes(Date d,int min){
+    public static Date dayBeforeMinutes(Date d,int min) {
         return dayBaseChange(d,Calendar.MINUTE,- min);
     }
 
-    public static Date dayAfterMinuts(Date d,int min){
+    public static Date dayAfterMinuts(Date d,int min) {
         return dayBaseChange(d,Calendar.MINUTE,min);
     }
 
-    public static Date dayBaseChange(Date d,int changeType,int changeNumber){
+    public static Date dayBaseChange(Date d,int changeType,int changeNumber) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(d);
         calendar.set(changeType,calendar.get(changeType) + changeNumber);

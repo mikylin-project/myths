@@ -20,7 +20,7 @@ public final class ClassUtils {
      * load class by default class loader
      * @param classPath class path
      */
-    public static Class<?> loadClass(String classPath){
+    public static Class<?> loadClass(String classPath) {
         classPath = dealClassPath(classPath);
         try {
             return Class.forName(classPath);
@@ -34,7 +34,7 @@ public final class ClassUtils {
      * @param classPath class path
      * @param loader class loader
      */
-    public static Class<?> loadClass(String classPath,ClassLoader loader){
+    public static Class<?> loadClass(String classPath,ClassLoader loader) {
         if(loader == null)
             loader = ClassUtils.class.getClassLoader();
         classPath = dealClassPath(classPath);
@@ -45,7 +45,7 @@ public final class ClassUtils {
         }
     }
 
-    private static String dealClassPath(String classPath){
+    private static String dealClassPath(String classPath) {
         StringUtils.requireNotBlank(classPath,"class path can not be blank");
         if(classPath.endsWith(".class") && classPath.length() > 6)
             classPath = classPath.substring(0,classPath.length() - 6);
@@ -58,7 +58,7 @@ public final class ClassUtils {
      * get class's package name
      * @param clz class
      */
-    public static String packageName(Class<?> clz){
+    public static String packageName(Class<?> clz) {
         String pakName = clz.getPackageName();
         if(StringUtils.isNotBlank(pakName))
             return pakName;
@@ -69,14 +69,14 @@ public final class ClassUtils {
      * get class's super class name
      * @param clz class
      */
-    public static String superClassName(Class<?> clz){
+    public static String superClassName(Class<?> clz) {
         Class<?> superClass = clz.getSuperclass();
         if(superClass != null)
             return superClass.getName();
         return null;
     }
 
-    public static List<String> getInterfaces(Class<?> clz){
+    public static List<String> getInterfaces(Class<?> clz) {
 
         List<String> l = CollectionUtils.newArrayList();
 
@@ -95,7 +95,7 @@ public final class ClassUtils {
      * @param clz object class
      * @param params create params
      */
-    public static <T> T instance(Class<T> clz,Object... params){
+    public static <T> T instance(Class<T> clz,Object... params) {
         // 使用 constructor 去反射创建对象
         try {
             T t = clz.getConstructor().newInstance(params);

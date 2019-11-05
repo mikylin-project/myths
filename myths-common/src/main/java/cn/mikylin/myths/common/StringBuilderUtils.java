@@ -7,11 +7,10 @@ package cn.mikylin.myths.common;
  */
 public class StringBuilderUtils {
 
-    public static String toString(Object... objs){
+    public static String toString(Object... objs) {
         StringBuilder builder = new StringBuilder();
-        for(Object obj : objs){
+        for(Object obj : objs)
             builder.append(obj);
-        }
         return builder.toString();
     }
 }

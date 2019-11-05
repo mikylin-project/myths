@@ -21,13 +21,13 @@ public final class UnsafeUtils {
             field.setAccessible(true);
             u = (Unsafe) field.get(null);
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            throw new RuntimeException("no unsafe");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            throw new RuntimeException("no unsafe");
         }
     }
 
-    public static Unsafe getUnsafe(){
+    public static Unsafe getUnsafe() {
         return u;
     }
 }
