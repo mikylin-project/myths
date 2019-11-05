@@ -1,4 +1,4 @@
-package cn.mikylin.utils.jwt;
+package cn.mikylin.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;

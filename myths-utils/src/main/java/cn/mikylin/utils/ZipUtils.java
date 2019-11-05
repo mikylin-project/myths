@@ -1,4 +1,4 @@
-package cn.mikylin.utils.zip;
+package cn.mikylin.utils;
 
 import cn.mikylin.myths.common.ArrayUtils;
 import cn.mikylin.myths.common.StringUtils;
