@@ -20,12 +20,12 @@ public interface BlockingExecutor<T> extends ThreadSafeExecutor<T> {
     Queue<Thread> qt = new LinkedBlockingQueue<>(Runtime.getRuntime().availableProcessors() * 2);
 
     @Override
-    default Object doSafeExecute(T t){
+    default T doSafeExecute(T t){
         AtomicBoolean casLock = getCasLock();
         for(;;){
             if(casLock.compareAndSet(true,false)){
                 try {
-                    Object o = doExecute(t);
+                    T o = doExecute(t);
                     Thread thread;
                     if(null != (thread = qt.poll()))
                         LockSupport.unpark(thread);

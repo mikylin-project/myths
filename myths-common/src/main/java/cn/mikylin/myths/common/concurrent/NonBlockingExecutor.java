@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public interface NonBlockingExecutor<T> extends ThreadSafeExecutor<T> {
 
     @Override
-    default Object doSafeExecute(T t){
+    default T doSafeExecute(T t){
         AtomicBoolean casLock = getCasLock();
         for(;;){
             if(casLock.compareAndSet(true,false)){

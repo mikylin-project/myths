@@ -1,7 +1,6 @@
 package cn.mikylin.myths.common.concurrent;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -32,10 +31,10 @@ public interface ThreadSafeExecutor<T> {
     /**
      * 由使用者去实现的业务代码
      */
-    Object doExecute(T t);
+    T doExecute(T t);
 
     /**
      * 不同的 on-off 策略所实现的线程安全策略代码
      */
-    Object doSafeExecute(T t);
+    T doSafeExecute(T t);
 }
