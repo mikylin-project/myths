@@ -12,7 +12,7 @@ public class ThreadSafeExecutorTest {
     ExecutorService pool = Executors.newFixedThreadPool(10);
 
     @Test
-    public void test(){
+    public void test() {
 
         ThreadSafeExecutor t = new NonBlockingExecutorTester();
 
@@ -20,19 +20,12 @@ public class ThreadSafeExecutorTest {
             pool.submit(() -> t.doSafeExecute(1));
         }
 
-
-        ((NonBlockingExecutorTester)t).print();
-
     }
 
 
     private static class NonBlockingExecutorTester implements NonBlockingExecutor<Integer> {
 
         private int i = 0;
-
-        public void print() {
-            System.out.println("i : " + i);
-        }
 
         @Override
         public Integer doExecute(Integer integer) {
