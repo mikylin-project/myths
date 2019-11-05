@@ -8,10 +8,6 @@ import java.util.concurrent.locks.LockSupport;
 /**
  * 使用 CAS 实现的一个阻塞式线程安全开关工具
  *
- * 对于需要保障线程安全的代码，需要实现类写在 onOff0(...) 中
- * 并且调用 onOff(...) 方法即可
- * 使用 CAS 和线程阻塞相结合的方式实现了类似 Lock 的功能
- *
  * @author mikylin
  * @date 20190623
  */

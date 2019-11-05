@@ -2,6 +2,12 @@ package cn.mikylin.myths.common.concurrent;
 
 import java.util.*;
 
+/**
+ * 线程安全 全局 map 工具类
+ *
+ * @author mikylin
+ * @date 20191105
+ */
 public class ThreadSafeExecutorMap<T> {
 
     private Map<ThreadSafeExecutor,T> map = new HashMap<>();

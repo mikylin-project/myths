@@ -1,13 +1,12 @@
 package cn.mikylin.myths.common.concurrent;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 开关工具
  * 适用于需要保障线程安全的代码部分
+ *
+ * 对于需要保障线程安全的代码，需要实现类写在 doExecute(...) 中，
+ * 并且调用 doSafeExecute(...) 方法即可
  *
  * @author mikylin
  * @date 20190623
