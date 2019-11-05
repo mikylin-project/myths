@@ -1,5 +1,6 @@
 package cn.mikylin.myths.common.concurrent;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -13,20 +14,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public interface ThreadSafeExecutor<T> {
 
-    Map<ThreadSafeExecutor,AtomicBoolean> lockMap = new ConcurrentHashMap<>();
+    ThreadSafeExecutorMap<AtomicBoolean> lockMap
+            = new ThreadSafeExecutorMap<>(() -> new AtomicBoolean(true)); //true - open , false - close
 
-    default AtomicBoolean getCasLock(){
-        AtomicBoolean lock;
-        if(null == (lock = lockMap.get(this))){
-            synchronized (this){
-                if(null == (lock = lockMap.get(this))){
-                    lock = new AtomicBoolean(true); //true - open , false - close
-                    lockMap.put(this,lock);
-                }
-            }
-        }
-        return lock;
-    }
 
     /**
      * 由使用者去实现的业务代码

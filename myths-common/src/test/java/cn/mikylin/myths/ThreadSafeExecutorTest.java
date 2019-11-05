@@ -16,7 +16,13 @@ public class ThreadSafeExecutorTest {
 
         ThreadSafeExecutor t = new NonBlockingExecutorTester();
 
-        pool.submit(() -> System.out.println(t.doSafeExecute(1)));
+        for(int i = 0 ; i < 1000 ; i ++) {
+            pool.submit(() -> t.doSafeExecute(1));
+        }
+
+
+        ((NonBlockingExecutorTester)t).print();
+
     }
 
 
@@ -24,9 +30,14 @@ public class ThreadSafeExecutorTest {
 
         private int i = 0;
 
+        public void print() {
+            System.out.println("i : " + i);
+        }
+
         @Override
         public Integer doExecute(Integer integer) {
             i = i + integer;
+            System.out.println(i);
             return i;
         }
     }

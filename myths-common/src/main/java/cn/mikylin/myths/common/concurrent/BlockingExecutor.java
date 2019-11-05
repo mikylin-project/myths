@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.LockSupport;
 
 /**
- * 使用 CAS 实现的一个阻塞线程安全开关工具
+ * 使用 CAS 实现的一个阻塞式线程安全开关工具
  *
  * 对于需要保障线程安全的代码，需要实现类写在 onOff0(...) 中
  * 并且调用 onOff(...) 方法即可
@@ -17,24 +17,25 @@ import java.util.concurrent.locks.LockSupport;
  */
 public interface BlockingExecutor<T> extends ThreadSafeExecutor<T> {
 
-    Queue<Thread> qt = new LinkedBlockingQueue<>(Runtime.getRuntime().availableProcessors() * 2);
+    ThreadSafeExecutorMap<Queue<Thread>> qtMap
+            = new ThreadSafeExecutorMap<>(() -> new LinkedBlockingQueue<>(Runtime.getRuntime().availableProcessors() * 2));
 
     @Override
     default T doSafeExecute(T t){
-        AtomicBoolean casLock = getCasLock();
+        AtomicBoolean casLock = lockMap.get(this);
         for(;;){
             if(casLock.compareAndSet(true,false)){
                 try {
                     T o = doExecute(t);
                     Thread thread;
-                    if(null != (thread = qt.poll()))
+                    if(null != (thread = qtMap.get(this).poll()))
                         LockSupport.unpark(thread);
                     return o;
                 } finally {
                     casLock.set(true);
                 }
             }else{
-                qt.offer(Thread.currentThread());
+                qtMap.get(this).offer(Thread.currentThread());
                 LockSupport.park();
             }
         }
