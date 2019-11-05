@@ -6,7 +6,6 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.metadata.ReadSheet;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.sun.istack.NotNull;
-import lombok.Data;
 import java.util.List;
 import java.util.Objects;
 
@@ -78,5 +77,4 @@ public class EasyExcelUtils {
                 .head(data.get(0).getClass())
                 .doWrite(data);
     }
-
 }
