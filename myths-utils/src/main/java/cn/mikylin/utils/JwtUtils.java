@@ -21,7 +21,7 @@ public class JwtUtils {
     /**
      * 设置 token 的过期时间，单位毫秒，此处设置为 1 小时
      */
-    private static final long EXPIRE_TIME = 60 * 1000;
+    private static final long DEFAULT_EXPIRE_TIME = 60 * 1000;
 
     /**
      * HMAC256 模式下生成 token 的秘钥
@@ -46,7 +46,10 @@ public class JwtUtils {
     public static boolean verify(String token, String chaimKey,String chaimValue) {
         try {
             Algorithm algorithm = createAlgorithm();
-            JWTVerifier verifier = JWT.require(algorithm).withClaim(chaimKey,chaimValue).build();
+            JWTVerifier verifier
+                    = JWT.require(algorithm)
+                        .withClaim(chaimKey,chaimValue)
+                        .build();
             verifier.verify(token);
             return true;
         } catch (Exception e) {
@@ -87,7 +90,7 @@ public class JwtUtils {
      */
     public static String sign(Map<String,String> claims) {
         // 指定过期时间
-        Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
+        Date date = new Date(System.currentTimeMillis() + DEFAULT_EXPIRE_TIME);
 
         // 存入 键值对
         Algorithm algorithm = createAlgorithm();
