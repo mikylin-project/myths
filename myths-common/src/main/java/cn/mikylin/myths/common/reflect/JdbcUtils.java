@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * jdbc assemble bean utils
+ *
  * @author mikylin
  * @date 20191015
  */

@@ -4,40 +4,38 @@ import java.util.*;
 
 /**
  * collection utils
+ *
  * @author mikylin
  * @date 20190619
  */
 public final class CollectionUtils {
 
     /**
-     * bool the list is blank
-     * @param col -- collection
+     * bool the list is blank.
      *
-     * blank - true
-     * not blank - false
+     * @param col collection
+     * @return blank - true , not blank - false
      */
     public static boolean isBlank(Collection<?> col) {
         return col == null || col.isEmpty();
     }
 
     /**
-     * bool the list is not blank
-     * @param col -- collection
+     * bool the list is not blank.
      *
-     * blank - false
-     * not blank - true
+     * @param col collection
+     * @return blank - false , not blank - true
      */
     public static boolean isNotBlank(Collection<?> col) {
         return !isBlank(col);
     }
 
     /**
-     * bool the some of one element in collection
-     * @param col  collection
-     * @param element  collection element
+     * bool the some of one element in collection.
      *
-     * exist - true
-     * not exist - false
+     * @param col collection
+     * @param element collection element
+     * @return exist - true , not exist - false
      */
     public static <T> boolean isInCollection(Collection<T> col, T element) {
 
@@ -51,8 +49,9 @@ public final class CollectionUtils {
     }
 
     /**
-     * create a new ArrayList
-     * @param ts  array
+     * create a new ArrayList.
+     *
+     * @param ts array
      */
     public static <T> List<T> newArrayList(T... ts) {
 
@@ -65,7 +64,10 @@ public final class CollectionUtils {
     }
 
     /**
-     * create a new ArrayList
+     * create a new array list.
+     *
+     * @param s set
+     * @return list
      */
     public static <T> List<T> newArrayList(Set<T> s) {
         if(isBlank(s))
@@ -73,10 +75,21 @@ public final class CollectionUtils {
         return new ArrayList<>(s);
     }
 
+    /**
+     * exception if blank.
+     *
+     * @param col collection
+     * @param message message
+     */
     public static <T> void requireNotBlank(Collection<T> col,String message) {
         if(isBlank(col)) throw new NullPointerException(message);
     }
 
+    /**
+     * exception if blank.
+     *
+     * @param col collection
+     */
     public static <T> void requireNotBlank(Collection<T> col) {
         requireNotBlank(col,"collection can not be blank.");
     }

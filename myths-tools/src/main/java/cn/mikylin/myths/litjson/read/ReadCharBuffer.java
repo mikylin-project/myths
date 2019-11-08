@@ -1,6 +1,6 @@
 package cn.mikylin.myths.litjson.read;
 
-import cn.mikylin.myths.common.Blank;
+import cn.mikylin.myths.common.Constants;
 
 /**
  * simple char buffer
@@ -24,7 +24,7 @@ public class ReadCharBuffer {
 
     public char read(int pos){
         if(pos > limit)
-            return Blank.NULL_CHAR;
+            return Constants.Blank.NULL_CHAR;
         return buffer[pos];
     }
 
@@ -42,7 +42,7 @@ public class ReadCharBuffer {
         while(isTil){
             char c = move();
 
-            if(c == Blank.NULL_CHAR)
+            if(c == Constants.Blank.NULL_CHAR)
                 return null;
 
             for(char til : tils){

@@ -11,13 +11,13 @@ import java.util.concurrent.Executors;
 
 /**
  * summarized by jdk11 HttpClient
+ *
  * @author mikylin
  * @date 20190817
  */
 public class JDK11HttpClient {
 
-    private static String CONTENT_TYPE = "Content-Type";
-    private static String APPLICATION_JSON = "application/json";
+
 
     private static Integer TIMEOUT = 5000;
 
@@ -69,7 +69,7 @@ public class JDK11HttpClient {
         reBuilder
                 //存入消息头
                 //消息头是保存在一张 TreeMap 里的
-                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .header(Constants.Http.CONTENT_TYPE, Constants.Http.APPLICATION_JSON)
 
                 //url 地址
                 .uri(URI.create(url))
@@ -102,7 +102,7 @@ public class JDK11HttpClient {
         reBuilder
                 //存入消息头
                 //消息头是保存在一张 TreeMap 里的
-                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .header(Constants.Http.CONTENT_TYPE, Constants.Http.APPLICATION_JSON)
 
                 //url 地址
                 .uri(URI.create(url))

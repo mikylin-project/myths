@@ -2,12 +2,14 @@ package cn.mikylin.myths.common.reflect;
 
 import cn.mikylin.myths.common.ArrayUtils;
 import cn.mikylin.myths.common.CollectionUtils;
+import cn.mikylin.myths.common.Constants;
 import cn.mikylin.myths.common.StringUtils;
 import java.io.File;
 import java.util.List;
 
 /**
  * class utils
+ *
  * @author mikylin
  * @date 20190714
  */
@@ -15,6 +17,7 @@ public final class ClassUtils {
 
     /**
      * load class by default class loader
+     *
      * @param classPath class path
      */
     public static Class<?> loadClass(String classPath) {
@@ -28,8 +31,10 @@ public final class ClassUtils {
 
     /**
      * load class by self class loader
+     *
      * @param classPath class path
      * @param loader class loader
+     * @return class
      */
     public static Class<?> loadClass(String classPath,ClassLoader loader) {
         if(loader == null)
@@ -42,33 +47,44 @@ public final class ClassUtils {
         }
     }
 
+    /**
+     * change the class path
+     *
+     * @param classPath
+     *          example 'java.lang.String.class'
+     * @return new class path
+     *          example 'java/lang/String'
+     */
     private static String dealClassPath(String classPath) {
         StringUtils.requireNotBlank(classPath,"class path can not be blank");
-        if(classPath.endsWith(".class") && classPath.length() > 6)
+        if(classPath.endsWith(Constants.System.POINT_CLASS) && classPath.length() > 6)
             classPath = classPath.substring(0,classPath.length() - 6);
-        classPath = classPath.replaceAll(File.separator,".");
+        classPath = classPath.replaceAll(File.separator, Constants.System.POINT);
         return classPath;
     }
 
 
     /**
      * get class's package name
+     *
      * @param clz class
      */
     public static String packageName(Class<?> clz) {
-        String pakName = clz.getPackageName();
-        if(StringUtils.isNotBlank(pakName))
+        String pakName;
+        if(StringUtils.isNotBlank(pakName = clz.getPackageName()))
             return pakName;
         return null;
     }
 
     /**
      * get class's super class name
+     *
      * @param clz class
+     * @return class's super class
      */
     public static String superClassName(Class<?> clz) {
-        Class<?> superClass = clz.getSuperclass();
-        if(superClass != null)
+        Class<?> superClass;
+        if((superClass = clz.getSuperclass()) != null)
             return superClass.getName();
         return null;
     }
@@ -89,8 +105,10 @@ public final class ClassUtils {
 
     /**
      * invoke to create the object
+     *
      * @param clz object class
      * @param params create params
+     * @return T
      */
     public static <T> T instance(Class<T> clz,Object... params) {
         // 使用 constructor 去反射创建对象

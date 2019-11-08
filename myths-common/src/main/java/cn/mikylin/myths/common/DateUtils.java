@@ -16,24 +16,20 @@ public final class DateUtils {
      * date and string
      */
 
-    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public static final String TIME_FORMAT = "HH:mm:ss";
-    public static final String DATE_FORMAT = "yyyy-MM-dd";
-
     public static String toString(Date d,String format) {
         return new SimpleDateFormat(format).format(d);
     }
 
     public static String toDateTimeString(Date d) {
-        return toString(d,DATE_TIME_FORMAT);
+        return toString(d,Constants.Date.DATE_TIME_FORMAT);
     }
 
     public static String toDateString(Date d) {
-        return toString(d,DATE_FORMAT);
+        return toString(d,Constants.Date.DATE_FORMAT);
     }
 
     public static String toTimeString(Date d) {
-        return toString(d,TIME_FORMAT);
+        return toString(d,Constants.Date.TIME_FORMAT);
     }
 
     public static Date toDateTime(String dateString,String format) {
@@ -45,11 +41,11 @@ public final class DateUtils {
     }
 
     public static Date toDateTime(String dateString) {
-        return toDateTime(dateString,DATE_TIME_FORMAT);
+        return toDateTime(dateString,Constants.Date.DATE_TIME_FORMAT);
     }
 
     public static Date toDate(String dateString) {
-        return toDateTime(dateString,DATE_FORMAT);
+        return toDateTime(dateString,Constants.Date.DATE_FORMAT);
     }
 
 

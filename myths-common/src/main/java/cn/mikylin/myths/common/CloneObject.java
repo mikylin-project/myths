@@ -10,7 +10,7 @@ public interface CloneObject<T> extends Cloneable {
 
     default T copy() {
         try {
-            return (T)clone();
+            return (T) clone();
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException("clone failed.");
         }

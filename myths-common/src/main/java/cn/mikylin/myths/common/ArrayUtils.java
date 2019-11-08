@@ -5,6 +5,7 @@ import java.util.Objects;
 
 /**
  * array utils
+ *
  * @author mikylin
  * @date 20190621
  */

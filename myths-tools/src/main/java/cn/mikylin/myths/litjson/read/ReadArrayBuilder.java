@@ -1,7 +1,7 @@
 package cn.mikylin.myths.litjson.read;
 
-import cn.mikylin.myths.common.Blank;
 import cn.mikylin.myths.common.CollectionUtils;
+import cn.mikylin.myths.common.Constants;
 import cn.mikylin.myths.common.MapUtils;
 import cn.mikylin.myths.litjson.OptionBox;
 import cn.mikylin.myths.litjson.exception.JSONCharException;
@@ -58,7 +58,7 @@ public class ReadArrayBuilder {
         //ignore boolean
         //default to ignore the null-char
         while(option.isIgnoreChar(beginChar = chars.move()))
-            if(beginChar == Blank.NULL_CHAR) return;
+            if(beginChar == Constants.Blank.NULL_CHAR) return;
 
         if(!Objects.equals(beginChar,option.openSquareBrackets))
             throw new JSONCharException("json array should begin with " + option.openSquareBrackets);
@@ -82,7 +82,7 @@ public class ReadArrayBuilder {
             //ignore boolean
             //default to ignore the null-char
             while(option.isIgnoreChar(readChar = chars.move()))
-                if(readChar == Blank.NULL_CHAR) return;
+                if(readChar == Constants.Blank.NULL_CHAR) return;
 
             if(readTache == JsonAction.TACHE_BEGIN_READ_VALUE){
                 if(Objects.equals(readChar,option.openSquareBrackets)){ // readChar = '['

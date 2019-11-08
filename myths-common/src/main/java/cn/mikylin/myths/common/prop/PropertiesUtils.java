@@ -1,5 +1,6 @@
 package cn.mikylin.myths.common.prop;
 
+import cn.mikylin.myths.common.Constants;
 import cn.mikylin.myths.common.NioLocal;
 import cn.mikylin.myths.common.StringUtils;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.util.Properties;
 
 /**
  * properties utils
+ *
  * @author mikylin
  * @date 20190817
  */
@@ -15,8 +17,10 @@ public class PropertiesUtils {
 
     /**
      * load the properties with propFilePath
+     *
      * @param propFilePath
-     *          could be '/home/mikylin/test.properties' or 'src/main/resource/test.propertis'
+     *          could be full path or relative path,
+     *          just like '/home/mikylin/test.properties' or 'src/main/resource/test.propertis'
      * @return properties
      */
     public static Properties properties(String propFilePath) {
@@ -25,24 +29,29 @@ public class PropertiesUtils {
 
     /**
      * load the properties with classload
+     *
      * @param propFilePath
      *          could be 'test.properties' or '/test.properties'
      * @param clz class for get classload
      * @return properties
      */
     public static Properties properties(String propFilePath,Class clz) {
+
         if(StringUtils.isBlank(propFilePath))
             throw new NullPointerException("file name can not be blank.");
-        if(!propFilePath.startsWith("/"))
-            propFilePath = "/" + propFilePath;
+        if(!propFilePath.startsWith(Constants.System.SLASH))
+            propFilePath = Constants.System.SLASH + propFilePath;
         if(clz == null)
             clz = PropertiesUtils.class;
+
         InputStream stream = clz.getResourceAsStream(propFilePath);
+
         return properties(stream);
     }
 
     /**
      * load the properties with inputstream
+     *
      * @param stream inputstream
      * @return properties
      */
@@ -58,6 +67,7 @@ public class PropertiesUtils {
 
     /**
      * get string value by properties key
+     *
      * @param properties properties
      * @param key properties key
      * @return value
@@ -68,6 +78,7 @@ public class PropertiesUtils {
 
     /**
      * get string value by properties key
+     *
      * @param propFilePath properties file path
      * @param key properties key
      * @return value
@@ -79,6 +90,7 @@ public class PropertiesUtils {
 
     /**
      * get string value by properties key
+     *
      * @param propFilePath properties file path
      * @param key properties key
      * @param clz class for get classload
@@ -92,6 +104,7 @@ public class PropertiesUtils {
 
     /**
      * get int value by properties key
+     *
      * @param properties properties
      * @param key properties key
      * @return value
@@ -106,6 +119,7 @@ public class PropertiesUtils {
 
     /**
      * get double value by properties key
+     *
      * @param properties properties
      * @param key properties key
      * @return value

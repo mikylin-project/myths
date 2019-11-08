@@ -1,11 +1,11 @@
 package cn.mikylin.myths.common;
 
 import sun.misc.Unsafe;
-
 import java.lang.reflect.Field;
 
 /**
  * unsafe utils
+ *
  * @author mikylin
  * @date 20191022
  */
@@ -27,6 +27,11 @@ public final class UnsafeUtils {
         }
     }
 
+    /**
+     * get unsafe.
+     *
+     * @return unsafe
+     */
     public static Unsafe getUnsafe() {
         return u;
     }

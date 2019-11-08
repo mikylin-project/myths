@@ -1,36 +1,41 @@
 package cn.mikylin.myths.common;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
 
 /**
- * jdk8 local date utils
+ * jdk8 local date time utils
+ *
  * @author mikylin
  * @date 20190808
  */
-public final class LocalDateUtils {
+public final class LocalDateTimeUtils {
 
     private static Map<String,DateTimeFormatter> formatterMap;
     static {
         formatterMap = MapUtils.createMap();
     }
 
+    /**
+     * lazy init the formatter
+     *
+     * @param format  day format
+     * @return formatter
+     */
     private static DateTimeFormatter formatter(String format) {
 
         DateTimeFormatter formatter = formatterMap.get(format);
 
         if(formatter == null)
-            synchronized (LocalDateUtils.class) {
+            synchronized (LocalDateTimeUtils.class) {
                 if((formatter = formatterMap.get(format)) == null) {
                     formatter = DateTimeFormatter.ofPattern(format);
                     formatterMap.put(format,formatter);
                 }
             }
+
         return formatter;
     }
 
@@ -54,11 +59,25 @@ public final class LocalDateUtils {
     }
 
 
+    /**
+     * local-date-time to date.
+     *
+     * @param time local-date-time
+     * @return date
+     */
     public static Date toDate(LocalDateTime time) {
         ZoneId zoneId = ZoneId.systemDefault();
         ZonedDateTime zdt = time.atZone(zoneId);
         return Date.from(zdt.toInstant());
     }
 
-
+    /**
+     * local-date to date.
+     *
+     * @param localDate local-date
+     * @return date
+     */
+    public static Date toDate(LocalDate localDate) {
+        return toDate(localDate.atStartOfDay());
+    }
 }

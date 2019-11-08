@@ -1,6 +1,9 @@
 package cn.mikylin.myths.common.reflect;
 
 import cn.mikylin.myths.common.CollectionUtils;
+
+import java.io.Closeable;
+import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -8,13 +11,15 @@ import java.util.Objects;
 
 /**
  * type utils
+ *
  * @author mikylin
  * @date 20190707
  */
 public final class TypeUtils {
 
     /**
-     * get the type list of some object's generic params
+     * get the type list of some object's generic params.
+     *
      * @param type some object‘s class type
      */
     public static List<Type> genericTypes(Type type) {
@@ -34,14 +39,23 @@ public final class TypeUtils {
     }
 
     /**
-     * get the first generic param's class for the object
+     * get the first generic param's class for the object.
+     *
      * @param type some object's class type
+     * @return class
      */
     public static <T> Class<T> firstGeneric(Type type) {
         return (Class<T>)(genericTypes(type).get(0));
     }
 
 
+    /**
+     * check the class is the parent's child or the parent own.
+     *
+     * @param parent
+     * @param child
+     * @return true - is the child or own , false - not the child or own
+     */
     public static boolean isTheChildOrOwnType(Class parent,Class child) {
         // 判断 child class 是否是 parent class 的子类
         Objects.requireNonNull(parent);

@@ -11,6 +11,7 @@ import java.util.Objects;
 
 /**
  * summarized by nio jdk7 Files
+ *
  * @author mikylin
  * @date 20190701
  */
@@ -18,7 +19,8 @@ public final class NioLocal {
 
     /**
      * read the file to byte[].
-     * @Param filePath  file path in local computer
+     *
+     * @param filePath  file path in local computer
      */
     public static byte[] fileToBytes(String filePath) {
 
@@ -46,7 +48,8 @@ public final class NioLocal {
 
     /**
      * read the file to byte[].
-     * @Param file  the file
+     *
+     * @param file  the file
      */
     public static byte[] fileToBytes(File file) {
         return fileToBytes(file.toPath());
@@ -54,7 +57,8 @@ public final class NioLocal {
 
     /**
      * read the file to byte[].
-     * @Param path  Path for file path
+     *
+     * @param path  Path for file path
      */
     private static byte[] fileToBytes(Path path) {
         //读取文件
@@ -68,9 +72,11 @@ public final class NioLocal {
     /**
      * write the byte[] to a new local file.
      * can not be writing continue.
-     * @Param filePath  file path in local computer you want to wrtie
-     * @Param bytes  file context to be writer
-     * @Param isDeleteIfExists  if the file in file path is exists,is delete origin and write the new one?
+     *
+     * @param pathForFile  file path in local computer you want to wrtie
+     * @param bytes  file context to be writer
+     * @param isDeleteIfExists  if the file in file path is exists,
+     *                          is delete origin and write the new one?
      */
     public static void newLocalFile(String pathForFile,byte[] bytes,boolean isDeleteIfExists) {
 
@@ -97,8 +103,11 @@ public final class NioLocal {
 
     /**
      * get the outputstream by file path.
+     *
      * @param pathForFile  file path in local computer you want to wrtie
-     * @param isDeleteIfExists  if the file in file path is exists,is delete origin and write the new one?
+     * @param isDeleteIfExists  if the file in file path is exists,
+     *                          is delete origin and write the new one?
+     * @return out put stream
      */
     public static OutputStream outputStream(String pathForFile,boolean isDeleteIfExists)
             throws IOException {
@@ -108,7 +117,9 @@ public final class NioLocal {
 
     /**
      * get the inputstream by file path.
+     *
      * @param pathForFile  file path in local computer you want to read
+     * @return input stream
      */
     public static InputStream inputStream(String pathForFile) {
 
@@ -123,8 +134,11 @@ public final class NioLocal {
 
     /**
      * check and build the path.
-     * @Param filePath  file path in local computer you want to wrtie
-     * @Param isDeleteIfExists  if the file in file path is exists,is delete origin and write the new one?
+     *
+     * @param pathForFile  file path in local computer you want to wrtie
+     * @param isDeleteIfExists  if the file in file path is exists,
+     *                          is delete origin and write the new one?
+     * @return path
      */
     public static Path getFilePath(String pathForFile,boolean isDeleteIfExists) {
 
@@ -196,7 +210,7 @@ public final class NioLocal {
 
     private static Path path(String path) {
         //验证传入的文件路径不能为空
-        Objects.requireNonNull(path,"path can not be blank.");
+        StringUtils.requireNotBlank(path,"path can not be blank.");
         //获取路径封装对象 path
         return Paths.get(path);
     }
