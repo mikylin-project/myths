@@ -59,4 +59,18 @@ public final class StringUtils {
     public static boolean isNotBlank(String str) {
         return !isBlank(str);
     }
+
+
+    /**
+     * objects to string.
+     *
+     * @param objs
+     * @return string
+     */
+    public static String toString(Object... objs) {
+        StringBuilder builder = new StringBuilder();
+        for(Object obj : objs)
+            builder.append(obj);
+        return builder.toString();
+    }
 }

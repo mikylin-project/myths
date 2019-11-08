@@ -17,8 +17,6 @@ import java.util.concurrent.Executors;
  */
 public class JDK11HttpClient {
 
-
-
     private static Integer TIMEOUT = 5000;
 
     private HttpClient client;

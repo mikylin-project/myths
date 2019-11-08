@@ -12,6 +12,9 @@ import java.util.regex.Pattern;
  */
 public final class BeanNameUtils {
 
+    private static Pattern underlinePattern = Pattern.compile("_(\\w)");
+    private static Pattern humpPattern = Pattern.compile("[A-Z]");
+
     public static Map<String,BeanNameType> nameTypeMap;
     static {
         nameTypeMap = MapUtils.createMap (
@@ -21,9 +24,11 @@ public final class BeanNameUtils {
     }
 
     /**
-     * 下划线转驼峰
+     * underline to hump.
+     *
+     * @param underlineOrigin underline bean name
+     * @return hump bean name
      */
-    private static Pattern underlinePattern = Pattern.compile("_(\\w)");
     public static String underlineToHump(String underlineOrigin) {
 
         if(StringUtils.isBlank(underlineOrigin))
@@ -36,21 +41,25 @@ public final class BeanNameUtils {
         Matcher matcher = underlinePattern.matcher(underline);
         StringBuffer sb = new StringBuffer();
         while (matcher.find())
-            matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
+            matcher.appendReplacement(sb,
+                    matcher.group(1).toUpperCase());
         matcher.appendTail(sb);
         return sb.toString();
     }
 
 
     /**
-     * 驼峰转下划线
+     * hump to underline.
+     *
+     * @param hump hump bean name
+     * @return undeline bean name
      */
-    private static Pattern humpPattern = Pattern.compile("[A-Z]");
     public static String humpToUnderline(String hump) {
         Matcher matcher = humpPattern.matcher(hump);
         StringBuffer sb = new StringBuffer();
-        while (matcher.find())
-            matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
+        for ( ; matcher.find() ; )
+            matcher.appendReplacement(sb,
+                    Constants.System.UNDER_LINE + matcher.group(0).toLowerCase());
         matcher.appendTail(sb);
         return sb.toString();
     }

@@ -12,36 +12,40 @@ import java.util.Objects;
 public final class ArrayUtils {
 
     /**
-     * the byte[] is blank
-     * blank - true
-     * not blank - false
+     * the byte[] is blank.
+     *
+     * @param bs array
+     * @return blank - true , not blank - false
      */
     public static boolean isBlank(byte[] bs){
         return bs == null || bs.length == 0;
     }
 
     /**
-     * the byte[] is not blank
-     * not blank - true
-     * blank - false
+     * the byte[] is not blank.
+     *
+     * @param bs array
+     * @return not blank - true , blank - false
      */
     public static boolean isNotBlank(byte[] bs){
         return !isBlank(bs);
     }
 
     /**
-     * the object[] is blank
-     * blank - true
-     * not blank - false
+     * the object[] is blank.
+     *
+     * @param bs array
+     * @return blank - true , not blank - false
      */
     public static boolean isBlank(Object[] bs){
         return bs == null || bs.length == 0;
     }
 
     /**
-     * the object[] is not blank
-     * not blank - true
-     * blank - false
+     * the object[] is not blank.
+     *
+     * @param bs array
+     * @return not blank - true , blank - false
      */
     public static boolean isNotBlank(Object[] bs){
         return !isBlank(bs);

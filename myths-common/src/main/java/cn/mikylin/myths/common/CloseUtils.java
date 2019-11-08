@@ -1,6 +1,5 @@
 package cn.mikylin.myths.common;
 
-
 /**
  * close object utils
  *

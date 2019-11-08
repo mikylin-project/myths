@@ -12,28 +12,28 @@ import java.util.concurrent.TimeUnit;
 public final class ThreadUtils {
 
     /**
-     * thread sleep for minutes
+     * thread sleep for minutes.
      */
     public void sleepMinutes(long time) {
         sleep(TimeUnit.MINUTES,time);
     }
 
     /**
-     * thread sleep for second
+     * thread sleep for second.
      */
     public void sleepSecond(long time) {
         sleep(TimeUnit.SECONDS,time);
     }
 
     /**
-     * thread sleep for second
+     * thread sleep for second.
      */
     public void sleep(long time) {
         sleepSecond(time);
     }
 
     /**
-     * thread sleep
+     * thread sleep.
      */
     public void sleep(TimeUnit unit,long time) {
         try {
@@ -44,7 +44,7 @@ public final class ThreadUtils {
     }
 
     /**
-     * create thread
+     * create thread.
      */
     public Thread create(ThreadFactory factory,Runnable r) {
         try{
@@ -55,14 +55,14 @@ public final class ThreadUtils {
     }
 
     /**
-     * create thread
+     * create thread.
      */
     public Thread create(Runnable r) {
         return create(DEFAULT,r);
     }
 
     /**
-     * default thread factory
+     * default thread factory.
      */
     private static final ThreadFactory DEFAULT = r -> new Thread(r);
 
