@@ -60,45 +60,4 @@ public final class KryoUtils {
         return kryo;
     }
 
-
-    public static void main(String[] args) {
-
-        Kryo kryo = new Kryo();
-        kryo.register(UserEntity.class);
-        kryo.register(Date.class);
-
-
-        UserEntity ue = new UserEntity();
-        ue.setAge(1);
-        ue.setBirthDay(new Date());
-        ue.setName("hahaha");
-
-
-        /**
-         * 序列化 object
-         */
-        byte[] serialize = serialize(ue, 100, UserEntity.class, Date.class);
-        UserEntity o = unSerialize(serialize, UserEntity.class);
-        System.out.println(o);
-
-        /**
-         * 序列化 list
-         */
-        List<UserEntity> list = new ArrayList<>();
-        list.add(ue);
-        byte[] serializeList = serialize(list, 100, UserEntity.class, Date.class,ArrayList.class);
-        List<UserEntity> l = (List<UserEntity>)unSerialize(serializeList,ArrayList.class);
-        System.out.println(l.get(0));
-
-
-    }
-
-}
-
-
-@Data
-class UserEntity {
-    private String name;
-    private Date birthDay;
-    private Integer age;
 }
