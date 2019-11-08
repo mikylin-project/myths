@@ -3,11 +3,6 @@ package cn.mikylin.utils;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * kryo serialize frameworker
