@@ -7,7 +7,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-
 import java.util.Date;
 import java.util.Map;
 
@@ -20,29 +19,42 @@ import java.util.Map;
 public class JwtUtils {
 
     /**
-     * 设置 token 的过期时间，单位毫秒，此处设置为 1 小时
+     * expire time
      */
-    private static final long DEFAULT_EXPIRE_TIME = 60 * 1000;
+    private static long DEFAULT_EXPIRE_TIME = 60 * 1000; // default 1 hour
 
     /**
-     * HMAC256 模式下生成 token 的秘钥
+     * cipher for HMAC256
      */
-    private static String SALT = "12345";
+    private static String DEFAULT_CIPHER = "12345";
 
+    public static void setCipher(String cipher) {
+        JwtUtils.DEFAULT_CIPHER = cipher;
+    }
 
-    private static Algorithm createAlgorithm(){
-        Algorithm algorithm = Algorithm.HMAC256(SALT);
+    public static void setExpireTime(long time) {
+        JwtUtils.DEFAULT_EXPIRE_TIME = time;
+    }
+
+    private static Algorithm algorithm;
+
+    private static Algorithm createAlgorithm() {
+        if(algorithm == null) {
+            synchronized (JwtUtils.class) {
+                if(algorithm == null)
+                    algorithm = Algorithm.HMAC256(DEFAULT_CIPHER);
+            }
+        }
         return algorithm;
     }
 
-
     /**
-     * 校验token是否正确
+     * verify the token is right
      *
-     * @param token    密钥
-     * @param chaimKey 效验的 key
-     * @param chaimValue 效验的 value
-     * @return
+     * @param token token
+     * @param chaimKey key
+     * @param chaimValue value
+     * @return true - right , false - lost
      */
     public static boolean verify(String token, String chaimKey,String chaimValue) {
         try {
@@ -52,14 +64,18 @@ public class JwtUtils {
                         .withClaim(chaimKey,chaimValue)
                         .build();
             verifier.verify(token);
-            return true;
         } catch (Exception e) {
             return false;
         }
+        return true;
     }
 
     /**
-     * 获取 String 类型的 jwt 参数
+     * get the string type param in token
+     *
+     * @param token token
+     * @param clainName param key
+     * @return param value
      */
     public static String getStringClaim(String token,String clainName) {
         try {
@@ -70,7 +86,11 @@ public class JwtUtils {
     }
 
     /**
-     * 获取 Long 类型的 jwt 参数
+     * get the long type param in token
+     *
+     * @param token token
+     * @param clainName param key
+     * @return param value
      */
     public static Long getLongClaim(String token,String clainName) {
         try {
@@ -81,17 +101,31 @@ public class JwtUtils {
     }
 
 
-    private static Claim getClaim(String token, String clainName){
-        DecodedJWT jwt = JWT.decode(token);
+    private static Claim getClaim(String sign, String clainName){
+        DecodedJWT jwt = JWT.decode(sign);
         return jwt.getClaim(clainName);
     }
 
     /**
-     * 生成签名
+     * create the token
+     *
+     * @param claims k-v
+     * @return token
      */
-    public static String sign(Map<String,String> claims) {
+    public static String token(Map<String,String> claims) {
         // 指定过期时间
         Date date = new Date(System.currentTimeMillis() + DEFAULT_EXPIRE_TIME);
+        return token(claims,date);
+    }
+
+    /**
+     * create the token
+     *
+     * @param claims k-v
+     * @param expireTime expire time
+     * @return token
+     */
+    public static String token(Map<String,String> claims,Date expireTime) {
 
         // 存入 键值对
         Algorithm algorithm = createAlgorithm();
@@ -99,8 +133,7 @@ public class JwtUtils {
         claims.forEach((k,v) -> builder.withClaim(k,v));
 
         return builder
-                .withExpiresAt(date)
+                .withExpiresAt(expireTime)
                 .sign(algorithm);
     }
-
 }

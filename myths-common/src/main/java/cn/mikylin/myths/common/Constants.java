@@ -24,6 +24,8 @@ public final class Constants {
         public static final String POINT_CLASS = ".class";
         public static final String SLASH = "/";
         public static final String UNDER_LINE = "_";
+
+        public static final int COMPUTER_CORE = Runtime.getRuntime().availableProcessors() * 2;
     }
 
     /**
@@ -33,6 +35,7 @@ public final class Constants {
         public static final String CONTENT_TYPE = "Content-Type";
         public static final String APPLICATION_JSON = "application/json";
         public static final int STATUS_OK = 200;
+        public static final int STATUS_404 = 404;
     }
 
     /**

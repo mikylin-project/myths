@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * bean name utils
+ * bean name utils.
  *
  * @author mikylin
  * @date 20191015
@@ -26,7 +26,7 @@ public final class BeanNameUtils {
     /**
      * underline to hump.
      *
-     * @param underlineOrigin underline bean name
+     * @param underlineOrigin  underline bean name
      * @return hump bean name
      */
     public static String underlineToHump(String underlineOrigin) {
@@ -51,7 +51,7 @@ public final class BeanNameUtils {
     /**
      * hump to underline.
      *
-     * @param hump hump bean name
+     * @param hump  hump bean name
      * @return undeline bean name
      */
     public static String humpToUnderline(String hump) {

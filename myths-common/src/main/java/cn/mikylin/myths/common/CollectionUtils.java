@@ -49,9 +49,10 @@ public final class CollectionUtils {
     }
 
     /**
-     * create a new ArrayList.
+     * create a new array list.
      *
      * @param ts array
+     * @return list
      */
     public static <T> List<T> newArrayList(T... ts) {
 
@@ -80,6 +81,7 @@ public final class CollectionUtils {
      *
      * @param col collection
      * @param message message
+     * @throws NullPointerException
      */
     public static <T> void requireNotBlank(Collection<T> col,String message) {
         if(isBlank(col)) throw new NullPointerException(message);
@@ -89,6 +91,7 @@ public final class CollectionUtils {
      * exception if blank.
      *
      * @param col collection
+     * @throws NullPointerException
      */
     public static <T> void requireNotBlank(Collection<T> col) {
         requireNotBlank(col,"collection can not be blank.");
