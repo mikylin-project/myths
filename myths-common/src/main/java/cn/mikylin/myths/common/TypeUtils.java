@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common.reflect;
+package cn.mikylin.myths.common;
 
 import cn.mikylin.myths.common.CollectionUtils;
 
@@ -21,6 +21,9 @@ public final class TypeUtils {
      * get the type list of some object's generic params.
      *
      * @param type some object‘s class type
+     * @throws NullPointerException
+     * @throws IllegalArgumentException
+     * @return object's generic params
      */
     public static List<Type> genericTypes(Type type) {
 
@@ -54,6 +57,7 @@ public final class TypeUtils {
      *
      * @param parent
      * @param child
+     * @throws NullPointerException
      * @return true - is the child or own , false - not the child or own
      */
     public static boolean isTheChildOrOwnType(Class parent,Class child) {
@@ -62,7 +66,4 @@ public final class TypeUtils {
         Objects.requireNonNull(child);
         return parent.isAssignableFrom(child);
     }
-
-
-
 }

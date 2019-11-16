@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.LockSupport;
 
 /**
- * 使用 CAS 实现的一个阻塞式线程安全开关工具
+ * 使用 CAS 实现的一个阻塞式线程安全队列工具
  *
  * @author mikylin
  * @date 20190623

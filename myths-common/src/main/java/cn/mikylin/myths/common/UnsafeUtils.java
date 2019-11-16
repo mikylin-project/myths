@@ -3,6 +3,8 @@ package cn.mikylin.myths.common;
 import sun.misc.Unsafe;
 import java.lang.reflect.Field;
 
+import static sun.misc.Unsafe.getUnsafe;
+
 /**
  * unsafe utils
  *
@@ -35,4 +37,23 @@ public final class UnsafeUtils {
     public static Unsafe getUnsafe() {
         return u;
     }
+
+    public static boolean cas(Object obj,long offset,int oldValue,int newValue) {
+        int i = u.getIntVolatile(obj, offset);
+        return u.compareAndSwapInt(obj,offset,oldValue,newValue);
+    }
+
+    public static boolean cas(Object obj,long offset,long oldValue,long newValue) {
+        return u.compareAndSwapLong(obj,offset,oldValue,newValue);
+    }
+
+    public static boolean cas(Object obj,long offset,Object oldValue,Object newValue) {
+        return u.compareAndSwapObject(obj,offset,oldValue,newValue);
+    }
+
+
+
+
+
+
 }

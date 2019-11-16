@@ -1,5 +1,6 @@
 package cn.mikylin.myths.common.concurrent;
 
+import cn.mikylin.myths.common.MapUtils;
 import java.util.*;
 
 /**
@@ -10,7 +11,7 @@ import java.util.*;
  */
 public class ThreadSafeExecutorMap<T> {
 
-    private Map<ThreadSafeExecutor,T> map = new HashMap<>();
+    private Map<ThreadSafeExecutor,T> map = MapUtils.newHashMap();
 
     private ValueFactory<T> factory;
 
@@ -19,13 +20,12 @@ public class ThreadSafeExecutorMap<T> {
     }
 
     public T get(ThreadSafeExecutor key) {
-        if(null == map.get(key)) {
+        if(null == map.get(key))
             synchronized (this) {
-                if(null == map.get(key)) {
+                if(null == map.get(key))
                     map.put(key,factory.create());
-                }
             }
-        }
+
         return map.get(this);
     }
 

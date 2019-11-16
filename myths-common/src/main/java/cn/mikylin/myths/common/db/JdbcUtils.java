@@ -1,6 +1,8 @@
-package cn.mikylin.myths.common.reflect;
+package cn.mikylin.myths.common.db;
 
 import cn.mikylin.myths.common.BeanNameUtils;
+import cn.mikylin.myths.common.BeanUtils;
+
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;

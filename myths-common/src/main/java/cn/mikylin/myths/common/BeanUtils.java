@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common.reflect;
+package cn.mikylin.myths.common;
 
 import cn.mikylin.myths.common.Constants;
 import cn.mikylin.myths.common.MapUtils;
@@ -18,10 +18,8 @@ import java.util.Map;
  */
 public final class BeanUtils {
 
-
-
     /**
-     * java bean to map
+     * java bean to map.
      *
      * @param bean object
      * @return params
@@ -33,14 +31,12 @@ public final class BeanUtils {
         BeanInfo info = info(bean.getClass());
         PropertyDescriptor[] propertyDescriptors = info.getPropertyDescriptors();
         for(PropertyDescriptor descriptor : propertyDescriptors){
-
             String key = descriptor.getName();
             Method getterMethod = descriptor.getReadMethod();
             if(StringUtils.isNotBlank(key) && !key.equals(Constants.System.CLASS)){
                 Object value = getValue(getterMethod,bean);
                 map.put(key,value);
             }
-
         }
         return map;
     }

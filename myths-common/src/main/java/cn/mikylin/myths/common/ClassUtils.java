@@ -1,11 +1,8 @@
-package cn.mikylin.myths.common.reflect;
+package cn.mikylin.myths.common;
 
-import cn.mikylin.myths.common.ArrayUtils;
-import cn.mikylin.myths.common.CollectionUtils;
-import cn.mikylin.myths.common.Constants;
-import cn.mikylin.myths.common.StringUtils;
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * class utils
@@ -16,9 +13,11 @@ import java.util.List;
 public final class ClassUtils {
 
     /**
-     * load class by default class loader
+     * load class by default class loader.
      *
-     * @param classPath class path
+     * @param classPath  class path
+     * @throws RuntimeException
+     * @return class
      */
     public static Class<?> loadClass(String classPath) {
         classPath = dealClassPath(classPath);
@@ -30,10 +29,10 @@ public final class ClassUtils {
     }
 
     /**
-     * load class by self class loader
+     * load class by self class loader.
      *
-     * @param classPath class path
-     * @param loader class loader
+     * @param classPath  class path
+     * @param loader  class loader
      * @return class
      */
     public static Class<?> loadClass(String classPath,ClassLoader loader) {
@@ -48,7 +47,7 @@ public final class ClassUtils {
     }
 
     /**
-     * change the class path
+     * change the class path.
      *
      * @param classPath
      *          example 'java.lang.String.class'
@@ -65,11 +64,14 @@ public final class ClassUtils {
 
 
     /**
-     * get class's package name
+     * get class's package name.
      *
-     * @param clz class
+     * @param clz  class
+     * @throws NullPointerException
+     * @return class's package name
      */
     public static String packageName(Class<?> clz) {
+        Objects.requireNonNull(clz);
         String pakName;
         if(StringUtils.isNotBlank(pakName = clz.getPackageName()))
             return pakName;
