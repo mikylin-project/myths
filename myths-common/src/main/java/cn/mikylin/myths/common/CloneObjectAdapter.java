@@ -1,7 +1,7 @@
 package cn.mikylin.myths.common;
 
 /**
- * clone util for object adapter
+ * clone util for object adapter.
  *
  * @author mikylin
  * @date 20191108

@@ -33,8 +33,8 @@ public final class StringUtils {
     /**
      * exception if blank.
      *
-     * @param str string
-     * @param message message
+     * @param str  string
+     * @param message  message
      */
     public static void requireNotBlank(String str,String message) {
         if(isBlank(str)) throw new NullPointerException(message);
@@ -43,7 +43,7 @@ public final class StringUtils {
     /**
      * exception if blank.
      *
-     * @param str string
+     * @param str  string
      */
     public static <T> void requireNotBlank(String str) {
         requireNotBlank(str,"string can not be blank.");
@@ -53,7 +53,7 @@ public final class StringUtils {
     /**
      * check the string is not blank
      *
-     * @param str string
+     * @param str  string
      * @return blank - false , not blank - true
      */
     public static boolean isNotBlank(String str) {
@@ -64,7 +64,7 @@ public final class StringUtils {
     /**
      * objects to string.
      *
-     * @param objs
+     * @param objs  objects to string
      * @return string
      */
     public static String toString(Object... objs) {

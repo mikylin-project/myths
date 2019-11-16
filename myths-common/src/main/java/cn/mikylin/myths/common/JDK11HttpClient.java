@@ -137,7 +137,7 @@ public class JDK11HttpClient {
             e.printStackTrace();
         }
 
-        if(response.statusCode() == 200)
+        if(response.statusCode() == Constants.Http.STATUS_OK)
             return response.body();
         return null;
     }

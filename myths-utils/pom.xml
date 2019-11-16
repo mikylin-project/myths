@@ -40,11 +40,10 @@
             <artifactId>httpasyncclient</artifactId>
             <version>4.1.4</version>
         </dependency>
-
         <!-- client finish -->
 
         <!-- excel -->
-        <!-- easyexcel 中的 POI 版本太旧，使用新版的替代 -->
+        <!-- easyexcel exclusions old version POI -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
@@ -61,7 +60,7 @@
             </exclusions>
         </dependency>
 
-        <!-- 新版 POI -->
+        <!-- new version for POI -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
@@ -98,6 +97,14 @@
             <version>1.13</version>
         </dependency>
         <!-- zt-zip finish -->
+
+        <!-- jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <!-- jedis finish -->
 
 
     </dependencies>

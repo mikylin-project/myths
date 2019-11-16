@@ -21,6 +21,8 @@ public final class NioLocal {
      * read the file to byte[].
      *
      * @param filePath  file path in local computer
+     * @throws RuntimeException
+     * @return bytes
      */
     public static byte[] fileToBytes(String filePath) {
 
@@ -50,6 +52,8 @@ public final class NioLocal {
      * read the file to byte[].
      *
      * @param file  the file
+     * @throws NullPointerException
+     * @return bytes
      */
     public static byte[] fileToBytes(File file) {
         return fileToBytes(file.toPath());
@@ -59,6 +63,8 @@ public final class NioLocal {
      * read the file to byte[].
      *
      * @param path  Path for file path
+     * @throws NullPointerException
+     * @return bytes
      */
     private static byte[] fileToBytes(Path path) {
         //读取文件
@@ -73,12 +79,14 @@ public final class NioLocal {
      * write the byte[] to a new local file.
      * can not be writing continue.
      *
-     * @param pathForFile  file path in local computer you want to wrtie
-     * @param bytes  file context to be writer
+     * @param pathForFile  file path in local computer you want to wrtie.
+     * @param bytes  file context ready to write.
      * @param isDeleteIfExists  if the file in file path is exists,
      *                          is delete origin and write the new one?
+     * @throws RuntimeException
+     * @throws NullPointerException
      */
-    public static void newLocalFile(String pathForFile,byte[] bytes,boolean isDeleteIfExists) {
+    public static void createFile(String pathForFile,byte[] bytes,boolean isDeleteIfExists) {
 
         //验证传入的文件路径和要被写入的 byte[] 不能为空
         if(StringUtils.isBlank(pathForFile) || ArrayUtils.isBlank(bytes))
@@ -107,6 +115,7 @@ public final class NioLocal {
      * @param pathForFile  file path in local computer you want to wrtie
      * @param isDeleteIfExists  if the file in file path is exists,
      *                          is delete origin and write the new one?
+     * @throws RuntimeException
      * @return out put stream
      */
     public static OutputStream outputStream(String pathForFile,boolean isDeleteIfExists)
@@ -119,6 +128,7 @@ public final class NioLocal {
      * get the inputstream by file path.
      *
      * @param pathForFile  file path in local computer you want to read
+     * @throws RuntimeException
      * @return input stream
      */
     public static InputStream inputStream(String pathForFile) {
@@ -129,7 +139,6 @@ public final class NioLocal {
         }catch (IOException e){
             throw new RuntimeException("get file input stream exception.");
         }
-
     }
 
     /**
@@ -138,6 +147,7 @@ public final class NioLocal {
      * @param pathForFile  file path in local computer you want to wrtie
      * @param isDeleteIfExists  if the file in file path is exists,
      *                          is delete origin and write the new one?
+     * @throws RuntimeException
      * @return path
      */
     public static Path getFilePath(String pathForFile,boolean isDeleteIfExists) {
@@ -177,7 +187,14 @@ public final class NioLocal {
         return getFilePath(pathForFile,false);
     }
 
-
+    /**
+     * get the dir by string path
+     *
+     * @param pathForDir  os string path
+     * @param isDeleteIfExists  is delete the dir if it is exist?
+     * @throws RuntimeException
+     * @return path
+     */
     public static Path getDirPath(String pathForDir,boolean isDeleteIfExists) {
 
         Path dirPath = path(pathForDir);
@@ -202,12 +219,24 @@ public final class NioLocal {
         return dirPath;
     }
 
+    /**
+     * get the dir by string path
+     *
+     * @param pathForDir  os string path
+     * @throws RuntimeException
+     * @return path
+     */
     public static Path getDirPath(String pathForDir) {
         return getDirPath(pathForDir,false);
     }
 
-
-
+    /**
+     * get the path object
+     *
+     * @param path  os string path
+     * @throws RuntimeException
+     * @return path
+     */
     private static Path path(String path) {
         //验证传入的文件路径不能为空
         StringUtils.requireNotBlank(path,"path can not be blank.");
