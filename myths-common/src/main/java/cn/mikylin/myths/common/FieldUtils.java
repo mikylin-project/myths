@@ -1,9 +1,6 @@
 package cn.mikylin.myths.common;
 
-import sun.misc.Unsafe;
 import java.lang.reflect.Field;
-
-import static sun.misc.Unsafe.*;
 
 /**
  * field util
@@ -16,8 +13,10 @@ public final class FieldUtils {
     /**
      * get the value in the object.
      *
-     * @param f param name
-     * @param refFrom the object
+     * @param f  param name
+     * @param refFrom  the object
+     * @throws RuntimeException
+     * @return obj
      */
     public static Object refField(Field f,Object refFrom) {
         try {
@@ -42,5 +41,18 @@ public final class FieldUtils {
         } catch (NoSuchFieldException e) {
             throw new RuntimeException("no such field.");
         }
+    }
+
+    /**
+     * get the value in the object.
+     *
+     * @param obj  object
+     * @param fieldName  field name
+     * @throws RuntimeException
+     * @return obj
+     */
+    public static Object refField(Object obj,String fieldName) {
+        Field field = getField(obj, fieldName);
+        return refField(field,obj);
     }
 }
