@@ -1,8 +1,5 @@
 package cn.mikylin.myths.common;
 
-import cn.mikylin.myths.common.Constants;
-import cn.mikylin.myths.common.MapUtils;
-import cn.mikylin.myths.common.StringUtils;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -11,7 +8,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
- * the util for java bean
+ * the utils for java bean.
  *
  * @author mikylin
  * @date 20190714

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * class utils
+ * class utils.
  *
  * @author mikylin
  * @date 20190714

@@ -1,7 +1,7 @@
 package cn.mikylin.myths.common;
 
 /**
- * clone util for object which implement this interface.
+ * clone utils for object which implement this interface.
  *
  * @author mikylin
  * @date 20191107

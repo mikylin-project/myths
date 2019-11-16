@@ -3,7 +3,7 @@ package cn.mikylin.myths.common;
 import java.lang.reflect.Field;
 
 /**
- * field util
+ * field utils.
  *
  * @author mikylin
  * @date 20190707

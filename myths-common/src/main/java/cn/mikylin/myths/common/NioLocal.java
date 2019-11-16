@@ -7,10 +7,9 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
 
 /**
- * summarized by nio jdk7 Files
+ * summarized by nio jdk7 Files.
  *
  * @author mikylin
  * @date 20190701

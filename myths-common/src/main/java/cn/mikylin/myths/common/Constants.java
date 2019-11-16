@@ -9,14 +9,14 @@ package cn.mikylin.myths.common;
 public final class Constants {
 
     /**
-     * blank constant
+     * blank constant.
      */
     public static final class Blank {
         public static final char NULL_CHAR = '\u0000';
     }
 
     /**
-     * system constant
+     * system constant.
      */
     public static final class System {
         public static final String CLASS = "class";
@@ -29,7 +29,7 @@ public final class Constants {
     }
 
     /**
-     * http constant
+     * http constant.
      */
     public static final class Http {
         public static final String CONTENT_TYPE = "Content-Type";
@@ -39,7 +39,7 @@ public final class Constants {
     }
 
     /**
-     * date constant
+     * date constant.
      */
     public static final class Date {
         public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -48,12 +48,10 @@ public final class Constants {
     }
 
     /**
-     * charset constant
+     * charset constant.
      */
     public static final class Charset {
         public static final String UTF8 = "utf-8";
         public static final String GBK = "gbk";
     }
-
-
 }

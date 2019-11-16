@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * jdk8 local date time utils
+ * jdk8 local date time utils.
  *
  * @author mikylin
  * @date 20190808
@@ -19,7 +19,7 @@ public final class LocalDateTimeUtils {
     }
 
     /**
-     * lazy init the formatter
+     * lazy init the formatter.
      *
      * @param format  day format
      * @return formatter
@@ -40,7 +40,7 @@ public final class LocalDateTimeUtils {
     }
 
     /**
-     * day changes
+     * day changes.
      *
      * @param changeDays
      *         example:
