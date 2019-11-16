@@ -1,6 +1,6 @@
 package cn.mikylin.myths.exam.base;
 
-import cn.mikylin.myths.common.reflect.TypeUtils;
+import cn.mikylin.myths.common.TypeUtils;
 
 public abstract class BaseFilter<T> {
 

@@ -3,7 +3,7 @@ package cn.mikylin.myths.exam;
 import cn.mikylin.myths.common.ArrayUtils;
 import cn.mikylin.myths.common.CollectionUtils;
 import cn.mikylin.myths.common.StringUtils;
-import cn.mikylin.myths.common.reflect.TypeUtils;
+import cn.mikylin.myths.common.TypeUtils;
 import cn.mikylin.myths.exam.annotation.Check;
 import cn.mikylin.myths.exam.base.*;
 import cn.mikylin.myths.exam.wrapper.FieldWrapper;

@@ -1,6 +1,6 @@
 package cn.mikylin.myths.exam.wrapper;
 
-import cn.mikylin.myths.common.reflect.FieldUtils;
+import cn.mikylin.myths.common.FieldUtils;
 import cn.mikylin.myths.exam.annotation.Check;
 import cn.mikylin.myths.exam.annotation.Column;
 import cn.mikylin.myths.exam.base.Null;

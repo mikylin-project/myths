@@ -1,7 +1,7 @@
 package cn.mikylin.myths.litjson.util;
 
-import cn.mikylin.myths.common.reflect.BeanUtils;
-import cn.mikylin.myths.common.reflect.ClassUtils;
+import cn.mikylin.myths.common.BeanUtils;
+import cn.mikylin.myths.common.ClassUtils;
 import cn.mikylin.myths.litjson.exception.JSONObjectInvokeException;
 
 import java.lang.reflect.Field;
