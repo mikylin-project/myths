@@ -7,7 +7,6 @@ import cn.mikylin.myths.litjson.exception.JSONCharException;
 import cn.mikylin.myths.litjson.util.Invokes;
 import cn.mikylin.myths.litjson.util.JsonAction;
 import cn.mikylin.myths.litjson.util.JsonType;
-
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;

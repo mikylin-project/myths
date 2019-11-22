@@ -12,6 +12,7 @@ public final class Constants {
      * blank constant.
      */
     public static final class Blank {
+        public static final String BLANK_STRING = "";
         public static final char NULL_CHAR = '\u0000';
     }
 

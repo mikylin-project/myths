@@ -2,7 +2,6 @@ package cn.mikylin.myths.litjson.read;
 
 import cn.mikylin.myths.litjson.OptionBox;
 import cn.mikylin.myths.litjson.util.JsonType;
-
 import java.util.List;
 import java.util.Objects;
 

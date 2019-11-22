@@ -1,7 +1,6 @@
 package cn.mikylin.myths.litjson.write;
 
 import cn.mikylin.myths.litjson.OptionBox;
-
 import java.io.StringWriter;
 import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
