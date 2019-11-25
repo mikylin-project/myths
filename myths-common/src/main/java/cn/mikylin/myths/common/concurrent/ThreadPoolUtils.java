@@ -1,10 +1,15 @@
 package cn.mikylin.myths.common.concurrent;
 
+import cn.mikylin.myths.common.Constants;
 import cn.mikylin.myths.common.ThreadUtils;
+
+import java.security.PublicKey;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
- * thread pool utils
+ * thread pool utils.
  *
  * @author mikylin
  * @date 20191110
@@ -21,5 +26,13 @@ public final class ThreadPoolUtils {
                 ThreadUtils.sleep(1);
             }
         }
+    }
+
+    public static ThreadPoolExecutor newSafePool() {
+        return new ThreadPoolExecutor(Constants.System.COMPUTER_CORE,
+                Constants.System.COMPUTER_CORE,
+                60,
+                TimeUnit.SECONDS,new LinkedBlockingQueue<>(),
+                new ThreadPoolExecutor.DiscardPolicy());
     }
 }

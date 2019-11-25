@@ -31,6 +31,27 @@ public final class ArrayUtils {
         return !isBlank(array);
     }
 
+
+    public static boolean isBlank(char[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static boolean isNotBlank(char[] array) {
+        return isBlank(array);
+    }
+
+    public static boolean isBlank(boolean[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static boolean isNotBlank(boolean[] array) {
+        return isNotBlank(array);
+    }
+
+
+
+
+
     /**
      * the object[] is blank.
      *
@@ -50,7 +71,6 @@ public final class ArrayUtils {
     public static boolean isNotBlank(Object[] array){
         return !isBlank(array);
     }
-
 
     /**
      * bool the some of one element in collection.

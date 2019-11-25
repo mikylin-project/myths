@@ -37,6 +37,7 @@ public final class Constants {
         public static final String APPLICATION_JSON = "application/json";
         public static final int STATUS_OK = 200;
         public static final int STATUS_404 = 404;
+        public static final int STATUS_502 = 502;
     }
 
     /**
