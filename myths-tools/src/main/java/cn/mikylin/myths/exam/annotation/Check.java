@@ -1,7 +1,6 @@
 package cn.mikylin.myths.exam.annotation;
 
-import cn.mikylin.myths.exam.base.BaseFilter;
-import cn.mikylin.myths.exam.base.Null;
+import cn.mikylin.myths.exam.base.*;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

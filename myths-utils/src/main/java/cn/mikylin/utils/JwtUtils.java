@@ -128,10 +128,23 @@ public class JwtUtils {
     public static String token(Map<String,String> claims,Date expireTime) {
 
         // 存入 键值对
-        Algorithm algorithm = createAlgorithm();
         JWTCreator.Builder builder = JWT.create();
         claims.forEach((k,v) -> builder.withClaim(k,v));
 
+        if(expireTime == null)
+            return tokenWithOutExpireTime(builder);
+        return tokenWithExpireTime(builder,expireTime);
+    }
+
+
+    private static String tokenWithOutExpireTime(JWTCreator.Builder builder) {
+        Algorithm algorithm = createAlgorithm();
+        return builder
+                .sign(algorithm);
+    }
+
+    private static String tokenWithExpireTime(JWTCreator.Builder builder,Date expireTime) {
+        Algorithm algorithm = createAlgorithm();
         return builder
                 .withExpiresAt(expireTime)
                 .sign(algorithm);

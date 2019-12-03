@@ -1,9 +1,5 @@
 package cn.mikylin.myths.common;
 
-import cn.mikylin.myths.common.CollectionUtils;
-
-import java.io.Closeable;
-import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionUtils {
+public final class ConnectionUtils {
 
     public static Connection conn(String driverName,String url,String userName,String password) {
         try {

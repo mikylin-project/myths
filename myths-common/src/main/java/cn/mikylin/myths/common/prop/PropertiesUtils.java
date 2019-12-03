@@ -1,7 +1,6 @@
 package cn.mikylin.myths.common.prop;
 
-import cn.mikylin.myths.common.Constants;
-import cn.mikylin.myths.common.NioLocal;
+import cn.mikylin.myths.common.*;
 import cn.mikylin.myths.common.StringUtils;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +12,7 @@ import java.util.Properties;
  * @author mikylin
  * @date 20190817
  */
-public class PropertiesUtils {
+public final class PropertiesUtils {
 
     /**
      * load the properties with propFilePath

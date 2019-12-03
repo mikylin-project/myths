@@ -28,8 +28,13 @@ public final class JdbcUtils {
         factoryMap.put(Float.class, (ResultSetFactory<Float>) (rs, columName) -> rs.getFloat(columName));
         factoryMap.put(Date.class, (ResultSetFactory<Date>) (rs, columName) -> rs.getTimestamp(columName));
     }
-    private interface ResultSetFactory<T> {
+    public interface ResultSetFactory<T> {
         T get(ResultSet rs, String columName) throws SQLException;
+    }
+
+    public static <T> void addFactory(Class<T> clz,ResultSetFactory<T> factory) {
+        if(factory != null)
+            factoryMap.put(clz,factory);
     }
 
     /**
@@ -42,8 +47,19 @@ public final class JdbcUtils {
         Class tClass = t.getClass();
         Map<String, Method> setters = BeanUtils.sets(tClass);
         setters.forEach((k,v) -> {
+            // name
             String underLineName = BeanNameUtils.trans(k,originType,transType);
-            ResultSetFactory rf = factoryMap.get(tClass);
+
+            // get class
+            Class[] paramTypes = v.getParameterTypes();
+            if(paramTypes == null || paramTypes.length != 1)
+                throw new RuntimeException("jdbc utils invoke set param exception.");
+            Class paramType = paramTypes[0];
+
+            // get factory
+            ResultSetFactory rf = factoryMap.get(paramType);
+
+            // invoke
             if(rf != null) {
                 try {
                     v.invoke(t,rf.get(rs,underLineName));
