@@ -7,7 +7,7 @@ import java.util.Map;
  * @author mikylin
  * @date 20190722
  */
-public abstract class CacheEntry<K,V> implements Map.Entry<K,V>{
+public abstract class CacheEntry<K,V> implements Map.Entry<K,V> {
 
     private int hash; // hash
     private K key; // key
@@ -17,7 +17,7 @@ public abstract class CacheEntry<K,V> implements Map.Entry<K,V>{
     private long expireTime; // 过期时间,如果为 0 则永不过期
     private long lately;
 
-    protected CacheEntry(K key,V value,long expireTime){
+    protected CacheEntry(K key,V value,long expireTime) {
         this.key = key;
         this.value = value;
         this.hash = hash(key);
@@ -25,7 +25,7 @@ public abstract class CacheEntry<K,V> implements Map.Entry<K,V>{
         this.lately = System.currentTimeMillis();
     }
 
-    protected boolean equals(int hashcode){
+    protected boolean equals(int hashcode) {
         return hashcode == hash;
     }
 

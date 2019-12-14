@@ -16,7 +16,7 @@ public final class CacheBuilder {
      * quick to create lru-k map
      */
 
-    public static <K,V> LRUKMapBuilder<K,V> lurK(){
+    public static <K,V> LRUKMapBuilder<K,V> lurK() {
         return new LRUKMapBuilder<>();
     }
 

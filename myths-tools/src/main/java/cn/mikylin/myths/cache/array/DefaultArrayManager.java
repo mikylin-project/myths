@@ -7,13 +7,13 @@ import java.util.Objects;
  * @author mikylin
  * @date 20190806
  */
-public final class DefaultArrayManager<T> implements ArrayManager<T>{
+public final class DefaultArrayManager<T> implements ArrayManager<T> {
 
     private Object[] array;
     private int cap;
     private volatile int index;
 
-    public DefaultArrayManager(int cap){
+    public DefaultArrayManager(int cap) {
         this.array = new Object[cap];
         this.cap = cap;
         this.index = 0;
@@ -24,7 +24,7 @@ public final class DefaultArrayManager<T> implements ArrayManager<T>{
 
         Objects.requireNonNull(t);
 
-        for(int i = 0 ; i <= index ; i ++){
+        for(int i = 0 ; i <= index ; i ++) {
             T e;
             if((e = (T)array[i]) != null
                     && (t == e || t.equals(e)))
