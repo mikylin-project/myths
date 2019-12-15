@@ -5,8 +5,13 @@ import cn.mikylin.myths.common.RandomUtils;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * 随机集合
+ *
+ * @author mikylin
+ * @date 20191214
+ */
 public abstract class RandomCollection<T> {
 
 
@@ -150,7 +155,9 @@ public abstract class RandomCollection<T> {
 
     abstract Entry<T> getEntry(int i);
 
-
+    /**
+     * 在指定范围内随机获取一个元素
+     */
     public T random(int begin,int end) {
 
         end = end >= size() ? size() - 1 : end;
@@ -164,19 +171,16 @@ public abstract class RandomCollection<T> {
                 l.add(e.index);
 
         int i = RandomUtils.nextInt(0,l.size());
-//        if(i == 0) {
-//            System.out.println("yes");
-//        }
         long index = l.get(i).longValue();
         return get(index);
     }
 
+    /**
+     * 随机获取一个元素
+     */
     public T random() {
         return random(0,size() - 1);
     }
-
-
-
 
 
     protected static <T> T entryValue(Entry<T> e) {
@@ -188,8 +192,10 @@ public abstract class RandomCollection<T> {
     }
 
 
-
-    protected static class Entry<T> {
+    /**
+     * 节点对象
+     */
+    private static class Entry<T> {
         T value;
         long index;
         int weight;
@@ -215,7 +221,7 @@ public abstract class RandomCollection<T> {
         }
     }
 
-
+    // 测试
     public static void main(String[] args) {
         RandomCollection.List<Integer> l = new RandomCollection.List<>();
         l.add(1,2);
