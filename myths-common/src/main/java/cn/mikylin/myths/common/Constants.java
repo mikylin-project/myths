@@ -56,4 +56,11 @@ public final class Constants {
         public static final String UTF8 = "utf-8";
         public static final String GBK = "gbk";
     }
+
+    public static final class Time {
+        public static final long DAY_MILL_SECOND = 1000L * 60 * 60 * 24;
+        public static final long HOURS_MILL_SECOND = 1000L * 60 * 60;
+        public static final long MINUTES_MILL_SECOND = 1000L * 60;
+        public static final long SECONDS_MILL_SECOND = 1000L;
+    }
 }
