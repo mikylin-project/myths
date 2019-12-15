@@ -1,7 +1,5 @@
-package cn.mikylin.myths.cache;
+package cn.mikylin.myths.cache.map;
 
-import cn.mikylin.myths.cache.map.BiHashMap;
-import cn.mikylin.myths.cache.map.LRUKCacheMap;
 import cn.mikylin.myths.common.MapUtils;
 import java.util.Map;
 

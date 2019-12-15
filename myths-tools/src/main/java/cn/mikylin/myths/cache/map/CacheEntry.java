@@ -1,4 +1,4 @@
-package cn.mikylin.myths.cache;
+package cn.mikylin.myths.cache.map;
 
 import java.util.Map;
 
