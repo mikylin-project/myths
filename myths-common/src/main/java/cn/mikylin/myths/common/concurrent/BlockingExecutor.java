@@ -20,7 +20,7 @@ public interface BlockingExecutor<T> extends ThreadSafeExecutor<T> {
     default T doSafeExecute(T t){
         AtomicBoolean casLock = lockMap.get(this);
         for(;;){
-            if(casLock.compareAndSet(true,false)){
+            if(casLock.compareAndSet(true,false)) {
                 try {
                     T o = doExecute(t);
                     Thread thread;
@@ -30,7 +30,7 @@ public interface BlockingExecutor<T> extends ThreadSafeExecutor<T> {
                 } finally {
                     casLock.set(true);
                 }
-            }else{
+            } else {
                 qtMap.get(this).offer(Thread.currentThread());
                 LockSupport.park();
             }

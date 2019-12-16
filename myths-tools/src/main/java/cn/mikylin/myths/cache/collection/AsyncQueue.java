@@ -16,10 +16,16 @@ public class AsyncQueue<T> {
 
     private Queue<T> taskQueue;
     private Queue<AsyncFuture<T>> futureQueue;
+    private int spin;
 
-    public AsyncQueue() {
+    public AsyncQueue(int spin) {
         this.taskQueue = new LinkedBlockingQueue<>();
         this.futureQueue = new LinkedBlockingQueue<>();
+        this.spin = spin;
+    }
+
+    public AsyncQueue() {
+        this(20);
     }
 
     /**
@@ -31,10 +37,13 @@ public class AsyncQueue<T> {
             if(firstFuture == null)
                 break;
             int status = firstFuture.status;
-            if(status == AsyncFuture.ELEMENT)
+            if(status == AsyncFuture.ELEMENT) {
                 firstFuture.set(t);
+                tryUnpark(firstFuture);
+            }
             else if(status == AsyncFuture.POLL) {
                 firstFuture.set(t);
+                tryUnpark(firstFuture);
                 return true;
             }
             else if(status == AsyncFuture.CANCELLED)
@@ -79,6 +88,7 @@ public class AsyncQueue<T> {
             if(poll == null)
                 break;
             poll.cancel(true);
+            tryUnpark(poll);
         }
     }
 
@@ -87,20 +97,21 @@ public class AsyncQueue<T> {
     }
 
 
-
-
-
-    private static <T> AsyncFuture<T> pollFuture(T t) {
-        return new AsyncFuture<>(t,AsyncFuture.POLL);
+    private AsyncFuture<T> pollFuture(T t) {
+        return new AsyncFuture<>(t,AsyncFuture.POLL,this);
     }
 
-    private static <T> AsyncFuture peekFuture(T t) {
-        return new AsyncFuture(t,AsyncFuture.ELEMENT);
+    private AsyncFuture peekFuture(T t) {
+        return new AsyncFuture(t,AsyncFuture.ELEMENT,this);
     }
 
+    private static void tryUnpark(AsyncFuture f) {
+        System.out.println("unpark");
 
-
-
+        synchronized (f.locker) {
+            f.locker.notifyAll();
+        }
+    }
 
 
     private static class AsyncFuture<T> implements Future<T> {
@@ -111,12 +122,29 @@ public class AsyncQueue<T> {
 
         private T result;
         private volatile int status; // -1 - cancelled ; 0 - poll ; 1 - peek
+        private AsyncQueue<T> queue;
+        private Object locker = new Object();
 
-        private AsyncFuture() {}
 
-        private AsyncFuture(T result,int status) {
+        private AsyncFuture(T result,int status,AsyncQueue<T> queue) {
             this.result = result;
             this.status = status;
+            this.queue = queue;
+        }
+
+        /**
+         * 阻塞方法
+         */
+        private void park() {
+            System.out.println("begin park");
+
+            synchronized (locker) {
+                try {
+                    locker.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         private void set(T t) {
@@ -143,13 +171,14 @@ public class AsyncQueue<T> {
         @Override
         public T get()
                 throws InterruptedException, ExecutionException {
-            for(;;) {
+            for(int i = 0; i < queue.spin ; i ++) {
                 if(result != null && status >= 0)
                     return result;
                 else if(status == -1)
-                    break;
+                    return null;
             }
-            return null;
+            park();
+            return result;
         }
 
         @Override
@@ -178,7 +207,7 @@ public class AsyncQueue<T> {
             final int a = i;
             new Thread(() -> {
                 ThreadUtils.sleep(10L);
-                boolean offer = q.offer(a);
+                q.offer(a);
             }).start();
             ThreadUtils.sleep(1L);
         }
@@ -195,6 +224,5 @@ public class AsyncQueue<T> {
         System.out.println(FutureUtils.get(poll2));
 
     }
-
 
 }

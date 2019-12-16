@@ -17,7 +17,7 @@ public abstract class RandomCollection<T> {
 
     public static class Set<T> extends RandomCollection<T> {
         public Set() {
-            col = new TreeSet<>();
+            col = new TreeSet<>((o1, o2) -> o1.index > o2.index ? 1 : -1);
         }
 
         @Override

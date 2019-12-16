@@ -1,9 +1,12 @@
 package cn.mikylin.myths.common;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
+/**
+ * math utils.
+ *
+ * @author mikylin
+ * @date 20191213
+ */
 public class MathUtils {
 
 
@@ -14,18 +17,20 @@ public class MathUtils {
      * @param range 极差
      * @param perMin 每份最小数
      * @param perMax 每份最大数
-     * @return
+     * @return result
      */
-    public static List<Integer> rowNum(int count, int per,
-                                       int range, int perMin, int perMax) {
+    public static int[] rowNum(int count, int per,
+                               int range, int perMin, int perMax) {
 
         if(count <= 0 || perMin < 0
                 || per <= 0 || range <= 0
                 || perMax * per < count)
             throw new RuntimeException();
 
-        // 记录的列表
-        List<Integer> list = new ArrayList<>(per);
+        // 记录的数组
+        int[] result = new int[per];
+
+
         // 成功标识
         boolean isSuccess = true;
         // row 点最大值
@@ -38,7 +43,7 @@ public class MathUtils {
         int perMaxLimit = perMax;
 
         // 轮询每一份的 row 点
-        for(int i = 1 ; i <= per ; i ++) {
+        for(int i = 0 ; i < per ; i ++) {
 
             if(surplus < perMaxLimit)
                 perMaxLimit = surplus;
@@ -60,20 +65,20 @@ public class MathUtils {
             }
             // 刷新剩余量
             surplus = surplus - thisPerCount;
-            if(surplus <= 0 && i != per) {
+            if(surplus <= 0 && i != per - 1) {
                 isSuccess = false;
                 break;
             }
 
-            list.add(thisPerCount);
+            result[i] = thisPerCount;
         }
 
         // 判断标识条件和去重后的数据
         // 如果去重之后发现数据重复的太多，就重新 row 点
         if(!isSuccess
-                || new HashSet<>(list).size() <= (list.size() * 4 / 5))
-            list = rowNum(count,per,range,perMin,perMax);
+                || ArrayUtils.distinctArray(result).length <= (per * 4 / 5))
+            result = rowNum(count,per,range,perMin,perMax);
 
-        return list;
+        return result;
     }
 }
