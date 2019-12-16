@@ -14,11 +14,20 @@ import java.util.concurrent.*;
  */
 public class AsyncQueue<T> {
 
+    // 任务队列
     private Queue<T> taskQueue;
+    // 等待 future 队列
     private Queue<AsyncFuture<T>> futureQueue;
+    // 自旋次数
     private int spin;
 
+    /**
+     * 构造方法
+     */
     public AsyncQueue(int spin) {
+        if(spin < 0)
+            throw new RuntimeException("spin can not be negative number.");
+
         this.taskQueue = new LinkedBlockingQueue<>();
         this.futureQueue = new LinkedBlockingQueue<>();
         this.spin = spin;
@@ -33,10 +42,14 @@ public class AsyncQueue<T> {
      */
     public boolean offer(T t) {
         for(;;) {
+
             AsyncFuture<T> firstFuture = futureQueue.poll();
+
             if(firstFuture == null)
                 break;
+
             int status = firstFuture.status;
+
             if(status == AsyncFuture.ELEMENT) {
                 firstFuture.set(t);
                 tryUnpark(firstFuture);
@@ -74,14 +87,23 @@ public class AsyncQueue<T> {
         return f;
     }
 
-    public void clear() {
+    /**
+     * 清除所有 task
+     */
+    public void clearTask() {
         taskQueue.clear();
     }
 
+    /**
+     * task 队列的剩余数量
+     */
     public int size() {
         return taskQueue.size();
     }
 
+    /**
+     * 清除所有 waiter，解放所有等待的线程
+     */
     public void clearWaiter() {
         for(;;) {
             AsyncFuture<T> poll = futureQueue.poll();
@@ -92,6 +114,9 @@ public class AsyncQueue<T> {
         }
     }
 
+    /**
+     * 等待的 future 的数量
+     */
     public int waiterSize() {
         return futureQueue.size();
     }
@@ -105,6 +130,9 @@ public class AsyncQueue<T> {
         return new AsyncFuture(t,AsyncFuture.ELEMENT,this);
     }
 
+    /**
+     * 唤醒此 future 锁定的所有线程对象
+     */
     private static void tryUnpark(AsyncFuture f) {
         System.out.println("unpark");
 
@@ -114,6 +142,9 @@ public class AsyncQueue<T> {
     }
 
 
+    /**
+     * future 对象
+     */
     private static class AsyncFuture<T> implements Future<T> {
 
         private static final int POLL = 0;
@@ -121,9 +152,10 @@ public class AsyncQueue<T> {
         private static final int CANCELLED = -1;
 
         private T result;
+
         private volatile int status; // -1 - cancelled ; 0 - poll ; 1 - peek
-        private AsyncQueue<T> queue;
-        private Object locker = new Object();
+        private AsyncQueue<T> queue; // 此 future 所属的队列对象
+        private Object locker = new Object(); // waiter
 
 
         private AsyncFuture(T result,int status,AsyncQueue<T> queue) {
@@ -133,7 +165,7 @@ public class AsyncQueue<T> {
         }
 
         /**
-         * 阻塞方法
+         * 阻塞
          */
         private void park() {
             System.out.println("begin park");
@@ -147,10 +179,16 @@ public class AsyncQueue<T> {
             }
         }
 
+        /**
+         * 存值
+         */
         private void set(T t) {
             result = t;
         }
 
+        /**
+         * 失效 future
+         */
         @Override
         public boolean cancel(boolean mayInterruptIfRunning) {
             if(mayInterruptIfRunning)
@@ -194,8 +232,7 @@ public class AsyncQueue<T> {
                 if(result != null && status >= 0)
                     return result;
             }
-
-            return null;
+            return result;
         }
     }
 
@@ -222,7 +259,5 @@ public class AsyncQueue<T> {
 
         Future<Integer> poll2 = q.poll();
         System.out.println(FutureUtils.get(poll2));
-
     }
-
 }
