@@ -16,6 +16,7 @@ public final class FutureUtils {
         try {
             return f.get();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("future get exception.");
         }
     }
