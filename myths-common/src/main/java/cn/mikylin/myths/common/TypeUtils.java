@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * type utils
+ * type utils.
  *
  * @author mikylin
  * @date 20190707

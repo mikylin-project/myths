@@ -1,13 +1,13 @@
 package cn.mikylin.myths.common.secret;
 
 import cn.mikylin.myths.common.NioLocal;
-
 import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * MD5 utils
+ * MD5 utils.
+ *
  * @author mikylin
  * @date 20190714
  */

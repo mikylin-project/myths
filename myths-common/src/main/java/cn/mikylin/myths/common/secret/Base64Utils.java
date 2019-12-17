@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
 /**
- * summarized by jdk8 Base64
+ * summarized by jdk8 Base64.
  *
  * @author mikylin
  * @date 20190714

@@ -21,4 +21,16 @@ public class RandomUtils {
     public static long nextLong(long min,long max) {
         return random.nextLong(min,max);
     }
+
+    public static boolean probabilityFor70percent() {
+        return nextInt(10) < 7;
+    }
+
+    public static boolean probabilityForHalf() {
+        return nextInt(10) < 5;
+    }
+
+    public static boolean probabilityFor30percent() {
+        return nextInt(10) < 3;
+    }
 }

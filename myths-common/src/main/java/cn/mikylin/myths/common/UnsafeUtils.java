@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import static sun.misc.Unsafe.getUnsafe;
 
 /**
- * unsafe utils
+ * unsafe utils.
  *
  * @author mikylin
  * @date 20191022

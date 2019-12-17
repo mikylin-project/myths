@@ -18,7 +18,7 @@ public final class BeanUtils {
     /**
      * java bean to map.
      *
-     * @param bean object
+     * @param bean  object
      * @return params
      */
     public static Map<String,Object> toMap(Object bean) {
@@ -39,9 +39,9 @@ public final class BeanUtils {
     }
 
     /**
-     * getter methods
+     * getter methods.
      *
-     * @param bean object
+     * @param bean  object
      * @return getters
      */
     public static Map<String,Method> gets(Object bean) {
@@ -60,9 +60,9 @@ public final class BeanUtils {
     }
 
     /**
-     * setter methods
+     * setter methods.
      *
-     * @param clz object's class
+     * @param clz  object's class
      * @return setters
      */
     public static Map<String,Method> sets(Class clz) {
@@ -71,7 +71,6 @@ public final class BeanUtils {
         BeanInfo info = info(clz);
         for(PropertyDescriptor descriptor : info.getPropertyDescriptors()){
             String key = descriptor.getName();
-
             if(StringUtils.isNotBlank(key) && !key.equals(Constants.System.CLASS)){
                 Method setterMethod = descriptor.getWriteMethod();
                 map.put(key,setterMethod);
@@ -81,7 +80,7 @@ public final class BeanUtils {
     }
 
     /**
-     * getter methods and setter methods
+     * getter methods and setter methods.
      *
      * @param bean object
      * @return getters and setters
@@ -103,9 +102,9 @@ public final class BeanUtils {
     }
 
     /**
-     * get BeanInfo
+     * get BeanInfo.
      *
-     * @param clz class
+     * @param clz  class
      * @return class's BeanInfo
      */
     private static BeanInfo info(Class clz) {
@@ -117,7 +116,7 @@ public final class BeanUtils {
     }
 
     /**
-     * set the value to the object
+     * set the value to the object.
      */
     private static void setValue(Method setter,Object bean,Object value) {
         try {

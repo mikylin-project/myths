@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * summarized by jdk11 HttpClient
+ * summarized by jdk11 HttpClient.
  *
  * @author mikylin
  * @date 20190817

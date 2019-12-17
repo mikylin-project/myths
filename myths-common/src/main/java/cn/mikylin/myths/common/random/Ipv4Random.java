@@ -8,11 +8,13 @@ import cn.mikylin.myths.common.RandomUtils;
  * @author mikylin
  * @date 20191217
  */
-public final class IpRandom {
+public final class Ipv4Random {
 
-    // ip范围
+    /**
+     * ip range
+     */
     private static int[][] range
-            = {
+            =   {
                     { 607649792, 608174079 }, // 36.56.0.0-36.63.255.255
                     { 1038614528, 1039007743 }, // 61.232.0.0-61.237.255.255
                     { 1783627776, 1784676351 }, // 106.80.0.0-106.95.255.255

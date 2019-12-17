@@ -12,7 +12,6 @@ import cn.mikylin.myths.common.RandomUtils;
 public final class MacRandom {
 
 
-
     /**
      * Generate a random MAC address.
      * Every fields are random, range from 0 to 255
