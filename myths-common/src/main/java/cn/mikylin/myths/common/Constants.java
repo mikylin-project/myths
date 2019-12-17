@@ -25,7 +25,7 @@ public final class Constants {
         public static final String POINT_CLASS = ".class";
         public static final String SLASH = "/";
         public static final String UNDER_LINE = "_";
-
+        public static final String SEPARATOR = ":";
         public static final int COMPUTER_CORE = Runtime.getRuntime().availableProcessors() * 2;
     }
 

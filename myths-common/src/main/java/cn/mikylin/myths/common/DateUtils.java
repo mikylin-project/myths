@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import static cn.mikylin.myths.common.CaclendarUtils.dayBaseChange;
 
 /**
  * simple date utils.
@@ -52,7 +53,6 @@ public final class DateUtils {
     /**
      * calendar change method
      */
-
     public static Date dayBeforeHours(Date d,int hours) {
         return dayBaseChange(d,Calendar.HOUR_OF_DAY,- hours);
     }
@@ -77,10 +77,6 @@ public final class DateUtils {
         return dayBaseChange(d,Calendar.MINUTE,min);
     }
 
-    public static Date dayBaseChange(Date d,int changeType,int changeNumber) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(d);
-        calendar.set(changeType,calendar.get(changeType) + changeNumber);
-        return calendar.getTime();
-    }
+
+
 }

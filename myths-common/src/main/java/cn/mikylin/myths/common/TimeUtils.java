@@ -1,5 +1,6 @@
 package cn.mikylin.myths.common;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public final class TimeUtils {
@@ -14,4 +15,7 @@ public final class TimeUtils {
         }
         throw new RuntimeException();
     }
+
+
+
 }
