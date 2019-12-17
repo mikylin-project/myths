@@ -16,13 +16,13 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
  */
 public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
 
-    // 任务队列
+    // task queue
     private Queue<T> taskQueue;
 
-    // 等待 future 队列
+    // future waiter queue
     private Queue<Future<T>> waiterQueue;
 
-    // 自旋次数
+    // spin number
     private int spin;
 
     DefaultAsyncQueue(QueueFactory<T> taskQueueFactory,
@@ -79,7 +79,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
 
     @Override
     public Future<T> poll() {
-        T element = taskQueue().poll();
+        T element = taskQueue.poll();
         AsyncFuture<T> f = pollFuture();
         if(element == null) {
             waiterQueue.offer(f);
@@ -95,7 +95,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
         AsyncFuture<T> f = peekFuture();
         if(element == null) {
             waiterQueue.offer(f);
-            consume(taskQueue().peek());
+            consume(taskQueue.peek());
         } else
             f.set(element);
         return f;
@@ -165,7 +165,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
      * @author mikylin
      * @date 20191217
      */
-    private static class AsyncFuture<T> extends AbstractQueuedSynchronizer implements Future<T> {
+    private static class AsyncFuture<T> implements Future<T> {
 
         /**
          * future type
@@ -228,7 +228,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
         }
 
         /**
-         * 失效 future
+         * cancel the future
          */
         @Override
         public boolean cancel(boolean mayInterruptIfRunning) {
@@ -279,11 +279,6 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
             return result;
         }
 
-
-
-
-
-
         /**
          * cas utils for future status.
          *
@@ -306,35 +301,6 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
         private boolean casStatus(int begin,int after) {
             return STATUS.compareAndSet(this,begin,after);
         }
-
-
-
-
-
     }
-
-
-    /**
-     * cas utils for task queue and future-waiter queue.
-     *
-     * 0 - normal
-     * 1 - offer task, can not get waiter
-     * 2 - offer waiter, can not get task
-     */
-    private int status = 0;
-    //private int futureQueueStatus = 0; // 0 - save ; 1 - get
-
-    private static VarHandle STATUS;
-    //private static VarHandle FUTURE_QUEUE_STATUS;
-    static {
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
-        try {
-            STATUS = lookup.findVarHandle(DefaultAsyncQueue.class, "status", int.class);
-            //FUTURE_QUEUE_STATUS = lookup.findVarHandle(DefaultAsyncQueue.class, "futureQueueStatus", int.class)
-        } catch (Exception e) {
-            throw new RuntimeException("status init exception.");
-        }
-    }
-
 
 }
