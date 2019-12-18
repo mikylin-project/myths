@@ -1,5 +1,6 @@
 package cn.mikylin.myths.cache.collection;
 
+import java.lang.ref.WeakReference;
 import java.util.Queue;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -71,7 +72,7 @@ public interface AsyncQueue<T> {
      *
      * @return waiter queue
      */
-    Queue<Future<T>> waiterQueue();
+    Queue<WeakReference<Future<T>>> waiterQueue();
 
     /**
      * queue create factory interface.
@@ -89,7 +90,7 @@ public interface AsyncQueue<T> {
     }
 
     static <T> AsyncQueue<T> create(QueueFactory<T> taskQueueFactory,
-                                    QueueFactory<Future<T>> futureQueueFactory,
+                                    QueueFactory<WeakReference<Future<T>>> futureQueueFactory,
                                     int spin) {
         return new DefaultAsyncQueue (taskQueueFactory, futureQueueFactory, spin);
     }

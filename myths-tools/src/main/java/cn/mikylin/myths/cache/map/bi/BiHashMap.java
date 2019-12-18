@@ -1,4 +1,4 @@
-package cn.mikylin.myths.cache.map;
+package cn.mikylin.myths.cache.map.bi;
 
 import java.util.Collection;
 import java.util.Map;
@@ -10,12 +10,12 @@ import java.util.Set;
  * @author mikylin
  * @date 20190803
  */
-public final class BiHashMap<K,V> implements Map<K,V> {
+public final class BiHashMap<K,V> implements BiMap<K,V> {
 
     private Map<K,V> normalMap;
     private Map<V,K> reverseMap;
 
-    public BiHashMap(Map<K,V> normalMap,Map<V,K> reverseMap){
+    public BiHashMap(Map<K,V> normalMap,Map<V,K> reverseMap) {
 
         Objects.requireNonNull(normalMap);
         Objects.requireNonNull(reverseMap);
@@ -52,9 +52,7 @@ public final class BiHashMap<K,V> implements Map<K,V> {
         return normalMap.get(key);
     }
 
-    public K reverseGet(Object value){
-        return reverseMap.get(value);
-    }
+
 
     @Override
     public V put(K key, V value) {
@@ -63,7 +61,7 @@ public final class BiHashMap<K,V> implements Map<K,V> {
         return value;
     }
 
-    public BiHashMap<K,V> set(K key, V value){
+    public BiHashMap<K,V> set(K key, V value) {
         put(key,value);
         return this;
     }
@@ -126,8 +124,14 @@ public final class BiHashMap<K,V> implements Map<K,V> {
         return replace;
     }
 
-    private void revPut(K key, V value){
+    @Override
+    public void revPut(K key, V value) {
         reverseMap.remove(value);
         reverseMap.put(value,key);
+    }
+
+    @Override
+    public K revGet(V value) {
+        return reverseMap.get(value);
     }
 }

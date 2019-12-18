@@ -1,5 +1,8 @@
 package cn.mikylin.myths.cache.map.tree;
 
+import cn.mikylin.myths.cache.map.CacheEntry;
+import cn.mikylin.myths.cache.map.CacheEntryFactory;
+
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -14,6 +17,11 @@ public abstract class TreeAbstractMap<K,V> implements Map<K,V> {
      * size
      */
     int size;
+
+    /**
+     * entry factory
+     */
+    CacheEntryFactory factory = (k,v) -> new TreeEntry(k,v) ;
 
 
     protected ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
@@ -39,36 +47,19 @@ public abstract class TreeAbstractMap<K,V> implements Map<K,V> {
     /**
      * entry
      */
-    static class TreeEntry<K,V> implements Entry<K,V> {
+    static class TreeEntry<K,V> extends CacheEntry<K,V> {
 
         private K k;
         private V v;
 
         private TreeEntry(K k,V v) {
-            this.k = k;
-            this.v = v;
+            super(k,v,0);
         }
 
-        protected static <K,V> Entry<K,V> create(K k,V v) {
-            Entry<K,V> e = new TreeEntry<>(k,v);
-            return e;
+        protected static <K,V> CacheEntry<K,V> create(K k,V v) {
+            return new TreeEntry<>(k,v);
         }
 
-        @Override
-        public K getKey() {
-            return k;
-        }
-
-        @Override
-        public V getValue() {
-            return v;
-        }
-
-        @Override
-        public V setValue(V value) {
-            this.v = value;
-            return value;
-        }
     }
 
 

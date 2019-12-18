@@ -1,7 +1,8 @@
 package cn.mikylin.myths.cache.array;
 
 /**
- * interface for array base manager
+ * interface for array base manager.
+ *
  * @author mikylin
  * @date 20190807
  */

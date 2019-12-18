@@ -54,15 +54,15 @@ public final class DefaultArrayManager<T> implements ArrayManager<T> {
 
         Objects.requireNonNull(oldElement);
 
-        for(int i = 0 ; i <= index ; i ++){
-            T e;
-            if((e = (T)array[i]) != null
-                    && (e == oldElement || oldElement.equals(e))){
+        int number = 0;
+
+        for(int i = 0 ; i <= index ; i ++)
+            if(Objects.equals(array[i],oldElement)) {
                 array[i] = newElement;
-                return true;
+                number ++;
             }
-        }
-        return false;
+
+        return number != 0;
     }
 
     @Override
@@ -74,10 +74,10 @@ public final class DefaultArrayManager<T> implements ArrayManager<T> {
         Object[] newObjs = new Object[newSize];
         int newObjsSize = 0;
 
-        for(int i = 0 ; i < cap ; i ++){
+        for(int i = 0 ; i < cap ; i ++) {
             if(array[i] != null){
                 newObjs[newObjsSize] = array[i];
-                if(++ newObjsSize >= newSize){
+                if(++ newObjsSize >= newSize) {
                     index = newSize - 1;
                     return;
                 }

@@ -1,7 +1,8 @@
 package cn.mikylin.myths.cache.map;
 
 /**
- * factory to create the entry
+ * factory to create the entry.
+ *
  * @author mikylin
  * @date 20190722
  */

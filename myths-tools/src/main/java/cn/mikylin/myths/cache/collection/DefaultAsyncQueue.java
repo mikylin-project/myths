@@ -4,9 +4,9 @@ import cn.mikylin.myths.common.ObjectMonitorUtils;
 import cn.mikylin.myths.common.TimeUtils;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
+import java.lang.ref.WeakReference;
 import java.util.Queue;
 import java.util.concurrent.*;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
 /**
  * default implement with async queue.
@@ -20,13 +20,13 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
     private Queue<T> taskQueue;
 
     // future waiter queue
-    private Queue<Future<T>> waiterQueue;
+    private Queue<WeakReference<Future<T>>> waiterQueue;
 
     // spin number
     private int spin;
 
     DefaultAsyncQueue(QueueFactory<T> taskQueueFactory,
-                      QueueFactory<Future<T>> futureQueueFactory,
+                      QueueFactory<WeakReference<Future<T>>> futureQueueFactory,
                       int spin) {
         if(spin < 0)
             throw new RuntimeException("spin can not be negative number.");
@@ -57,7 +57,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
             return true;
 
         for(;;) {
-            AsyncFuture<T> firstFuture = (AsyncFuture<T>)waiterQueue.poll();
+            AsyncFuture<T> firstFuture = (AsyncFuture<T>)waiterQueue.poll().get();
 
             if(firstFuture == null)
                 break;
@@ -72,7 +72,6 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
                     return true;
             }
         }
-
         return false;
     }
 
@@ -82,7 +81,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
         T element = taskQueue.poll();
         AsyncFuture<T> f = pollFuture();
         if(element == null) {
-            waiterQueue.offer(f);
+            offerWaiter(f);
             consume(taskQueue.poll());
         } else
             f.set(element);
@@ -94,13 +93,21 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
         T element = taskQueue.peek();
         AsyncFuture<T> f = peekFuture();
         if(element == null) {
-            waiterQueue.offer(f);
+            offerWaiter(f);
             consume(taskQueue.peek());
         } else
             f.set(element);
         return f;
     }
 
+    private void offerWaiter(AsyncFuture<T> f) {
+        WeakReference<Future<T>> weakFuture = new WeakReference<>(f);
+        waiterQueue.offer(weakFuture);
+    }
+
+    private AsyncFuture<T> pollWaiter() {
+        return (AsyncFuture<T>)waiterQueue.poll().get();
+    }
 
     @Override
     public void clearTask() {
@@ -117,7 +124,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
     @Override
     public void clearWaiter() {
         for(;;) {
-            AsyncFuture<T> poll = (AsyncFuture<T>)waiterQueue.poll();
+            AsyncFuture<T> poll = pollWaiter();
             if(poll == null)
                 break;
             poll.cancel(true);
@@ -136,7 +143,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
     }
 
     @Override
-    public Queue<Future<T>> waiterQueue() {
+    public Queue<WeakReference<Future<T>>> waiterQueue() {
         return waiterQueue;
     }
 
@@ -296,8 +303,6 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
                 throw new RuntimeException("status init exception.");
             }
         }
-
-
         private boolean casStatus(int begin,int after) {
             return STATUS.compareAndSet(this,begin,after);
         }

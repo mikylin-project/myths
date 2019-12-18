@@ -1,10 +1,13 @@
 package cn.mikylin.myths.cache.map;
 
+import cn.mikylin.myths.cache.map.bi.BiHashMap;
+import cn.mikylin.myths.cache.map.lruk.LRUKCacheMap;
 import cn.mikylin.myths.common.MapUtils;
 import java.util.Map;
 
 /**
- * cache builder
+ * cache builder.
+ *
  * @author mikylin
  * @date 20190801
  */
@@ -18,7 +21,7 @@ public final class CacheBuilder {
         return new LRUKMapBuilder<>();
     }
 
-    public static class LRUKMapBuilder<K,V>{
+    public static class LRUKMapBuilder<K,V> {
 
         private static int K_DEFAULT = 3;
         private static long K_TIMES_DEFAULT = 10000l;
@@ -41,7 +44,7 @@ public final class CacheBuilder {
             return this;
         }
 
-        public LRUKMapBuilder<K,V> softRefCap(int softRefCap){
+        public LRUKMapBuilder<K,V> softRefCap(int softRefCap) {
             this.softRefCap = softRefCap;
             return this;
         }
@@ -51,7 +54,7 @@ public final class CacheBuilder {
             return this;
         }
 
-        public LRUKMapBuilder<K,V> kTimes(int kTimes){
+        public LRUKMapBuilder<K,V> kTimes(int kTimes) {
             this.kTimes = kTimes;
             return this;
         }
@@ -90,8 +93,7 @@ public final class CacheBuilder {
 
                 finished = true;
 
-                return new LRUKCacheMap(cap,softRefCap,k,kTimes,
-                        loader,defensePolicy,expireTime);
+                return new LRUKCacheMap(cap,k,kTimes,loader,expireTime);
             }
         }
     }
@@ -100,7 +102,7 @@ public final class CacheBuilder {
      * quick to create bi map
      */
 
-    public static <K,V> BiHashMap<K,V> bi(Map<K,V> normal,Map<V,K> rever){
+    public static <K,V> BiHashMap<K,V> bi(Map<K,V> normal, Map<V,K> rever){
         return new BiHashMap<>(normal,rever);
     }
 

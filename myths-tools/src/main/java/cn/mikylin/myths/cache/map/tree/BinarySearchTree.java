@@ -1,5 +1,7 @@
 package cn.mikylin.myths.cache.map.tree;
 
+import cn.mikylin.myths.cache.map.CacheEntry;
+
 import java.util.*;
 
 /**
@@ -70,7 +72,7 @@ public class BinarySearchTree<K,V> extends TreeAbstractMap<K,V> {
 
     @Override
     public Collection<V> values() {
-        List<Map.Entry<K, V>> entries = preOrder();
+        List<CacheEntry<K, V>> entries = preOrder();
         List<V> l = new ArrayList<>(entries.size());
         entries.forEach(e -> l.add(e.getValue()));
         return l;
@@ -270,23 +272,20 @@ public class BinarySearchTree<K,V> extends TreeAbstractMap<K,V> {
     }
 
 
-
-
-
     /**
      * 前序遍历 - 中左右顺序
      */
-    public List<Map.Entry<K,V>> preOrder() {
+    public List<CacheEntry<K,V>> preOrder() {
         Node<K,V> root = this.root;
-        List<Map.Entry<K,V>> l = new ArrayList<>();
+        List<CacheEntry<K,V>> l = new ArrayList<>();
         preOrder(root,l);
         return l;
     }
-    private void preOrder(Node<K,V> begin,List<Map.Entry<K,V>> l) {
+    private void preOrder(Node<K,V> begin,List<CacheEntry<K,V>> l) {
 
         if(begin == null) return;
 
-        l.add(TreeEntry.create(begin.key,begin.value));
+        l.add(factory.build(begin.key,begin.value));
         preOrder(begin.leftChild,l);
         preOrder(begin.rightChild,l);
     }
@@ -294,37 +293,37 @@ public class BinarySearchTree<K,V> extends TreeAbstractMap<K,V> {
     /**
      * 中序遍历 - 左中右 顺序
      */
-    public List<Map.Entry<K,V>> inOrder() {
+    public List<CacheEntry<K,V>> inOrder() {
         Node<K,V> root = this.root;
-        List<Map.Entry<K,V>> l = new ArrayList<>();
+        List<CacheEntry<K,V>> l = new ArrayList<>();
         inOrder(root,l);
         return l;
     }
-    private void inOrder(Node<K,V> begin,List<Map.Entry<K,V>> l) {
+    private void inOrder(Node<K,V> begin,List<CacheEntry<K,V>> l) {
 
         if(begin == null) return;
 
         inOrder(begin.leftChild,l);
-        l.add(TreeEntry.create(begin.key,begin.value));
+        l.add(factory.build(begin.key,begin.value));
         inOrder(begin.rightChild,l);
     }
 
     /**
      * 后序遍历 - 左右中 顺序
      */
-    public List<Map.Entry<K,V>> postOrder() {
+    public List<CacheEntry<K,V>> postOrder() {
         Node<K,V> root = this.root;
-        List<Map.Entry<K,V>> l = new ArrayList<>();
+        List<CacheEntry<K,V>> l = new ArrayList<>();
         postOrder(root,l);
         return l;
     }
-    private void postOrder(Node<K,V> begin,List<Map.Entry<K,V>> l) {
+    private void postOrder(Node<K,V> begin,List<CacheEntry<K,V>> l) {
 
         if(begin == null) return;
 
         postOrder(begin.leftChild,l);
         postOrder(begin.rightChild,l);
-        l.add(TreeEntry.create(begin.key,begin.value));
+        l.add(factory.build(begin.key,begin.value));
     }
 
 

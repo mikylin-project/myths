@@ -3,7 +3,8 @@ package cn.mikylin.myths.cache.map;
 import java.util.Map;
 
 /**
- * base cache entry
+ * base cache entry.
+ *
  * @author mikylin
  * @date 20190722
  */
@@ -15,7 +16,7 @@ public abstract class CacheEntry<K,V> implements Map.Entry<K,V> {
     private CacheEntry<K,V> before;
     private CacheEntry<K,V> after;
     private long expireTime; // 过期时间,如果为 0 则永不过期
-    private long lately;
+    private long lately; // 最近被调用的时间
 
     protected CacheEntry(K key,V value,long expireTime) {
         this.key = key;
@@ -65,20 +66,27 @@ public abstract class CacheEntry<K,V> implements Map.Entry<K,V> {
         return hash;
     }
 
+    public long getLately() {
+        return lately;
+    }
+    public void freshLately() {
+        lately = System.currentTimeMillis();
+    }
+
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
         return obj.getClass() == this.getClass() && ((CacheEntry)obj).getHash() == hash;
     }
 
     /**
      * 判断缓存是否过期
      */
-    public boolean isExpire(){
+    public boolean isExpire() {
         return this.expireTime > 0
                 && System.currentTimeMillis() - this.lately > this.expireTime;
     }
 
-    static int hash(Object obj){
+    public static int hash(Object obj) {
         return obj.hashCode();
     }
 }
