@@ -1,6 +1,6 @@
 package cn.mikylin.utils;
 
-import cn.mikylin.myths.common.CloseUtils;
+import cn.mikylin.myths.common.ObjectUtils;
 import cn.mikylin.myths.common.Constants;
 import cn.mikylin.myths.common.StringUtils;
 import redis.clients.jedis.Jedis;
@@ -55,7 +55,7 @@ public class RedisUtils {
      */
     private static void close(Jedis jedis) {
         if(jedis != null) {
-            CloseUtils.close(jedis);
+            ObjectUtils.close(jedis);
         }
     }
 
