@@ -109,7 +109,7 @@ public final class JdbcUtils {
             e.printStackTrace();
             throw new RuntimeException("select exception.");
         } finally {
-            CloseUtils.close(ps);
+            ObjectUtils.close(ps);
         }
         return list;
     }
