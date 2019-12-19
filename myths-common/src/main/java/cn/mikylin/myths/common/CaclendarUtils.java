@@ -22,6 +22,12 @@ public final class CaclendarUtils {
         return Calendar.getInstance(defaultZone);
     }
 
+    private static Calendar getCalendar(Date d) {
+        Calendar c = getCalendar();
+        c.setTime(d);
+        return c;
+    }
+
     /**
      * change the time zone.
      *
@@ -39,8 +45,7 @@ public final class CaclendarUtils {
      * @return  new date
      */
     public static Date dayBaseChange(Date d,int changeType,int changeNumber) {
-        Calendar calendar = getCalendar();
-        calendar.setTime(d);
+        Calendar calendar = getCalendar(d);
         calendar.set(changeType,calendar.get(changeType) + changeNumber);
         return calendar.getTime();
     }
@@ -102,8 +107,7 @@ public final class CaclendarUtils {
      * @return  date 00:00:00
      */
     public static Date beginOfTheDay(Date d) {
-        Calendar start = getCalendar();
-        start.setTime(d);
+        Calendar start = getCalendar(d);
         start.set(Calendar.HOUR_OF_DAY, 0);
         start.set(Calendar.MINUTE, 0);
         start.set(Calendar.SECOND, 0);
@@ -130,8 +134,7 @@ public final class CaclendarUtils {
      * @return  date 23:59:59
      */
     public static Date endOfTheDay(Date d) {
-        Calendar end = getCalendar();
-        end.setTime(d);
+        Calendar end = getCalendar(d);
         end.set(Calendar.HOUR_OF_DAY, 23);
         end.set(Calendar.MINUTE, 59);
         end.set(Calendar.SECOND, 59);
@@ -150,6 +153,36 @@ public final class CaclendarUtils {
         Calendar end = getCalendar();
         end.set(year,month - 1,day,23,59,59);
         return end.getTime();
+    }
+
+    /**
+     * get date month.
+     * @param d  base date
+     * @return  month of the date
+     */
+    public static int getMonth(Date d) {
+        Calendar ca = getCalendar(d);
+        return ca.get(Calendar.MONTH) - 1;
+    }
+
+    /**
+     * get month day of the date.
+     * @param d  base date
+     * @return  month day of the date
+     */
+    public static int getMonthOfDay(Date d) {
+        Calendar ca = getCalendar(d);
+        return ca.get(Calendar.DAY_OF_MONTH);
+    }
+
+    /**
+     * get year day of the date.
+     * @param d  base date
+     * @return  year day of the date
+     */
+    public static int getYearOfDay(Date d) {
+        Calendar ca = getCalendar(d);
+        return ca.get(Calendar.DAY_OF_YEAR);
     }
 
 }

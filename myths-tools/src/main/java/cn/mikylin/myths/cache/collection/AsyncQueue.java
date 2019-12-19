@@ -61,20 +61,6 @@ public interface AsyncQueue<T> {
     int waiterSize();
 
     /**
-     * get task queue.
-     *
-     * @return task queue
-     */
-    Queue<T> taskQueue();
-
-    /**
-     * get waiter queue.
-     *
-     * @return waiter queue
-     */
-    Queue<WeakReference<Future<T>>> waiterQueue();
-
-    /**
      * queue create factory interface.
      */
     interface QueueFactory<T> {

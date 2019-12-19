@@ -57,7 +57,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
             return true;
 
         for(;;) {
-            AsyncFuture<T> firstFuture = (AsyncFuture<T>)waiterQueue.poll().get();
+            AsyncFuture<T> firstFuture = pollWaiter();
 
             if(firstFuture == null)
                 break;
@@ -68,7 +68,8 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
 
                 if(type == AsyncFuture.ELEMENT)
                     firstFuture.set(t);
-                else if(type == AsyncFuture.POLL && firstFuture.set(t))
+                else if(type == AsyncFuture.POLL
+                        && firstFuture.set(t))
                     return true;
             }
         }
@@ -78,11 +79,11 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
 
     @Override
     public Future<T> poll() {
-        T element = taskQueue.poll();
+        T element = pollTask();
         AsyncFuture<T> f = pollFuture();
         if(element == null) {
             offerWaiter(f);
-            consume(taskQueue.poll());
+            consume(pollTask());
         } else
             f.set(element);
         return f;
@@ -90,34 +91,52 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
 
     @Override
     public Future<T> peek() {
-        T element = taskQueue.peek();
+        T element = peekTask();
         AsyncFuture<T> f = peekFuture();
         if(element == null) {
             offerWaiter(f);
-            consume(taskQueue.peek());
+            consume(peekTask());
         } else
             f.set(element);
         return f;
     }
 
+    /**
+     * offer a future to future waiter queue.
+     *
+     * @param f  future
+     */
     private void offerWaiter(AsyncFuture<T> f) {
         WeakReference<Future<T>> weakFuture = new WeakReference<>(f);
-        waiterQueue.offer(weakFuture);
+        waiterQueue().offer(weakFuture);
     }
 
+    /**
+     * poll a future waiter.
+     *
+     * @return future
+     */
     private AsyncFuture<T> pollWaiter() {
-        return (AsyncFuture<T>)waiterQueue.poll().get();
+        return  (AsyncFuture<T>)waiterQueue().poll().get();
+    }
+
+    private T pollTask() {
+        return taskQueue().poll();
+    }
+
+    private T peekTask() {
+        return taskQueue().peek();
     }
 
     @Override
     public void clearTask() {
-        taskQueue.clear();
+        taskQueue().clear();
     }
 
 
     @Override
     public int taskSize() {
-        return taskQueue.size();
+        return taskQueue().size();
     }
 
 
@@ -131,19 +150,26 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
         }
     }
 
-
     @Override
     public int waiterSize() {
         return waiterQueue.size();
     }
 
-    @Override
-    public Queue<T> taskQueue() {
+    /**
+     * get task queue.
+     *
+     * @return task queue
+     */
+    private Queue<T> taskQueue() {
         return taskQueue;
     }
 
-    @Override
-    public Queue<WeakReference<Future<T>>> waiterQueue() {
+    /**
+     * get waiter queue.
+     *
+     * @return waiter queue
+     */
+    private Queue<WeakReference<Future<T>>> waiterQueue() {
         return waiterQueue;
     }
 
@@ -164,7 +190,6 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
     private AsyncFuture peekFuture() {
         return new AsyncFuture(AsyncFuture.ELEMENT,this);
     }
-
 
     /**
      * async future
@@ -188,7 +213,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
         private static final int CANCELLED = -1;
 
         private T result;
-        private AsyncQueue<T> queue; // 此 future 所属的队列对象
+        private AsyncQueue<T> queue; // queue owner the future
         private volatile int type; // 1 - poll ; 2 - peek
 
         private Object locker = new Object(); // waiter
