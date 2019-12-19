@@ -1,6 +1,6 @@
 package cn.mikylin.myths.litjson.util;
 
-import cn.mikylin.myths.common.BeanUtils;
+import cn.mikylin.myths.common.bean.BeanUtils;
 import cn.mikylin.myths.common.ClassUtils;
 import cn.mikylin.myths.litjson.exception.JSONObjectInvokeException;
 

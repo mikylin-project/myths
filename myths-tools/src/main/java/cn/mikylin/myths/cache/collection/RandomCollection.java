@@ -1,6 +1,6 @@
 package cn.mikylin.myths.cache.collection;
 
-import cn.mikylin.myths.common.RandomUtils;
+import cn.mikylin.myths.common.random.RandomUtils;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
