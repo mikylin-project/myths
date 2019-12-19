@@ -7,7 +7,7 @@ import java.lang.invoke.VarHandle;
 import java.util.*;
 
 /**
- * 随机集合
+ * random utils
  *
  * @author mikylin
  * @date 20191214
@@ -16,6 +16,7 @@ public abstract class RandomCollection<T> {
 
 
     public static class Set<T> extends RandomCollection<T> {
+
         public Set() {
             col = new TreeSet<>((o1, o2) -> o1.index > o2.index ? 1 : -1);
         }
@@ -32,6 +33,11 @@ public abstract class RandomCollection<T> {
     }
 
     public static class List<T> extends RandomCollection<T> {
+
+        public List(int size) {
+            col = new ArrayList<>(size);
+        }
+
         public List() {
             col = new LinkedList<>();
         }
@@ -219,46 +225,6 @@ public abstract class RandomCollection<T> {
             e.weight = weight;
             return e;
         }
-    }
-
-    // 测试
-    public static void main(String[] args) {
-        RandomCollection.List<Integer> l = new RandomCollection.List<>();
-        l.add(1,2);
-        l.add(2,1);
-        l.add(3,1);
-        l.add(4,1);
-        l.add(5,1);
-        l.add(6,1);
-
-
-        int num1 = 0;
-        int num2 = 0;
-        int num3 = 0;
-        int num4 = 0;
-        int num5 = 0;
-        int num6 = 0;
-
-        for(int i = 0 ; i < 700000 ; i ++) {
-            Integer r = l.random();
-            if(r == 1) num1 ++;
-            if(r == 2) num2 ++;
-            if(r == 3) num3 ++;
-            if(r == 4) num4 ++;
-            if(r == 5) num5 ++;
-            if(r == 6) num6 ++;
-        }
-
-        System.out.println(num1);
-        System.out.println(num2);
-        System.out.println(num3);
-        System.out.println(num4);
-        System.out.println(num5);
-        System.out.println(num6);
-
-        System.out.println(num1 + num2 + num3 + num4 + num5 + num6);
-
-        System.out.println(l.get(0L));
     }
 
 }

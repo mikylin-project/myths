@@ -1,6 +1,6 @@
 package cn.mikylin.myths.cache.collection;
 
-import cn.mikylin.myths.common.ObjectMonitorUtils;
+import cn.mikylin.myths.common.ObjectUtils;
 import cn.mikylin.myths.common.TimeUtils;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
@@ -210,8 +210,8 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
          */
         private void park() {
             if(status == 0) {
-                ObjectMonitorUtils.wait(locker);
-                ObjectMonitorUtils.notify(locker);
+                ObjectUtils.wait(locker);
+                ObjectUtils.notify(locker);
             }
         }
 
@@ -219,7 +219,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
          * notify the thread.
          */
         private void unpark() {
-            ObjectMonitorUtils.notifyAll(locker);
+            ObjectUtils.notifyAll(locker);
         }
 
         /**
