@@ -58,6 +58,7 @@ public final class Constants {
     }
 
     public static final class Time {
+        public static final String TIME_ZONE = "GMT+8";
         public static final long DAY_MILL_SECOND = 1000L * 60 * 60 * 24;
         public static final long HOURS_MILL_SECOND = 1000L * 60 * 60;
         public static final long MINUTES_MILL_SECOND = 1000L * 60;

@@ -1,7 +1,7 @@
 package cn.mikylin.myths.common;
 
 /**
- * string utils
+ * string utils.
  *
  * @author mikylin
  * @date 20190619
@@ -25,7 +25,8 @@ public final class StringUtils {
         if(str != null){
             String trimStr = str.trim();
             for (int i = 0; i < trimStr.length(); i ++)
-                if (!Character.isWhitespace(str.charAt(i))) return false;
+                if (!Character.isWhitespace(str.charAt(i)))
+                    return false;
         }
         return true;
     }

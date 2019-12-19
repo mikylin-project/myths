@@ -1,13 +1,41 @@
-package cn.mikylin.myths.common;
+package cn.mikylin.myths.common.random;
 
+import cn.mikylin.myths.common.ArrayUtils;
 
-/**
- * math utils.
- *
- * @author mikylin
- * @date 20191213
- */
-public class MathUtils {
+import java.util.concurrent.ThreadLocalRandom;
+
+public class RandomUtils {
+
+    private static ThreadLocalRandom random = ThreadLocalRandom.current();
+
+    public static int nextInt(int max) {
+        return random.nextInt(max);
+    }
+
+    public static int nextInt(int min,int max) {
+        return random.nextInt(min,max);
+    }
+
+    public static long nextLong(long max) {
+        return random.nextLong(max);
+    }
+
+    public static long nextLong(long min,long max) {
+        return random.nextLong(min,max);
+    }
+
+    public static boolean probabilityFor70percent() {
+        return nextInt(10) < 7;
+    }
+
+    public static boolean probabilityForHalf() {
+        return nextInt(10) < 5;
+    }
+
+    public static boolean probabilityFor30percent() {
+        return nextInt(10) < 3;
+    }
+
 
 
     /**
@@ -19,8 +47,8 @@ public class MathUtils {
      * @param perMax 每份最大数
      * @return result
      */
-    public static int[] rowNum(int count, int per,
-                               int range, int perMin, int perMax) {
+    public static int[] rowNums(int count, int per, int range,
+                               int perMin, int perMax) {
 
         if(count <= 0 || perMin < 0
                 || per <= 0 || range <= 0
@@ -48,7 +76,7 @@ public class MathUtils {
             if(surplus < perMaxLimit)
                 perMaxLimit = surplus;
 
-            int thisPerCount = RandomUtils.nextInt(perMin,perMaxLimit);
+            int thisPerCount = nextInt(perMin,perMaxLimit);
 
             // 刷新最大值和最小值
             if(thisPerCount > max) max = thisPerCount;
@@ -61,7 +89,7 @@ public class MathUtils {
                     isSuccess = false;
                     break;
                 }
-                thisPerCount = RandomUtils.nextInt(minThisPer,perMaxLimit);
+                thisPerCount = nextInt(minThisPer,perMaxLimit);
             }
             // 刷新剩余量
             surplus = surplus - thisPerCount;
@@ -77,7 +105,7 @@ public class MathUtils {
         // 如果去重之后发现数据重复的太多，就重新 row 点
         if(!isSuccess
                 || ArrayUtils.distinctArray(result).length <= (per * 4 / 5))
-            result = rowNum(count,per,range,perMin,perMax);
+            result = rowNums(count,per,range,perMin,perMax);
 
         return result;
     }

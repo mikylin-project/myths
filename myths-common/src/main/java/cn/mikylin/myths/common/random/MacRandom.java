@@ -1,7 +1,6 @@
 package cn.mikylin.myths.common.random;
 
 import cn.mikylin.myths.common.Constants;
-import cn.mikylin.myths.common.RandomUtils;
 
 /**
  * random to create mac address.

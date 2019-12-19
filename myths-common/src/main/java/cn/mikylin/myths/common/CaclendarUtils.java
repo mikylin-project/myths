@@ -2,6 +2,7 @@ package cn.mikylin.myths.common;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * caclendar utils.
@@ -11,6 +12,25 @@ import java.util.Date;
  */
 public final class CaclendarUtils {
 
+    private static TimeZone defaultZone;
+    static {
+        defaultZone = TimeZone.getTimeZone(Constants.Time.TIME_ZONE);
+    }
+
+
+    private static Calendar getCalendar() {
+        return Calendar.getInstance(defaultZone);
+    }
+
+    /**
+     * change the time zone.
+     *
+     * @param tz  new time zone
+     */
+    public static void setTimeZone(TimeZone tz) {
+        defaultZone = tz;
+    }
+
     /**
      * change time.
      * @param d  base date
@@ -19,7 +39,7 @@ public final class CaclendarUtils {
      * @return  new date
      */
     public static Date dayBaseChange(Date d,int changeType,int changeNumber) {
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = getCalendar();
         calendar.setTime(d);
         calendar.set(changeType,calendar.get(changeType) + changeNumber);
         return calendar.getTime();
@@ -33,16 +53,17 @@ public final class CaclendarUtils {
      * @return  date 00:00:00
      */
     public static Date beginOfTheMonth(int year, int month) {
-        Calendar start = Calendar.getInstance();
+        Calendar start = getCalendar();
         start.set(Calendar.YEAR,year);
-        start.set(Calendar.MONTH,month);
+        start.set(Calendar.MONTH,month - 1);
         start.set(Calendar.DAY_OF_MONTH,1);
-        start.set(Calendar.HOUR, 0);
+        start.set(Calendar.HOUR_OF_DAY, 0);
         start.set(Calendar.MINUTE, 0);
         start.set(Calendar.SECOND, 0);
         start.set(Calendar.MILLISECOND, 0);
         return start.getTime();
     }
+
 
     /**
      * the end time of the month.
@@ -51,15 +72,28 @@ public final class CaclendarUtils {
      * @return  date 23:59:59
      */
     public static Date endOfTheMonth(int year,int month) {
-        Calendar end = Calendar.getInstance();
+        Calendar end = getCalendar();
         end.set(Calendar.YEAR,year);
-        end.set(Calendar.MONTH,month);
+        end.set(Calendar.MONTH,month - 1);
         end.set(Calendar.DAY_OF_MONTH,end.getActualMaximum(Calendar.DAY_OF_MONTH));
-        end.set(Calendar.HOUR,23);
-        end.set(Calendar.MINUTE,59);
-        end.set(Calendar.SECOND,59);
-        end.set(Calendar.MILLISECOND,999);
+        end.set(Calendar.HOUR_OF_DAY, 23);
+        end.set(Calendar.MINUTE, 59);
+        end.set(Calendar.SECOND, 59);
+        end.set(Calendar.MILLISECOND, 999);
         return end.getTime();
+    }
+
+    /**
+     * the end day number of the month.
+     * @param year  year
+     * @param month  month number
+     * @return  day number,example : 30 or 31
+     */
+    public static int endDayThidMont(int year,int month) {
+        Calendar end = getCalendar();
+        end.set(Calendar.YEAR,year);
+        end.set(Calendar.MONTH,month - 1);
+        return end.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
     /**
@@ -68,9 +102,9 @@ public final class CaclendarUtils {
      * @return  date 00:00:00
      */
     public static Date beginOfTheDay(Date d) {
-        Calendar start = Calendar.getInstance();
+        Calendar start = getCalendar();
         start.setTime(d);
-        start.set(Calendar.HOUR, 0);
+        start.set(Calendar.HOUR_OF_DAY, 0);
         start.set(Calendar.MINUTE, 0);
         start.set(Calendar.SECOND, 0);
         start.set(Calendar.MILLISECOND, 0);
@@ -85,14 +119,8 @@ public final class CaclendarUtils {
      * @return  date 00:00:00
      */
     public static Date beginOfTheDay(int year,int month,int day) {
-        Calendar start = Calendar.getInstance();
-        start.set(Calendar.YEAR,year);
-        start.set(Calendar.MONTH,month);
-        start.set(Calendar.DAY_OF_MONTH,day);
-        start.set(Calendar.HOUR, 0);
-        start.set(Calendar.MINUTE, 0);
-        start.set(Calendar.SECOND, 0);
-        start.set(Calendar.MILLISECOND, 0);
+        Calendar start = getCalendar();
+        start.set(year,month - 1,day,0,0,0);
         return start.getTime();
     }
 
@@ -102,13 +130,13 @@ public final class CaclendarUtils {
      * @return  date 23:59:59
      */
     public static Date endOfTheDay(Date d) {
-        Calendar todayStart = Calendar.getInstance();
-        todayStart.setTime(d);
-        todayStart.set(Calendar.HOUR, 23);
-        todayStart.set(Calendar.MINUTE, 59);
-        todayStart.set(Calendar.SECOND, 59);
-        todayStart.set(Calendar.MILLISECOND, 999);
-        return todayStart.getTime();
+        Calendar end = getCalendar();
+        end.setTime(d);
+        end.set(Calendar.HOUR_OF_DAY, 23);
+        end.set(Calendar.MINUTE, 59);
+        end.set(Calendar.SECOND, 59);
+        end.set(Calendar.MILLISECOND, 999);
+        return end.getTime();
     }
 
     /**
@@ -119,14 +147,9 @@ public final class CaclendarUtils {
      * @return  date 23:59:59
      */
     public static Date endOfTheDay(int year,int month,int day) {
-        Calendar end = Calendar.getInstance();
-        end.set(Calendar.YEAR,year);
-        end.set(Calendar.MONTH,month);
-        end.set(Calendar.DAY_OF_MONTH,day);
-        end.set(Calendar.HOUR, 23);
-        end.set(Calendar.MINUTE, 59);
-        end.set(Calendar.SECOND, 59);
-        end.set(Calendar.MILLISECOND,999);
+        Calendar end = getCalendar();
+        end.set(year,month - 1,day,23,59,59);
         return end.getTime();
     }
+
 }

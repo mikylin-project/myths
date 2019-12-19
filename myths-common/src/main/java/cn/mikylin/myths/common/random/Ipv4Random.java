@@ -1,7 +1,5 @@
 package cn.mikylin.myths.common.random;
 
-import cn.mikylin.myths.common.RandomUtils;
-
 /**
  * random to create ip.
  *

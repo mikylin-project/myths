@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * map utils
+ * map utils.
  *
  * @author mikylin
  * @date 20190621

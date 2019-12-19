@@ -3,7 +3,7 @@ package cn.mikylin.myths.common;
 import java.util.*;
 
 /**
- * collection utils
+ * collection utils.
  *
  * @author mikylin
  * @date 20190619
