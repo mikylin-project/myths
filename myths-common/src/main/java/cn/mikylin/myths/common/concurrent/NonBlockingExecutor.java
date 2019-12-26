@@ -8,10 +8,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author mikylin
  * @date 20190623
  */
-public interface NonBlockingExecutor<T> extends ThreadSafeExecutor<T> {
+public interface NonBlockingExecutor<T,V> extends ThreadSafeExecutor<T,V> {
 
     @Override
-    default T doSafeExecute(T t){
+    default V doSafeExecute(T t) {
         AtomicBoolean casLock = lockMap.get(this);
         for(;;) {
             if(casLock.compareAndSet(true,false))

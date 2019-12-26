@@ -26,13 +26,25 @@ public final class TimeRandom {
         return new Date(r);
     }
 
+    public static Date randomBehind(Date base,TimeUnit unit,long min,long max) {
+        long begin = base.getTime() - TimeUtils.currentTimeMillis(unit,min);
+        long end = base.getTime() - TimeUtils.currentTimeMillis(unit,max);
+        long r = RandomUtils.nextLong(end,begin);
+        return new Date(r);
+    }
+
     public static Date randomBehind(Date base,TimeUnit unit,long time) {
-        long t = base.getTime() - TimeUtils.currentTimeMillis(unit,time);
-        return random(new Date(t),base);
+        return randomBehind(base,unit,0L,time);
+    }
+
+    public static Date randomAfter(Date base,TimeUnit unit,long min,long max) {
+        long begin = base.getTime() + TimeUtils.currentTimeMillis(unit,min);
+        long end = base.getTime() + TimeUtils.currentTimeMillis(unit,max);
+        long r = RandomUtils.nextLong(begin,end);
+        return new Date(r);
     }
 
     public static Date randomAfter(Date base,TimeUnit unit,long time) {
-        long t = base.getTime() + TimeUtils.currentTimeMillis(unit,time);
-        return random(base,new Date(t));
+        return randomAfter(base,unit,0L,time);
     }
 }

@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common;
+package cn.mikylin.myths.common.lang;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;

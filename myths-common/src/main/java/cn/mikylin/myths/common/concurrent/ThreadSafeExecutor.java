@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author mikylin
  * @date 20190623
  */
-public interface ThreadSafeExecutor<T> {
+public interface ThreadSafeExecutor<T,V> {
 
     ThreadSafeExecutorMap<AtomicBoolean> lockMap
             = new ThreadSafeExecutorMap<>(() -> new AtomicBoolean(true)); //true - open , false - close
@@ -20,10 +20,10 @@ public interface ThreadSafeExecutor<T> {
     /**
      * 由使用者去实现的业务代码
      */
-    T doExecute(T t);
+    V doExecute(T t);
 
     /**
      * 不同的 on-off 策略所实现的线程安全策略代码
      */
-    T doSafeExecute(T t);
+    V doSafeExecute(T t);
 }

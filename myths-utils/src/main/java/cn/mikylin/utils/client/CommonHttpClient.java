@@ -1,7 +1,7 @@
 package cn.mikylin.utils.client;
 
 import cn.mikylin.myths.common.CollectionUtils;
-import cn.mikylin.myths.common.StringUtils;
+import cn.mikylin.myths.common.lang.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;

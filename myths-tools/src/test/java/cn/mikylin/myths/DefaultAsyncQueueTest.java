@@ -2,7 +2,7 @@ package cn.mikylin.myths;
 
 import cn.mikylin.myths.cache.collection.AsyncQueue;
 import cn.mikylin.myths.common.FutureUtils;
-import cn.mikylin.myths.common.ThreadUtils;
+import cn.mikylin.myths.common.lang.ThreadUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.Future;

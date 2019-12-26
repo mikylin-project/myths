@@ -1,7 +1,7 @@
 package cn.mikylin.myths.common.prop;
 
 import cn.mikylin.myths.common.*;
-import cn.mikylin.myths.common.StringUtils;
+import cn.mikylin.myths.common.lang.StringUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;

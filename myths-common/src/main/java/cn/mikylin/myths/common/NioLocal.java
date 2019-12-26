@@ -1,5 +1,6 @@
 package cn.mikylin.myths.common;
 
+import cn.mikylin.myths.common.lang.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,7 +67,6 @@ public final class NioLocal {
      * @return bytes
      */
     private static byte[] fileToBytes(Path path) {
-        //读取文件
         try {
             return Files.readAllBytes(path);
         }catch (IOException e){
@@ -131,11 +131,10 @@ public final class NioLocal {
      * @return input stream
      */
     public static InputStream inputStream(String pathForFile) {
-
         Path path = getFilePath(pathForFile);
-        try{
+        try {
             return Files.newInputStream(path);
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException("get file input stream exception.");
         }
     }
@@ -161,24 +160,24 @@ public final class NioLocal {
         Path dirPath = filePath.getParent();
 
         //如果目录不存在，在此处创建目录
-        if(Files.notExists(dirPath)) {
+        if(Files.notExists(dirPath))
             //此处创建目录
             try {
                 Files.createDirectories(dirPath);
-            }catch (IOException e){
+            } catch (IOException e){
                 throw new RuntimeException("directory create failed.");
             }
-        } else {
+        else
             //目录是存在的
             //需要判断是否有同名文件存在于指定路径下，并且已经指定了参数要删除该文件重新写入
             //则此处删除该文件，反之则抛出异常
             if(Files.exists(filePath) && isDeleteIfExists)
-                try{
+                try {
                     Files.deleteIfExists(filePath);
-                }catch (IOException e){
+                } catch (IOException e){
                     throw new RuntimeException("file delete failed.");
                 }
-        }
+
         return filePath;
     }
 
@@ -209,9 +208,9 @@ public final class NioLocal {
             throw new RuntimeException("directory must can read.");
 
         if(isDeleteIfExists)
-            try{
+            try {
                 Files.deleteIfExists(dirPath);
-            }catch (IOException e){
+            } catch (IOException e) {
                 throw new RuntimeException("dir delete failed.");
             }
 

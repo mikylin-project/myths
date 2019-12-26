@@ -1,12 +1,13 @@
 package cn.mikylin.myths.cache.collection;
 
-import cn.mikylin.myths.common.ObjectUtils;
+import cn.mikylin.myths.common.lang.ObjectUtils;
 import cn.mikylin.myths.common.TimeUtils;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.lang.ref.WeakReference;
 import java.util.Queue;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.LockSupport;
 
 /**
  * default implement with async queue.
@@ -14,7 +15,7 @@ import java.util.concurrent.*;
  * @author mikylin
  * @date 20191217
  */
-public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
+public class DefaultAsyncQueue<T> implements AsyncQueue<T> {
 
     // task queue
     private Queue<T> taskQueue;
@@ -216,7 +217,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
         private AsyncQueue<T> queue; // queue owner the future
         private volatile int type; // 1 - poll ; 2 - peek
 
-        private Object locker = new Object(); // waiter
+        private Queue<Thread> tq; // wait threads
 
 
         private AsyncFuture(T result, int type, DefaultAsyncQueue<T> queue) {
@@ -230,21 +231,46 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
             this(null,status,queue);
         }
 
+
+        private void waitThread() {
+            if(tq == null)
+                synchronized (this) {
+                    if(tq == null)
+                        tq = new LinkedBlockingQueue<>();
+                }
+
+            tq.add(Thread.currentThread());
+        }
+
         /**
          * wait the thread.
+         *
+         * @param untilTime  park until time
          */
-        private void park() {
-            if(status == 0) {
-                ObjectUtils.wait(locker);
-                ObjectUtils.notify(locker);
-            }
+        private void park(long untilTime) throws InterruptedException {
+
+            if(untilTime == 0)
+                for(; status == DEFAULT ;)
+                    LockSupport.park();
+
+            else if(System.currentTimeMillis() < untilTime)
+                for(; status == DEFAULT && System.currentTimeMillis() < untilTime ;)
+                    LockSupport.parkUntil(untilTime);
+
+            unpark();
+
+            if(status < 0)
+                throw new InterruptedException();
         }
+
 
         /**
          * notify the thread.
          */
         private void unpark() {
-            ObjectUtils.notifyAll(locker);
+            Thread t;
+            if(status != DEFAULT && (t = tq.poll()) != null)
+                LockSupport.unpark(t);
         }
 
         /**
@@ -292,7 +318,9 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
                 else if(status < 0)
                     return null;
             }
-            park();
+
+            park(0);
+
             return result;
         }
 
@@ -300,14 +328,18 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T>{
         public T get(long timeout, TimeUnit unit)
                 throws InterruptedException, ExecutionException, TimeoutException {
 
-            long out = TimeUtils.currentTimeMillis(unit, timeout);
+            if(result != null && status >= 0)
+                return result;
 
+            long out = TimeUtils.currentTimeMillis(unit,timeout);
             long beginTime = System.currentTimeMillis();
             long endTime = beginTime + out;
 
-            for(;System.currentTimeMillis() <= endTime;)
-                if(result != null && status >= 0)
-                    return result;
+            park(endTime);
+
+            if(status == DEFAULT)
+                throw new TimeoutException();
+
             return result;
         }
 

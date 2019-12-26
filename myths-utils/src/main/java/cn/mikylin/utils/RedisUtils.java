@@ -1,8 +1,8 @@
 package cn.mikylin.utils;
 
-import cn.mikylin.myths.common.ObjectUtils;
+import cn.mikylin.myths.common.lang.ObjectUtils;
 import cn.mikylin.myths.common.Constants;
-import cn.mikylin.myths.common.StringUtils;
+import cn.mikylin.myths.common.lang.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;

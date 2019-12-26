@@ -23,7 +23,7 @@ public class ThreadSafeExecutorTest {
     }
 
 
-    private static class NonBlockingExecutorTester implements NonBlockingExecutor<Integer> {
+    private static class NonBlockingExecutorTester implements NonBlockingExecutor<Integer,Integer> {
 
         private int i = 0;
 

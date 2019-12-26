@@ -11,18 +11,18 @@ import java.util.concurrent.locks.LockSupport;
  * @author mikylin
  * @date 20190623
  */
-public interface BlockingExecutor<T> extends ThreadSafeExecutor<T> {
+public interface BlockingExecutor<T,V> extends ThreadSafeExecutor<T,V> {
 
     ThreadSafeExecutorMap<Queue<Thread>> qtMap
-            = new ThreadSafeExecutorMap<>(() -> new LinkedBlockingQueue<>(Runtime.getRuntime().availableProcessors() * 2));
+            = new ThreadSafeExecutorMap<>(() -> new LinkedBlockingQueue<>());
 
     @Override
-    default T doSafeExecute(T t){
+    default V doSafeExecute(T t) {
         AtomicBoolean casLock = lockMap.get(this);
-        for(;;){
+        for(;;) {
             if(casLock.compareAndSet(true,false)) {
                 try {
-                    T o = doExecute(t);
+                    V o = doExecute(t);
                     Thread thread;
                     if(null != (thread = qtMap.get(this).poll()))
                         LockSupport.unpark(thread);

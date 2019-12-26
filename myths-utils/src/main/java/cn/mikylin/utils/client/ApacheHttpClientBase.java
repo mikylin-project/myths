@@ -2,7 +2,7 @@ package cn.mikylin.utils.client;
 
 import cn.mikylin.myths.common.ArrayUtils;
 import cn.mikylin.myths.common.MapUtils;
-import cn.mikylin.myths.common.StringUtils;
+import cn.mikylin.myths.common.lang.StringUtils;
 import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
