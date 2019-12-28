@@ -213,18 +213,17 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T> {
         private static final int DEFAULT = 0;
         private static final int CANCELLED = -1;
 
-        private T result;
+        private volatile T result;
         private AsyncQueue<T> queue; // queue owner the future
         private volatile int type; // 1 - poll ; 2 - peek
 
         private Queue<Thread> tq; // wait threads
 
-
         private AsyncFuture(T result, int type, DefaultAsyncQueue<T> queue) {
             this.result = result;
             this.type = type;
             this.queue = queue;
-            this.status = 0;
+            setStatus(DEFAULT);
         }
 
         private AsyncFuture(int status, DefaultAsyncQueue<T> queue) {
@@ -235,8 +234,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T> {
         private void waitThread() {
             if(tq == null)
                 synchronized (this) {
-                    if(tq == null)
-                        tq = new LinkedBlockingQueue<>();
+                    if(tq == null) tq = new LinkedBlockingQueue<>();
                 }
 
             tq.add(Thread.currentThread());
@@ -249,17 +247,19 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T> {
          */
         private void park(long untilTime) throws InterruptedException {
 
+            waitThread();
+
             if(untilTime == 0)
-                for(; status == DEFAULT ;)
+                for(; isDefault() ;)
                     LockSupport.park();
 
             else if(System.currentTimeMillis() < untilTime)
-                for(; status == DEFAULT && System.currentTimeMillis() < untilTime ;)
+                for(; isDefault() && System.currentTimeMillis() < untilTime ;)
                     LockSupport.parkUntil(untilTime);
 
             unpark();
 
-            if(status < 0)
+            if(isCancelled())
                 throw new InterruptedException();
         }
 
@@ -269,7 +269,7 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T> {
          */
         private void unpark() {
             Thread t;
-            if(status != DEFAULT && (t = tq.poll()) != null)
+            if(!isDefault() && (t = tq.poll()) != null)
                 LockSupport.unpark(t);
         }
 
@@ -298,25 +298,17 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T> {
             return false;
         }
 
-        @Override
-        public boolean isCancelled() {
-            return status == CANCELLED;
-        }
 
-        @Override
-        public boolean isDone() {
-            return status == FINISH;
-        }
 
         @Override
         public T get()
                 throws InterruptedException, ExecutionException {
             DefaultAsyncQueue<T> q = (DefaultAsyncQueue<T>)queue;
             for(int i = 0; i < q.spin ; i ++) {
-                if(result != null && status >= 0)
+                if(isDone() && result != null)
                     return result;
-                else if(status < 0)
-                    return null;
+                else if(isCancelled())
+                    throw new InterruptedException();
             }
 
             park(0);
@@ -328,16 +320,14 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T> {
         public T get(long timeout, TimeUnit unit)
                 throws InterruptedException, ExecutionException, TimeoutException {
 
-            if(result != null && status >= 0)
+            if(isDone() && result != null)
                 return result;
 
-            long out = TimeUtils.currentTimeMillis(unit,timeout);
-            long beginTime = System.currentTimeMillis();
-            long endTime = beginTime + out;
+            long until = TimeUtils.until(unit,timeout);
 
-            park(endTime);
+            park(until);
 
-            if(status == DEFAULT)
+            if(isDefault())
                 throw new TimeoutException();
 
             return result;
@@ -362,6 +352,24 @@ public class DefaultAsyncQueue<T> implements AsyncQueue<T> {
         }
         private boolean casStatus(int begin,int after) {
             return STATUS.compareAndSet(this,begin,after);
+        }
+
+        @Override
+        public boolean isCancelled() {
+            return status == CANCELLED;
+        }
+
+        @Override
+        public boolean isDone() {
+            return status == FINISH;
+        }
+
+        private boolean isDefault() {
+            return status == DEFAULT;
+        }
+
+        private void setStatus(int i) {
+            status = i;
         }
     }
 

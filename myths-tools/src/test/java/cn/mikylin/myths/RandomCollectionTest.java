@@ -7,7 +7,7 @@ public class RandomCollectionTest {
 
     @Test
     public void test01() {
-        RandomCollection.Set<Integer> l = new RandomCollection.Set<>();
+        RandomCollection<Integer> l = RandomCollection.Set();
         l.add(1,2);
         l.add(2,1);
         l.add(3,1);
