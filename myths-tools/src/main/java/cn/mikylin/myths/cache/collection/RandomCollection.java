@@ -18,7 +18,7 @@ public abstract class RandomCollection<T> {
     private static class Set<T> extends RandomCollection<T> {
 
         private Set() {
-            col = new TreeSet<>((o1, o2) -> o1.index > o2.index ? 1 : -1);
+            super(new TreeSet<>((o1, o2) -> o1.index > o2.index ? 1 : -1));
         }
 
         @Override
@@ -35,11 +35,11 @@ public abstract class RandomCollection<T> {
     private static class List<T> extends RandomCollection<T> {
 
         private List(int size) {
-            col = new ArrayList<>(size);
+            super(new ArrayList<>(size));
         }
 
         private List() {
-            col = new LinkedList<>();
+            super(new LinkedList<>());
         }
 
         @Override
@@ -97,7 +97,9 @@ public abstract class RandomCollection<T> {
 
     protected Collection<Entry<T>> col;
 
-    private RandomCollection() { }
+    private RandomCollection(Collection<Entry<T>> col) {
+        this.col = col;
+    }
 
 
     public void addCollection(Collection<T> c,int weight) {
@@ -182,7 +184,6 @@ public abstract class RandomCollection<T> {
      * 删除指定元素
      */
     public boolean remove(T o) {
-        Objects.requireNonNull(col);
         Entry<T> tEntry = Entry.create(o);
         if(col.remove(tEntry))
             return subFlag = true;
@@ -194,7 +195,6 @@ public abstract class RandomCollection<T> {
      * 删除指定 index 的元素
      */
     public T remove(long index) {
-        Objects.requireNonNull(col);
         for(Entry<T> e : col)
             if(e.index == index && col.remove(e)) {
                 subFlag = true;
@@ -207,7 +207,6 @@ public abstract class RandomCollection<T> {
      * 列表 size
      */
     public int size() {
-        Objects.requireNonNull(col);
         return col.size();
     }
 
@@ -215,7 +214,6 @@ public abstract class RandomCollection<T> {
      * 清空列表
      */
     public void clear() {
-        Objects.requireNonNull(col);
         col.clear();
         sub = null;
     }
@@ -251,7 +249,7 @@ public abstract class RandomCollection<T> {
         end = end >= size() ? size() - 1 : end;
 
         java.util.List<Entry<T>> list = new ArrayList<>(end - begin + 1);
-        for(int i = begin ; i < end ; i ++) {
+        for(int i = begin ; i <= end ; i ++) {
             Entry<T> entry = getEntry(i);
             for(int j = 0 ; j < entry.weight ; j ++)
                 list.add(entry);

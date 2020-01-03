@@ -1,4 +1,4 @@
-package cn.mikylin.myths.task;
+package cn.mikylin.myths.common.time;
 
 import java.time.Duration;
 import java.time.Instant;
