@@ -23,7 +23,6 @@ public abstract class RandomCollection<T> {
 
         @Override
         Entry<T> getEntry(int i) {
-            Objects.requireNonNull(col);
             if(i > size() || i < 0)
                 return null;
             TreeSet<Entry<T>> set = (TreeSet<Entry<T>>)col;
@@ -44,7 +43,6 @@ public abstract class RandomCollection<T> {
 
         @Override
         Entry<T> getEntry(int i) {
-            Objects.requireNonNull(col);
             if(i > size() || i < 0)
                 return null;
             java.util.List<Entry<T>>list = (java.util.List<Entry<T>>)col;
@@ -117,7 +115,6 @@ public abstract class RandomCollection<T> {
      * 存值方法，输入 value 和权重，返回　index
      */
     public long add(T t, int weight) {
-        Objects.requireNonNull(col);
         long index = getIndex();
         Entry<T> tEntry = Entry.create(t,index,weight);
         col.add(tEntry);
@@ -157,7 +154,6 @@ public abstract class RandomCollection<T> {
      * 此方法如果 weight 不传入 0 的话，会频繁修改随机数组缓存，消耗很大
      */
     public T getAndChangeWeight(long index,int weightChange) {
-        Objects.requireNonNull(col);
         Entry<T> et = null;
         for(Entry<T> e : col)
             if(e.index == index)
@@ -237,7 +233,6 @@ public abstract class RandomCollection<T> {
      * 根据插入下标删除元素
      */
     public T remove(int i) {
-        Objects.requireNonNull(col);
         Entry<T> entry = getEntry(i);
         col.remove(entry);
         return entry.value;

@@ -27,32 +27,53 @@ public class RandomUtils {
         return random;
     }
 
-    private static boolean chooseRandom() {
-        return System.currentTimeMillis() % 2L == 0;
+    private static int chooseRandom() {
+        return (int)(choose.incrementAndGet() % 3L);
+    }
+
+
+    private static int randomHash() {
+        return new Object().hashCode();
     }
 
     public static int nextInt(int max) {
-        if(chooseRandom())
-            return random().nextInt(max);
-        return random.nextInt(max);
+        return nextInt(0,max);
     }
 
     public static int nextInt(int min,int max) {
-        if(chooseRandom())
-            return min + random().nextInt(max - min);
+
+        if(min == max)
+            return min;
+
+        int i = chooseRandom();
+        if(i == 0)
+            return random().nextInt(max - min);
+        else if(i == 1)
+            return randomHash() % (max - min) + min;
         return random.nextInt(min,max);
     }
 
     public static double nextDouble(double min,double max) {
-        if(chooseRandom())
+        int i = chooseRandom();
+        if(i == 0)
             return min + random().nextDouble() * (max - min);
+        else if(i == 1) {
+            int hash = randomHash();
+            double i1 = ((double) hash) / (10 ^ (String.valueOf(hash).length()));
+            return min + randomHash() % 10;
+        }
+
         return random.nextDouble(min,max);
     }
 
+    public static void main(String[] args) {
+        int hash = randomHash();
+        double i1 = ((double) hash) / (10 ^ (String.valueOf(hash).length()));
+        System.out.println(i1);
+    }
+
     public static long nextLong(long max) {
-        if(chooseRandom())
-            return nextLong(random(),max);
-        return random.nextLong(max);
+        return nextLong(0,max);
     }
 
     public static long nextLong(long min,long max) {
@@ -60,20 +81,20 @@ public class RandomUtils {
         if(min == max)
             return min;
 
-        if(chooseRandom())
-            return min + nextLong(random(),max - min);
+        int i = chooseRandom();
+        if(i == 0) {
+            long n = max - min;
+            long bits, val;
+            do {
+                bits = (random().nextLong() << 1) >>> 1;
+                val = bits % n;
+            } while (bits - val + (n - 1) < 0L);
+            return min + val;
+        } else if(i == 1) {
+            // todo
+        }
         return random.nextLong(min,max);
     }
-
-    private static long nextLong(Random rng,long n) {
-        long bits, val;
-        do {
-            bits = (rng.nextLong() << 1) >>> 1;
-            val = bits % n;
-        } while (bits - val + (n - 1) < 0L);
-        return val;
-    }
-
 
     public static int[] rowNumsSafe(int count, int per, int range,
                                  int perMin, int perMax,RandomHandler handler) {

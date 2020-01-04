@@ -14,7 +14,6 @@ public final class ObjectUtils {
      * @param closer  object wait to close.
      */
     public static void close(final AutoCloseable closer) {
-
         if(closer != null)
             try {
                 closer.close();
