@@ -22,38 +22,57 @@ public final class ThreadPoolUtils {
     public static void setSleepSecond(long sleepSecond) { sleepTime = sleepSecond; }
 
     static {
-        setSpanTime(50);
-        setSleepSecond(1L);
+        setSpanTime(20);
+        setSleepSecond(5L);
     }
 
     /**
      * latch for thread pool until all task is done.
      *
      * @param pool  thread pool
+     * @param activeCount  active worker count
+     * @param workCount  task count
+     * @param spanTime  span times
+     * @param sleepTime  sleep times
      */
-    public static void latch(ThreadPoolExecutor pool) {
+    public static void latch(ThreadPoolExecutor pool,
+                             int activeCount, int workCount,
+                             int spanTime, long sleepTime) {
 
         Objects.requireNonNull(pool,"thread pool can not be null.");
 
-        final int finalSpanTime = spanTime;
-        final long finalSleepTime = sleepTime;
-
         int i = 0;
-        for ( ; !pool.isShutdown() && pool.getActiveCount() > 0 ; ) {
-            if(i <= finalSpanTime) {
+        for ( ; !pool.isShutdown()
+                && pool.getActiveCount() >= activeCount
+                && pool.getQueue().size() > workCount; ) {
+            if(i <= spanTime) {
                 i ++;
                 Thread.yield();
                 continue;
             }
-            ThreadUtils.sleep(finalSleepTime);
+            ThreadUtils.sleep(sleepTime);
         }
     }
 
-    public static void latch(ExecutorService pool) {
+    public static void latch(ThreadPoolExecutor pool) {
+        final int finalSpanTime = spanTime;
+        final long finalSleepTime = sleepTime;
+        latch(pool,0,0,finalSpanTime,finalSleepTime);
+    }
+
+    public static void latch(ExecutorService pool,
+                             int activeCount, int workCount,
+                             int spanTime, long sleepTime) {
         if(pool instanceof ThreadPoolExecutor)
-            latch((ThreadPoolExecutor) pool);
+            latch((ThreadPoolExecutor) pool,activeCount,workCount,spanTime,sleepTime);
         else
             throw new RuntimeException("thread pool only can be ThreadPoolExecutor");
+    }
+
+    public static void latch(ExecutorService pool) {
+        final int finalSpanTime = spanTime;
+        final long finalSleepTime = sleepTime;
+        latch(pool,0,0,finalSpanTime,finalSleepTime);
     }
 
     /**
@@ -61,14 +80,15 @@ public final class ThreadPoolUtils {
      *
      * @return pool
      */
-    public static ThreadPoolExecutor newSafePool() {
+    public static ThreadPoolExecutor newSimplePool() {
+        return newSimplePool(Constants.System.COMPUTER_CORE);
+    }
+
+    public static ThreadPoolExecutor newSimplePool(int size) {
         return new ThreadPoolExecutor (
-                            Constants.System.COMPUTER_CORE,
-                            Constants.System.COMPUTER_CORE,
-                            60,
-                            TimeUnit.SECONDS,
-                            new LinkedBlockingQueue<>(),
-                            new ThreadPoolExecutor.DiscardPolicy()
-                        );
+                size, size, 60, TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(10000),
+                new ThreadPoolExecutor.DiscardPolicy()
+        );
     }
 }
