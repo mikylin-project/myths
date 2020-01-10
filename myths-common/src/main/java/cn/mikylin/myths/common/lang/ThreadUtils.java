@@ -43,6 +43,12 @@ public final class ThreadUtils {
         }
     }
 
+    public static long start(Runnable r) {
+        Thread t = create(r);
+        t.start();
+        return t.getId();
+    }
+
     /**
      * create thread.
      */
@@ -62,8 +68,25 @@ public final class ThreadUtils {
     }
 
     /**
+     * create daemon thread.
+     */
+    public static Thread createDaemon(Runnable r) {
+        return create(DEFAULT_DAEMON,r);
+    }
+
+    /**
      * default thread factory.
      */
     private static final ThreadFactory DEFAULT = r -> new Thread(r);
+
+    /**
+     * default daemon thread factory.
+     */
+    private static final ThreadFactory DEFAULT_DAEMON = r -> {
+        Thread t = new Thread(r);
+        t.setDaemon(true);
+        return t;
+    };
+
 
 }

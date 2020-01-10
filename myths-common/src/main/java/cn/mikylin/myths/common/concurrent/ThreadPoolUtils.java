@@ -3,10 +3,9 @@ package cn.mikylin.myths.common.concurrent;
 import cn.mikylin.myths.common.*;
 import cn.mikylin.myths.common.lang.ThreadUtils;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.concurrent.*;
 
 /**
  * thread pool utils.
@@ -35,16 +34,16 @@ public final class ThreadPoolUtils {
      * @param spanTime  span times
      * @param sleepTime  sleep times
      */
-    public static void latch(ThreadPoolExecutor pool,
-                             int activeCount, int workCount,
-                             int spanTime, long sleepTime) {
+    public static void latch(final ThreadPoolExecutor pool,
+                             final int activeCount, final int workCount,
+                             final int spanTime, final long sleepTime) {
 
         Objects.requireNonNull(pool,"thread pool can not be null.");
-
+        Queue<Runnable> q = pool.getQueue();
         int i = 0;
         for ( ; !pool.isShutdown()
-                && pool.getActiveCount() >= activeCount
-                && pool.getQueue().size() > workCount; ) {
+                && pool.getActiveCount() > activeCount
+                && q.size() > workCount; ) {
             if(i <= spanTime) {
                 i ++;
                 Thread.yield();
@@ -54,25 +53,27 @@ public final class ThreadPoolUtils {
         }
     }
 
-    public static void latch(ThreadPoolExecutor pool) {
+    public static void latch(final ThreadPoolExecutor pool) {
         final int finalSpanTime = spanTime;
         final long finalSleepTime = sleepTime;
         latch(pool,0,0,finalSpanTime,finalSleepTime);
     }
 
-    public static void latch(ExecutorService pool,
-                             int activeCount, int workCount,
-                             int spanTime, long sleepTime) {
-        if(pool instanceof ThreadPoolExecutor)
-            latch((ThreadPoolExecutor) pool,activeCount,workCount,spanTime,sleepTime);
-        else
+    public static void latch(final ExecutorService pool,
+                             final int activeCount, final int workCount,
+                             final int spanTime, final long sleepTime) {
+
+        if(!(pool instanceof ThreadPoolExecutor))
             throw new RuntimeException("thread pool only can be ThreadPoolExecutor");
+        latch((ThreadPoolExecutor) pool,activeCount,
+                workCount,spanTime,sleepTime);
     }
 
-    public static void latch(ExecutorService pool) {
+    public static void latch(final ExecutorService pool) {
         final int finalSpanTime = spanTime;
         final long finalSleepTime = sleepTime;
-        latch(pool,0,0,finalSpanTime,finalSleepTime);
+        latch(pool,0,0,
+                finalSpanTime,finalSleepTime);
     }
 
     /**
@@ -84,11 +85,33 @@ public final class ThreadPoolUtils {
         return newSimplePool(Constants.System.COMPUTER_CORE);
     }
 
-    public static ThreadPoolExecutor newSimplePool(int size) {
+    public static ThreadPoolExecutor newSimplePool(final int size) {
         return new ThreadPoolExecutor (
                 size, size, 60, TimeUnit.SECONDS,
                 new LinkedBlockingQueue<>(10000),
+                Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.DiscardPolicy()
         );
+    }
+
+
+    /**
+     * create priority thread pool.
+     *
+     * @return pool
+     */
+    public static PriorityThreadPoolExecutor newPriorityPool(final int size) {
+        return new PriorityThreadPoolExecutor (
+                size, size, 60, TimeUnit.SECONDS,
+                new PriorityRunnableBlockingQueue(10000),
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.DiscardPolicy()
+        );
+    }
+
+
+    public static void main(String[] args) {
+        PriorityQueue<String> p = new PriorityQueue<>();
+        p.add("haha");
     }
 }
