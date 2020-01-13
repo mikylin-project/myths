@@ -3,7 +3,6 @@ package cn.mikylin.myths.common.concurrent;
 import cn.mikylin.myths.common.*;
 import cn.mikylin.myths.common.lang.ThreadUtils;
 import java.util.Objects;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.*;
 
@@ -15,14 +14,14 @@ import java.util.concurrent.*;
  */
 public final class ThreadPoolUtils {
 
-    private static int spanTime; // span times
-    private static long sleepTime; // thread sleep second
-    public static void setSpanTime(int span) { spanTime = span; }
-    public static void setSleepSecond(long sleepSecond) { sleepTime = sleepSecond; }
+    private static int defaultSpanTime; // span times
+    private static long defaultSleepTime; // thread sleep second
+    public static void setSpanTime(final int span) { defaultSpanTime = span < 0 ? 0 : span; }
+    public static void setSleepSecond(final long sleepSecond) { defaultSleepTime = sleepSecond < 0 ? 0 : sleepSecond; }
 
     static {
-        setSpanTime(20);
-        setSleepSecond(5L);
+        setSpanTime(10);
+        setSleepSecond(10L);
     }
 
     /**
@@ -39,23 +38,30 @@ public final class ThreadPoolUtils {
                              final int spanTime, final long sleepTime) {
 
         Objects.requireNonNull(pool,"thread pool can not be null.");
+
         Queue<Runnable> q = pool.getQueue();
-        int i = 0;
-        for ( ; !pool.isShutdown()
-                && pool.getActiveCount() > activeCount
-                && q.size() > workCount; ) {
-            if(i <= spanTime) {
+
+        for (int i = 0 ;
+                !pool.isShutdown()
+                    && pool.getActiveCount() > activeCount
+                    && q.size() > workCount; ) {
+
+            if(i < spanTime) {
                 i ++;
                 Thread.yield();
                 continue;
             }
-            ThreadUtils.sleep(sleepTime);
+
+            if(sleepTime > 0L)
+                ThreadUtils.sleep(sleepTime);
+
+            i = 0;
         }
     }
 
     public static void latch(final ThreadPoolExecutor pool) {
-        final int finalSpanTime = spanTime;
-        final long finalSleepTime = sleepTime;
+        final int finalSpanTime = defaultSpanTime;
+        final long finalSleepTime = defaultSleepTime;
         latch(pool,0,0,finalSpanTime,finalSleepTime);
     }
 
@@ -70,8 +76,8 @@ public final class ThreadPoolUtils {
     }
 
     public static void latch(final ExecutorService pool) {
-        final int finalSpanTime = spanTime;
-        final long finalSleepTime = sleepTime;
+        final int finalSpanTime = defaultSpanTime;
+        final long finalSleepTime = defaultSleepTime;
         latch(pool,0,0,
                 finalSpanTime,finalSleepTime);
     }
@@ -103,15 +109,10 @@ public final class ThreadPoolUtils {
     public static PriorityThreadPoolExecutor newPriorityPool(final int size) {
         return new PriorityThreadPoolExecutor (
                 size, size, 60, TimeUnit.SECONDS,
-                new PriorityRunnableBlockingQueue(10000),
+                10000,
                 Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.DiscardPolicy()
         );
     }
 
-
-    public static void main(String[] args) {
-        PriorityQueue<String> p = new PriorityQueue<>();
-        p.add("haha");
-    }
 }
