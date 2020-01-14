@@ -1,19 +1,26 @@
-package cn.mikylin.myths.common.time;
+package cn.mikylin.myths.common.datetime;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoField;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * stop watch
+ *
+ * @author mikylin
+ * @date 20200114
+ */
 public class StopWatcher {
 
     private Instant watcher;
     private AtomicReference<Instant> begin;
 
-
-
     private StopWatcher() {
+        init();
+    }
+
+    private void init() {
         watcher = Instant.EPOCH;
         begin = new AtomicReference<>();
         begin.set(Instant.EPOCH);
@@ -23,46 +30,35 @@ public class StopWatcher {
         return new StopWatcher();
     }
 
-    public static StopWatcher start() {
-        return create().begin();
-    }
-
     public StopWatcher begin() {
         if(begin.compareAndSet(Instant.EPOCH,Instant.now()))
             return this;
         throw new RuntimeException();
     }
 
+    /**
+     * create and begin the stop watch.
+     * @return  stop watch
+     */
+    public static StopWatcher start() {
+        return create().begin();
+    }
+
+    /**
+     * stop the watch.
+     * @return  stop watch
+     */
     public StopWatcher stop() {
         Instant b = begin.getAndSet(Instant.EPOCH);
         if(b != Instant.EPOCH) {
             Instant now = Instant.now();
             Duration between = Duration.between(b,now);
-            add(between);
+            synchronized (this) {
+                watcher = watcher.plus(between);
+            }
             return this;
         }
         throw new RuntimeException();
-    }
-
-    public long second() {
-        return get().getLong(ChronoField.INSTANT_SECONDS);
-    }
-
-    public int nano() {
-        return get().getNano();
-    }
-
-    public void clean() {
-        synchronized (this) {
-            watcher = Instant.EPOCH;
-        }
-    }
-
-
-    private void add(Duration d) {
-        synchronized (this) {
-            watcher = watcher.plus(d);
-        }
     }
 
     private Instant get() {
@@ -72,12 +68,26 @@ public class StopWatcher {
     }
 
 
+    public long second() {
+        return get().getLong(ChronoField.INSTANT_SECONDS);
+    }
 
-    public static void main(String[] args) throws InterruptedException {
-        StopWatcher w = StopWatcher.start();
-        TimeUnit.SECONDS.sleep(5L);
-        w.stop();
-        System.out.println(w.second());
+    public int nano() {
+        return get().getNano();
+    }
+
+    public long milliSecond() {
+        return get().getLong(ChronoField.MILLI_OF_SECOND);
+    }
+
+    public long min() {
+        return second() / 60;
+    }
+
+    public void clean() {
+        synchronized (this) {
+            init();
+        }
     }
 
 }

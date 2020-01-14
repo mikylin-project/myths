@@ -1,10 +1,12 @@
-package cn.mikylin.myths.common;
+package cn.mikylin.myths.common.datetime;
+
+import cn.mikylin.myths.common.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import static cn.mikylin.myths.common.CaclendarUtils.dayBaseChange;
+import static cn.mikylin.myths.common.datetime.CaclendarUtils.dayBaseChange;
 
 /**
  * simple date utils.
@@ -22,7 +24,7 @@ public final class DateUtils {
     }
 
     public static String toDateTimeString(Date d) {
-        return toString(d,Constants.Date.DATE_TIME_FORMAT);
+        return toString(d, Constants.Date.DATE_TIME_FORMAT);
     }
 
     public static String toDateString(Date d) {

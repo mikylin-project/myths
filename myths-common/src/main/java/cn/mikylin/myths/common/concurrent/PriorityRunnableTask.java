@@ -8,7 +8,8 @@ import cn.mikylin.myths.common.lang.CloneObjectAdapter;
  * @author mikylin
  * @date 20200110
  */
-public class PriorityRunnableTask extends CloneObjectAdapter<PriorityRunnableTask>
+public final class PriorityRunnableTask
+        extends CloneObjectAdapter<PriorityRunnableTask>
         implements Runnable,Comparable<PriorityRunnableTask> {
 
     private Runnable r;
@@ -35,8 +36,10 @@ public class PriorityRunnableTask extends CloneObjectAdapter<PriorityRunnableTas
     }
 
 
-    public static PriorityRunnableTask create(Runnable r, int prority) {
-        return new PriorityRunnableTask(r,prority);
+    public static PriorityRunnableTask create(Runnable r, int priority) {
+        if(r instanceof PriorityRunnableTask)
+            throw new RuntimeException("priority can not be set priority again.");
+        return new PriorityRunnableTask(r,priority);
     }
 
     public static PriorityRunnableTask create(Runnable r) {

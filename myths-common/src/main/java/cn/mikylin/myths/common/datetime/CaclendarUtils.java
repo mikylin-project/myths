@@ -1,8 +1,7 @@
-package cn.mikylin.myths.common;
+package cn.mikylin.myths.common.datetime;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import cn.mikylin.myths.common.Constants;
+import java.util.*;
 
 /**
  * caclendar utils.
@@ -185,4 +184,28 @@ public final class CaclendarUtils {
         return ca.get(Calendar.DAY_OF_YEAR);
     }
 
+    /**
+     * the day between start time and end time.
+     * @param startTime  start time yyyyMMdd
+     * @param endTime end time yyyyMMdd
+     * @return  days for yyyyMMdd
+     */
+    public static List<String> betweenDays(String startTime, String endTime) {
+
+        // 返回的日期集合
+        List<String> days = new ArrayList<>();
+
+        Date start = DateUtils.toDateTime(startTime,"yyyyMMdd");
+        Date end = DateUtils.toDateTime(endTime,"yyyyMMdd");
+        Calendar tempStart = getCalendar(start);
+        Calendar tempEnd = getCalendar(end);
+
+        tempEnd.add(Calendar.DATE, 1); // 日期加1(包含结束)
+        while (tempStart.before(tempEnd)) {
+            days.add(DateUtils.toString(tempStart.getTime(),"yyyyMMdd"));
+            tempStart.add(Calendar.DAY_OF_YEAR, 1);
+        }
+
+        return days;
+    }
 }
