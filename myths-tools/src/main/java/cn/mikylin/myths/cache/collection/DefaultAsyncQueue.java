@@ -1,7 +1,6 @@
 package cn.mikylin.myths.cache.collection;
 
-import cn.mikylin.myths.common.lang.ObjectUtils;
-import cn.mikylin.myths.common.TimeUtils;
+import cn.mikylin.myths.common.lang.TimeUtils;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.lang.ref.WeakReference;
