@@ -2,6 +2,7 @@ package cn.mikylin.myths.common.lang;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * thread utils
@@ -43,10 +44,14 @@ public final class ThreadUtils {
         }
     }
 
-    public static long start(Runnable r) {
-        Thread t = create(r);
+    public static long start(Runnable r,boolean isDaemon) {
+        Thread t = isDaemon ? createDaemon(r) : create(r);
         t.start();
         return t.getId();
+    }
+
+    public static long start(Runnable r) {
+        return start(r,false);
     }
 
     /**
@@ -55,8 +60,8 @@ public final class ThreadUtils {
     public static Thread create(ThreadFactory factory,Runnable r) {
         try{
             return factory.newThread(r);
-        } catch (Exception e){
-            throw new RuntimeException("thread create failed");
+        } catch (Exception e) {
+            throw new RuntimeException("thread create failed.");
         }
     }
 
@@ -77,15 +82,37 @@ public final class ThreadUtils {
     /**
      * default thread factory.
      */
-    private static final ThreadFactory DEFAULT = r -> new Thread(r);
+    private static final ThreadFactory DEFAULT = new ThreadFactory() {
+
+        private AtomicLong al = new AtomicLong(0L);
+        private final String abstractThreadName
+                = "Thread Utils Default Thread Factory - ";
+
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(r);
+            t.setDaemon(false);
+            t.setName(abstractThreadName + al.incrementAndGet());
+            return t;
+        }
+    };
 
     /**
      * default daemon thread factory.
      */
-    private static final ThreadFactory DEFAULT_DAEMON = r -> {
-        Thread t = new Thread(r);
-        t.setDaemon(true);
-        return t;
+    private static final ThreadFactory DEFAULT_DAEMON = new ThreadFactory() {
+
+        private AtomicLong al = new AtomicLong(0L);
+        private final String abstractThreadName
+                = "Thread Utils Default Daemon Thread Factory - ";
+
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(r);
+            t.setDaemon(true);
+            t.setName(abstractThreadName + al.incrementAndGet());
+            return t;
+        }
     };
 
 

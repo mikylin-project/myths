@@ -43,8 +43,8 @@ public final class ThreadPoolUtils {
 
         for (int i = 0 ;
                 !pool.isShutdown()
-                    && pool.getActiveCount() > activeCount
-                    && q.size() > workCount; ) {
+                  && (pool.getActiveCount() > activeCount || q.size() > workCount) ;
+        ) {
 
             if(i < spanTime) {
                 i ++;
