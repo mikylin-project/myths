@@ -4,7 +4,6 @@ import cn.mikylin.myths.common.lang.ObjectUtils;
 import cn.mikylin.myths.common.Constants;
 import cn.mikylin.myths.common.lang.StringUtils;
 import redis.clients.jedis.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +57,7 @@ public class RedisUtils {
         JedisPool jedisPool = pools.get(redisKey);
         if(jedisPool != null)
             return jedisPool.getResource();
-        return null;
+        throw new RuntimeException("jedis can not be find.");
     }
 
     /**
