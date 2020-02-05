@@ -6,7 +6,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * bi Map
+ * bi map.
+ *
  * @author mikylin
  * @date 20190803
  */

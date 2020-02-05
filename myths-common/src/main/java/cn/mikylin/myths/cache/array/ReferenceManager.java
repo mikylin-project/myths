@@ -4,7 +4,8 @@ import java.lang.ref.Reference;
 import java.util.Objects;
 
 /**
- * java reference abstract base manager
+ * java reference abstract base manager.
+ *
  * @author mikylin
  * @date 20190729
  */

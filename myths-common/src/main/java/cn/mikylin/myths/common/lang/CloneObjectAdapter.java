@@ -6,7 +6,7 @@ package cn.mikylin.myths.common.lang;
  * @author mikylin
  * @date 20191108
  */
-public class CloneObjectAdapter<T> implements ObjectUtils.CloneObject<T> {
+public class CloneObjectAdapter<T> implements CloneObject<T> {
 
     @Override
     public Object clone() throws CloneNotSupportedException {

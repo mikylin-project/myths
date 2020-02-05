@@ -16,7 +16,7 @@ public final class LocalDateTimeUtils {
 
     private static Map<String,DateTimeFormatter> formatterMap;
     static {
-        formatterMap = MapUtils.createMap();
+        formatterMap = MapUtils.newHashMap();
     }
 
     /**

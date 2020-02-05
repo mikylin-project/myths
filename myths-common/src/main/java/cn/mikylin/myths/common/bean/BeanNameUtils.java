@@ -21,7 +21,7 @@ public final class BeanNameUtils {
 
     public static Map<String,BeanNameType> nameTypeMap;
     static {
-        nameTypeMap = MapUtils.createMap (
+        nameTypeMap = MapUtils.newHashMap (
                 new Object[]{"underline",BeanNameType.UNDERLINE},
                 new Object[]{"hump",BeanNameType.HUMP}
         );

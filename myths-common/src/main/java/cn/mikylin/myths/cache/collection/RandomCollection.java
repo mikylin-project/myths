@@ -1,6 +1,7 @@
 package cn.mikylin.myths.cache.collection;
 
 import cn.mikylin.myths.common.random.RandomUtils;
+
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.util.*;
@@ -51,15 +52,15 @@ public abstract class RandomCollection<T> {
     }
 
     public static <T> RandomCollection<T> Set() {
-        return new RandomCollection.Set<>();
+        return new Set<>();
     }
 
     public static <T> RandomCollection<T> List() {
-        return new RandomCollection.List<>();
+        return new List<>();
     }
 
     public static <T> RandomCollection<T> List(int size) {
-        return new RandomCollection.List<>(size);
+        return new List<>(size);
     }
 
 

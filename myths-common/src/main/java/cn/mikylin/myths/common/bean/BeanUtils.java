@@ -49,7 +49,7 @@ public final class BeanUtils {
      */
     public static Map<String,Method> gets(Object bean) {
 
-        Map<String,Method> map = MapUtils.createMap();
+        Map<String,Method> map = MapUtils.newHashMap();
         BeanInfo info = info(bean.getClass());
         for(PropertyDescriptor descriptor : info.getPropertyDescriptors()){
             String key = descriptor.getName();
@@ -70,7 +70,7 @@ public final class BeanUtils {
      */
     public static Map<String,Method> sets(Class clz) {
 
-        Map<String,Method> map = MapUtils.createMap();
+        Map<String,Method> map = MapUtils.newHashMap();
         BeanInfo info = info(clz);
         for(PropertyDescriptor descriptor : info.getPropertyDescriptors()){
             String key = descriptor.getName();

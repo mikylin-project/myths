@@ -3,9 +3,9 @@ package cn.mikylin.myths.cache.map.lruk;
 import cn.mikylin.myths.cache.map.CacheEntry;
 import cn.mikylin.myths.cache.map.CacheEntryFactory;
 import cn.mikylin.myths.cache.map.CacheLoader;
+
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * LRU-K Map

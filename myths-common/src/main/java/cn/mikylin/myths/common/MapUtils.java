@@ -60,20 +60,43 @@ public final class MapUtils {
     }
 
     /**
-     * create a one k-v map
+     * create concurrent hashmap quick
      */
-    public static <K,V> Map<K,V> singleMap(K k,V v) {
-        Map<K,V> singleMap = newHashMap(1);
-        singleMap.put(k,v);
-        return singleMap;
+    public static <K,V> ConcurrentHashMap<K,V> newConcurrentMap(Object[]... kvs) {
+        return newConcurrentMap(kvs == null || kvs.length == 0 ? 16 : kvs.length,kvs);
     }
 
-    /**
-     * create map quick
-     */
-    public static <K,V> Map<K,V> createMap(Object[]... kvs) {
+    public static <K,V> ConcurrentHashMap<K,V> newConcurrentMap(int size,Object[]... kvs) {
+        return (ConcurrentHashMap<K,V>) create (
+                new MapFactory() {
+                    @Override
+                    public <K,V> Map<K,V> getMap() {
+                        return new ConcurrentHashMap<>(size);
+                    }
+                }, kvs);
+    }
 
-        Map<K,V> map = newHashMap(kvs.length);
+
+    /**
+     * create hashmap quick
+     */
+    public static <K,V> HashMap<K,V> newHashMap(Object[]... kvs) {
+        return newHashMap(kvs == null || kvs.length == 0 ? 16 : kvs.length,kvs);
+    }
+
+    public static <K,V> HashMap<K,V> newHashMap(int size,Object[]... kvs) {
+        return (HashMap<K,V>) create (
+                new MapFactory() {
+                        @Override
+                        public <K,V> Map<K,V> getMap() {
+                            return new HashMap<>(size);
+                        }
+                }, kvs);
+    }
+
+    private static <K,V> Map<K,V> create(MapFactory factory,Object[]... kvs) {
+
+        Map<K,V> map = factory.getMap();
 
         for(Object[] kv : kvs) {
 
@@ -95,5 +118,10 @@ public final class MapUtils {
             map.put(key,value);
         }
         return map;
+    }
+
+
+    private interface MapFactory {
+        <K,V> Map<K,V> getMap();
     }
 }

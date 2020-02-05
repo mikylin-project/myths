@@ -22,7 +22,7 @@ public final class StringUtils {
     @Deprecated
     public static boolean isBlankForJdk8(String str) {
 
-        if(str != null){
+        if(str != null) {
             String trimStr = str.trim();
             for (int i = 0; i < trimStr.length(); i ++)
                 if (!Character.isWhitespace(str.charAt(i)))
@@ -38,7 +38,8 @@ public final class StringUtils {
      * @param message  message
      */
     public static void requireNotBlank(String str,String message) {
-        if(isBlank(str)) throw new NullPointerException(message);
+        if(isBlank(str))
+            throw new NullPointerException(message);
     }
 
     /**

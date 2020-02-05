@@ -3,7 +3,8 @@ package cn.mikylin.myths.cache.array;
 import java.lang.ref.SoftReference;
 
 /**
- * java soft reference manager
+ * java soft reference manager.
+ *
  * @author mikylin
  * @date 20190729
  */

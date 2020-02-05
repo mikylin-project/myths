@@ -3,7 +3,8 @@ package cn.mikylin.myths.cache.array;
 import java.util.Objects;
 
 /**
- * array manager
+ * array manager.
+ *
  * @author mikylin
  * @date 20190806
  */

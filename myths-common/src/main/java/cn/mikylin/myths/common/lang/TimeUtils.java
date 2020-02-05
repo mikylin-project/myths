@@ -3,6 +3,12 @@ package cn.mikylin.myths.common.lang;
 import cn.mikylin.myths.common.Constants;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * time utils.
+ *
+ * @author mikylin
+ * @date 20200205
+ */
 public final class TimeUtils {
 
 

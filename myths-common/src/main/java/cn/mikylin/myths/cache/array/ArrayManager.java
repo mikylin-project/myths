@@ -27,7 +27,7 @@ public interface ArrayManager<T> {
     /**
      * replace the element in the array
      */
-    boolean replace(T oldElement,T newElement);
+    boolean replace(T oldElement, T newElement);
 
     /**
      * change the array size

@@ -79,7 +79,7 @@ public class BinarySearchTree<K,V> extends TreeAbstractMap<K,V> {
     }
 
     @Override
-    public Set<Map.Entry<K, V>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
         return new HashSet<>(preOrder());
     }
 
