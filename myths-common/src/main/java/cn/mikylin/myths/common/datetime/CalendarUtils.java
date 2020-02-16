@@ -4,12 +4,12 @@ import cn.mikylin.myths.common.Constants;
 import java.util.*;
 
 /**
- * caclendar utils.
+ * calendar utils.
  *
  * @author mikylin
  * @date 20191217
  */
-public final class CaclendarUtils {
+public final class CalendarUtils {
 
     private static TimeZone defaultZone;
     static {

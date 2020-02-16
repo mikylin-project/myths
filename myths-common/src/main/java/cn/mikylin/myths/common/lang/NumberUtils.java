@@ -31,4 +31,31 @@ public final class NumberUtils {
         return n1 != null && n2 != null
                 && n1.doubleValue() == n2.doubleValue();
     }
+
+
+    public static Long intToLong(int intNum) {
+        return Long.valueOf(intNum);
+    }
+
+    public static Integer longToInt(long longNum) {
+        return Long.valueOf(longNum).intValue();
+    }
+
+    public static Double intToDouble(int intNum) {
+        return Integer.valueOf(intNum).doubleValue();
+    }
+
+    public static Double longToDouble(long longNum) {
+        return Long.valueOf(longNum).doubleValue();
+    }
+
+    public static Long doubleToLong(double doubleNum) {
+        return Double.valueOf(doubleNum).longValue();
+    }
+
+    public static Integer doubleToInt(double doubleNum) {
+        return Double.valueOf(doubleNum).intValue();
+    }
+
+
 }

@@ -6,7 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import static cn.mikylin.myths.common.datetime.CaclendarUtils.dayBaseChange;
+import static cn.mikylin.myths.common.datetime.CalendarUtils.dayBaseChange;
 
 /**
  * simple date utils.

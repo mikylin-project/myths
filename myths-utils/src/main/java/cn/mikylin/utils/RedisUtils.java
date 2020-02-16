@@ -4,6 +4,8 @@ import cn.mikylin.myths.common.lang.ObjectUtils;
 import cn.mikylin.myths.common.Constants;
 import cn.mikylin.myths.common.lang.StringUtils;
 import redis.clients.jedis.*;
+import redis.clients.jedis.params.SetParams;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,9 +80,12 @@ public class RedisUtils {
      * @param key  key
      * @param value  value
      * @param redisKey  redis key
+     * @param isNx  is set nx in redis
+     * @param expireSecond  if this param bigger then zero,set the expire time
      * @return
      */
-    public static String set(String key,String value,String redisKey) {
+    public static String set(String key,String value,String redisKey,
+                             boolean isNx,int expireSecond) {
 
         if(StringUtils.isBlank(key)
                 || StringUtils.isBlank(value)
@@ -90,15 +95,27 @@ public class RedisUtils {
         Jedis jedis = null;
         try {
             jedis = getJedis(redisKey);
-            return jedis.set(key,value);
+
+            SetParams params = new SetParams();
+            if(isNx) params.nx();
+            if(expireSecond > 0) params.ex(expireSecond);
+
+            return jedis.set(key,value,params);
         } finally {
             close(jedis);
         }
     }
 
     public static String set(String key,String value) {
-        return set(key,value,DEFAULT_REDIS);
+        return set(key,value,DEFAULT_REDIS,false,-1);
     }
+
+    public static boolean lock(String key,String redisKey,int expireSecond) {
+        String value = String.valueOf(System.currentTimeMillis());
+        String set = set(key, value, redisKey, true, expireSecond);
+        return StringUtils.isNotBlank(set) && set.equalsIgnoreCase("OK");
+    }
+
 
 
     /**
