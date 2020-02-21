@@ -1,11 +1,12 @@
 package cn.mikylin.myths.common.lang;
 
+import java.util.Objects;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * thread utils
+ * thread utils.
  *
  * @author mikylin
  * @date 20190926
@@ -37,6 +38,7 @@ public final class ThreadUtils {
      * thread sleep.
      */
     public static void sleep(TimeUnit unit,long time) {
+        Objects.requireNonNull(unit);
         try {
             unit.sleep(time);
         } catch (InterruptedException e) {
@@ -44,20 +46,35 @@ public final class ThreadUtils {
         }
     }
 
-    public static long start(Runnable r,boolean isDaemon) {
-        Thread t = isDaemon ? createDaemon(r) : create(r);
+    /**
+     * start a thread task for a new thread create by thread factory.
+     */
+    public static long start(ThreadFactory f,Runnable r) {
+        Thread t = create(f,r);
         t.start();
         return t.getId();
     }
 
-    public static long start(Runnable r) {
-        return start(r,false);
+    public static long start(Runnable r,boolean isDaemon) {
+        return start(isDaemon ? DEFAULT_DAEMON : DEFAULT,r);
     }
+
+    public static long start(Runnable r) {
+        return start(DEFAULT,r);
+    }
+
+    public static void stop(Thread t) {
+        Objects.requireNonNull(t);
+        if(!t.isInterrupted() && t.isAlive())
+            t.interrupt();
+    }
+
 
     /**
      * create thread.
      */
     public static Thread create(ThreadFactory factory,Runnable r) {
+        ObjectUtils.requireNotNull(factory,r);
         try{
             return factory.newThread(r);
         } catch (Exception e) {
@@ -70,13 +87,6 @@ public final class ThreadUtils {
      */
     public static Thread create(Runnable r) {
         return create(DEFAULT,r);
-    }
-
-    /**
-     * create daemon thread.
-     */
-    public static Thread createDaemon(Runnable r) {
-        return create(DEFAULT_DAEMON,r);
     }
 
     /**
