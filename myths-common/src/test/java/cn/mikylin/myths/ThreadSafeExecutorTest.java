@@ -3,10 +3,16 @@ package cn.mikylin.myths;
 import cn.mikylin.myths.common.concurrent.NonBlockingExecutor;
 import cn.mikylin.myths.common.concurrent.ThreadSafeExecutor;
 import org.junit.jupiter.api.Test;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * simple test for
+ * {@link cn.mikylin.myths.common.concurrent.NonBlockingExecutor}
+ *
+ * @author mikylin
+ * @date 20200222
+ */
 public class ThreadSafeExecutorTest {
 
     ExecutorService pool = Executors.newFixedThreadPool(10);
