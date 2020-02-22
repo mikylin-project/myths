@@ -11,27 +11,29 @@ import java.util.concurrent.locks.Condition;
  * @author mikylin
  * @date 20200222
  */
-public class RateLimiter {
+public class RateTokenLimiter {
 
-    private long maxLimitTime; // rate limit time.
-    private long rateLimitNumber; // rate limit number.
+    private long rateLimit; // rate limit number.
     private long perSecond; // rate create number per second.
 
     // lock and condition use to await the
     private Condition con = new ConditionLock();
 
-    public RateLimiter(long rateLimit,long rateSpeed) {
+    public RateTokenLimiter(long rateLimit, long rateSpeed) {
         this.perSecond = rateSpeed;
-        this.rateLimitNumber = rateLimit;
+        this.rateLimit = rateLimit;
         this.lastTime = System.currentTimeMillis();
-        this.rateNumber = rateLimitNumber;
-
-        if(rateLimit % rateSpeed == 0)
-            this.maxLimitTime = (rateLimit / rateSpeed) * 1000;
-        else
-            this.maxLimitTime = (rateLimit / rateSpeed + 1) * 1000;
+        this.rateNumber = rateLimit; // create the limit number of rate once.
     }
 
+    /**
+     * quick to create a limiter.
+     * @param rate  rate limit number.
+     * @return limiter.
+     */
+    public static RateTokenLimiter create(long rate) {
+        return new RateTokenLimiter(rate,rate);
+    }
 
     /**
      * try to acquire the rate in container.
@@ -40,7 +42,7 @@ public class RateLimiter {
      * @return true -- get success ; false -- get fail.
      */
     public boolean tryAcquire(long i) {
-        if(i <= 0L || i > rateLimitNumber)
+        if(i <= 0L || i > rateLimit)
             throw new RuntimeException();
         rate();
         long rn = rateNumber;
@@ -97,15 +99,15 @@ public class RateLimiter {
     static {
         MethodHandles.Lookup lookup = MethodHandles.lookup();
         try {
-            LAST_TIME = lookup.findVarHandle(RateLimiter.class,"lastTime",long.class);
-            RATE_NUMBER = lookup.findVarHandle(RateLimiter.class,"rateNumber",long.class);
+            LAST_TIME = lookup.findVarHandle(RateTokenLimiter.class,"lastTime",long.class);
+            RATE_NUMBER = lookup.findVarHandle(RateTokenLimiter.class,"rateNumber",long.class);
         } catch (Exception e) {
             throw new RuntimeException("var handle create fail.");
         }
     }
 
     /**
-     * create the wait.
+     * create the rate token.
      */
     private void rate() {
         long now = System.currentTimeMillis();
@@ -115,11 +117,15 @@ public class RateLimiter {
         long lastTime = (long)LAST_TIME.getAndSet(this,now);
 
         long time = now - lastTime;
-        if(time >= maxLimitTime && rateNumber != rateLimitNumber) {
-            RATE_NUMBER.set(this,rateLimitNumber);
-        } else {
-            long addNumber = time / 1000 * perSecond;
-            for(;!RATE_NUMBER.compareAndSet(this,rateNumber,rateNumber + addNumber);) { }
+        long addNumber = time / 1000 * perSecond;
+        for(;;) {
+            long rn = rateNumber;
+            long newRn = rn + addNumber;
+            if(newRn > rateLimit) {
+                newRn = rateLimit;
+            }
+            if(RATE_NUMBER.compareAndSet(this,rn,newRn))
+                break;
         }
         con.signalAll();
     }
