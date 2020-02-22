@@ -3,7 +3,6 @@ package cn.mikylin.myths.common.concurrent;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Condition;
 
 /**
@@ -162,6 +161,9 @@ public class TokenLimiter {
 
     /**
      * the code use in all java version
+     *
+     * needs to add import:
+     * import java.util.concurrent.atomic.AtomicLong;
      */
 //    private AtomicLong lastTime = new AtomicLong(0L); // the last time to get the rate.
 //    private AtomicLong tokens = new AtomicLong(0L); // how much token the container have.
