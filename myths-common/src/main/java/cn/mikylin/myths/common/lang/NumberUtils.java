@@ -33,8 +33,12 @@ public final class NumberUtils {
     }
 
 
-    public static Long intToLong(int intNum) {
+    public static long intToLong(int intNum) {
         return Long.valueOf(intNum);
+    }
+
+    public static Long intToLong(Integer intNum) {
+        return intNum != null ? intToLong(intNum.intValue()) : null;
     }
 
     public static Integer longToInt(long longNum) {
@@ -55,6 +59,22 @@ public final class NumberUtils {
 
     public static Integer doubleToInt(double doubleNum) {
         return Double.valueOf(doubleNum).intValue();
+    }
+
+    public static boolean isPositive(int intNum) {
+        return intNum > 0;
+    }
+
+    public static boolean isPositive(Integer intNum) {
+        return intNum != null ? isPositive(intNum.intValue()) : false;
+    }
+
+    public static boolean isPositive(long longNum) {
+        return longNum > 0L;
+    }
+
+    public static boolean isPositive(Long longNum) {
+        return longNum != null ? isPositive(longNum.longValue()) : false;
     }
 
 
