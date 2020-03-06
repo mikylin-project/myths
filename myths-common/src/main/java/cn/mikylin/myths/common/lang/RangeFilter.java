@@ -41,17 +41,13 @@ public abstract class RangeFilter<T extends Comparable> implements Serializable 
 
 
 
-
-
     private static class LongRangeFileter extends RangeFilter<Long> {
-
         public LongRangeFileter(Long min, Long max) {
             super(min, max);
         }
     }
 
     private static class DoubleRangeFileter extends RangeFilter<Double> {
-
         public DoubleRangeFileter(Double min, Double max) {
             super(min, max);
         }

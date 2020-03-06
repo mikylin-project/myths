@@ -16,9 +16,11 @@ public class TokenLimiter {
     private long maxToken; // token quantity.
     private long rate; // token create rate / per second.
 
+    private static final long SECOND = 1000l; // 1s = 1000ms
+
 
     // condition queue use to await the thread.
-    private Condition con = new ConditionLock();
+    private Condition con = new SimpleCondition();
 
     public TokenLimiter(long tokens, long rate) {
         this.rate = rate;
@@ -80,9 +82,9 @@ public class TokenLimiter {
      */
     private void await(long i) {
         long t = System.currentTimeMillis() - lastTime();
-        if(t < 1000L || !tryAcquire(i)) {
+        if(t < SECOND || !tryAcquire(i)) {
             try {
-                con.await(t % 1000L, TimeUnit.MILLISECONDS);
+                con.await(t % SECOND, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
                 throw new RuntimeException("thread intterupted.");
             }
@@ -95,13 +97,13 @@ public class TokenLimiter {
      */
     private void rate() {
         long now = System.currentTimeMillis();
-        if(now - lastTime() < 1000L)
+        if(now - lastTime() < SECOND)
             return;
 
         long lastTime = getAndSetTime(now);
 
         long time = now - lastTime;
-        long addNumber = time / 1000L * rate;
+        long addNumber = time / SECOND * rate;
         for(;;) {
             long t = token();
             long newToken = t + addNumber;
@@ -160,9 +162,9 @@ public class TokenLimiter {
 
 
     /**
-     * the code use in all java version
+     * the code used by jdk5 + version.
      *
-     * needs to add import:
+     * needs to add import class:
      * import java.util.concurrent.atomic.AtomicLong;
      */
 //    private AtomicLong lastTime = new AtomicLong(0L); // the last time to get the rate.

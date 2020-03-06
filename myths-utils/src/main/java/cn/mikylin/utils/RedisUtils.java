@@ -92,17 +92,12 @@ public class RedisUtils {
                 || StringUtils.isBlank(redisKey))
             throw new RuntimeException("key name or value is blank.");
 
-        Jedis jedis = null;
-        try {
-            jedis = getJedis(redisKey);
-
+        try (Jedis jedis = getJedis(redisKey)) {
             SetParams params = new SetParams();
             if(isNx) params.nx();
             if(expireSecond > 0) params.ex(expireSecond);
 
             return jedis.set(key,value,params);
-        } finally {
-            close(jedis);
         }
     }
 
@@ -133,12 +128,8 @@ public class RedisUtils {
                 || StringUtils.isBlank(redisKey))
             throw new RuntimeException("key can not be blank.");
 
-        Jedis jedis = null;
-        try {
-            jedis = getJedis(redisKey);
+        try (Jedis jedis = getJedis(redisKey)) {
             return jedis.get(key);
-        } finally {
-            close(jedis);
         }
     }
 

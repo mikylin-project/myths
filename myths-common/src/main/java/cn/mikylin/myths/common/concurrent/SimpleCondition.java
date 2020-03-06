@@ -12,17 +12,17 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author mikylin
  * @date 20200222
  */
-public class ConditionLock implements Condition {
+public final class SimpleCondition implements Condition {
 
     private Lock lock;
     private Condition condition;
 
-    public ConditionLock(Lock lock) {
+    public SimpleCondition(Lock lock) {
         this.lock = lock;
         this.condition = lock.newCondition();
     }
 
-    public ConditionLock() {
+    public SimpleCondition() {
         this(new ReentrantLock());
     }
 
@@ -89,4 +89,5 @@ public class ConditionLock implements Condition {
     public void signalAll() {
         condition.signalAll();
     }
+
 }
