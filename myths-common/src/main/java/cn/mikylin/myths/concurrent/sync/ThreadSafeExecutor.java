@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common.concurrent;
+package cn.mikylin.myths.concurrent.sync;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -23,7 +23,7 @@ public interface ThreadSafeExecutor<T,V> {
     V doExecute(T t);
 
     /**
-     * 不同的 on-off 策略所实现的线程安全策略代码
+     * 不同的安全同步策略所实现的线程安全策略代码
      */
-    V doSafeExecute(T t);
+    V safeExecutor(T t);
 }

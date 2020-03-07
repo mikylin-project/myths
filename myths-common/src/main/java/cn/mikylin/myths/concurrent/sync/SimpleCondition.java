@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common.concurrent;
+package cn.mikylin.myths.concurrent.sync;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;

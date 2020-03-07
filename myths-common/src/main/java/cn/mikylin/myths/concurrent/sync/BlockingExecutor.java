@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common.concurrent;
+package cn.mikylin.myths.concurrent.sync;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -17,7 +17,7 @@ public interface BlockingExecutor<T,V> extends ThreadSafeExecutor<T,V> {
             = new ThreadSafeExecutorMap<>(() -> new LinkedBlockingQueue<>());
 
     @Override
-    default V doSafeExecute(T t) {
+    default V safeExecutor(T t) {
         AtomicBoolean casLock = lockMap.get(this);
         for(;;) {
             if(casLock.compareAndSet(true,false)) {

@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common.concurrent;
+package cn.mikylin.myths.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;

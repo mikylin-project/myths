@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common.concurrent;
+package cn.mikylin.myths.concurrent.sync;
 
 import cn.mikylin.myths.common.MapUtils;
 import java.util.*;

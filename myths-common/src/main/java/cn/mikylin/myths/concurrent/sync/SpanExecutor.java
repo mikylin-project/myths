@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common.concurrent;
+package cn.mikylin.myths.concurrent.sync;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -8,10 +8,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author mikylin
  * @date 20190623
  */
-public interface NonBlockingExecutor<T,V> extends ThreadSafeExecutor<T,V> {
+public interface SpanExecutor<T,V> extends ThreadSafeExecutor<T,V> {
 
     @Override
-    default V doSafeExecute(T t) {
+    default V safeExecutor(T t) {
         AtomicBoolean casLock = lockMap.get(this);
         for(;;) {
             if(casLock.compareAndSet(true,false))

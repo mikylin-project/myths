@@ -1,6 +1,4 @@
-package cn.mikylin.myths.common.concurrent;
-
-import cn.mikylin.myths.cache.collection.DefaultAsyncQueue;
+package cn.mikylin.myths.concurrent;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
