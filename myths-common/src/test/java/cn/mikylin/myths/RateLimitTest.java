@@ -1,6 +1,6 @@
 package cn.mikylin.myths;
 
-import cn.mikylin.myths.common.concurrent.TokenLimiter;
+import cn.mikylin.myths.concurrent.token.TokenLimiter;
 import org.junit.jupiter.api.Test;
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -1,14 +1,14 @@
 package cn.mikylin.myths;
 
-import cn.mikylin.myths.common.concurrent.NonBlockingExecutor;
-import cn.mikylin.myths.common.concurrent.ThreadSafeExecutor;
+import cn.mikylin.myths.concurrent.sync.SpanExecutor;
+import cn.mikylin.myths.concurrent.sync.ThreadSafeExecutor;
 import org.junit.jupiter.api.Test;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
  * simple test for
- * {@link cn.mikylin.myths.common.concurrent.NonBlockingExecutor}
+ * {@link SpanExecutor}
  *
  * @author mikylin
  * @date 20200222
@@ -20,16 +20,16 @@ public class ThreadSafeExecutorTest {
     @Test
     public void test() {
 
-        ThreadSafeExecutor t = new NonBlockingExecutorTester();
+        ThreadSafeExecutor t = new SpanExecutorTester();
 
         for(int i = 0 ; i < 1000 ; i ++) {
-            pool.submit(() -> t.doSafeExecute(1));
+            pool.submit(() -> t.safeExecutor(1));
         }
 
     }
 
 
-    private static class NonBlockingExecutorTester implements NonBlockingExecutor<Integer,Integer> {
+    private static class SpanExecutorTester implements SpanExecutor<Integer,Integer> {
 
         private int i = 0;
 
