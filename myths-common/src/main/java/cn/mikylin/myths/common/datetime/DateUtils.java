@@ -28,7 +28,7 @@ public final class DateUtils {
     }
 
     public static String toDateString(Date d) {
-        return toString(d,Constants.Date.DATE_FORMAT);
+        return toString(d,Constants.Date.DATE_FORMAT_YYYYMMDD);
     }
 
     public static String toTimeString(Date d) {
@@ -48,7 +48,7 @@ public final class DateUtils {
     }
 
     public static Date toDate(String dateString) {
-        return toDateTime(dateString,Constants.Date.DATE_FORMAT);
+        return toDateTime(dateString,Constants.Date.DATE_FORMAT_YYYYMMDD);
     }
 
 
