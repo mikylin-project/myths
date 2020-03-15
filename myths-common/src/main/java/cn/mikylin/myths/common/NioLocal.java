@@ -48,6 +48,22 @@ public final class NioLocal {
         return fileToBytes(path);
     }
 
+    public static boolean exists(String pathForFile) {
+        return Files.exists(getFilePath(pathForFile));
+    }
+
+    public static boolean createDir(String path) {
+        Path p = Path.of(path);
+        if(!Files.exists(p)) {
+            try {
+                Files.createDirectory(p);
+            } catch (IOException e) {
+                throw new RuntimeException("create dir exception.");
+            }
+        }
+        return true;
+    }
+
     /**
      * read the file to byte[].
      *
@@ -208,11 +224,7 @@ public final class NioLocal {
             throw new RuntimeException("directory must can read.");
 
         if(isDeleteIfExists)
-            try {
-                Files.deleteIfExists(dirPath);
-            } catch (IOException e) {
-                throw new RuntimeException("dir delete failed.");
-            }
+            delete(dirPath);
 
         return dirPath;
     }
@@ -239,7 +251,15 @@ public final class NioLocal {
         //验证传入的文件路径不能为空
         StringUtils.requireNotBlank(path,"path can not be blank.");
         //获取路径封装对象 path
-        return Paths.get(path);
+        return Path.of(path);
+    }
+
+    private static void delete(Path p) {
+        try {
+            Files.deleteIfExists(p);
+        } catch (IOException e) {
+            throw new RuntimeException("delete failed.");
+        }
     }
 
 }

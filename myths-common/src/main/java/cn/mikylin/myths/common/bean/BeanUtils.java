@@ -30,7 +30,7 @@ public final class BeanUtils {
 
         BeanInfo info = info(bean.getClass());
         PropertyDescriptor[] propertyDescriptors = info.getPropertyDescriptors();
-        for(PropertyDescriptor descriptor : propertyDescriptors){
+        for(PropertyDescriptor descriptor : propertyDescriptors) {
             String key = descriptor.getName();
             Method getterMethod = descriptor.getReadMethod();
             if(StringUtils.isNotBlank(key) && !key.equals(Constants.System.CLASS)){
@@ -44,17 +44,19 @@ public final class BeanUtils {
     /**
      * getter methods.
      *
-     * @param bean  object
+     * @param clz  object's class
      * @return getters
      */
-    public static Map<String,Method> gets(Object bean) {
+    public static <T> Map<String,Method> gets(Class<T> clz) {
 
-        Map<String,Method> map = MapUtils.newHashMap();
-        BeanInfo info = info(bean.getClass());
-        for(PropertyDescriptor descriptor : info.getPropertyDescriptors()){
+        BeanInfo info = info(clz.getClass());
+        PropertyDescriptor[] ps = info.getPropertyDescriptors();
+        Map<String,Method> map = MapUtils.newHashMap(ps.length);
+
+        for(PropertyDescriptor descriptor : ps) {
             String key = descriptor.getName();
 
-            if(StringUtils.isNotBlank(key) && !key.equals(Constants.System.CLASS)){
+            if(StringUtils.isNotBlank(key) && !key.equals(Constants.System.CLASS)) {
                 Method getterMethod = descriptor.getReadMethod();
                 map.put(key,getterMethod);
             }
@@ -68,13 +70,13 @@ public final class BeanUtils {
      * @param clz  object's class
      * @return setters
      */
-    public static Map<String,Method> sets(Class clz) {
+    public static <T> Map<String,Method> sets(Class<T> clz) {
 
         Map<String,Method> map = MapUtils.newHashMap();
         BeanInfo info = info(clz);
-        for(PropertyDescriptor descriptor : info.getPropertyDescriptors()){
+        for(PropertyDescriptor descriptor : info.getPropertyDescriptors()) {
             String key = descriptor.getName();
-            if(StringUtils.isNotBlank(key) && !key.equals(Constants.System.CLASS)){
+            if(StringUtils.isNotBlank(key) && !key.equals(Constants.System.CLASS)) {
                 Method setterMethod = descriptor.getWriteMethod();
                 map.put(key,setterMethod);
             }
@@ -92,10 +94,10 @@ public final class BeanUtils {
 
         Map<Method,Method> map = MapUtils.newHashMap();
         BeanInfo info = info(bean.getClass());
-        for(PropertyDescriptor descriptor : info.getPropertyDescriptors()){
+        for(PropertyDescriptor descriptor : info.getPropertyDescriptors()) {
             String key = descriptor.getName();
 
-            if(StringUtils.isNotBlank(key) && !key.equals(Constants.System.CLASS)){
+            if(StringUtils.isNotBlank(key) && !key.equals(Constants.System.CLASS)) {
                 Method setterMethod = descriptor.getWriteMethod();
                 Method getterMethod = descriptor.getReadMethod();
                 map.put(getterMethod,setterMethod);

@@ -27,7 +27,7 @@ public final class ArrayUtils {
      * @param array  array
      * @return  not blank - true , blank - false
      */
-    public static boolean isNotBlank(byte[] array){
+    public static boolean isNotBlank(byte[] array) {
         return !isBlank(array);
     }
 
@@ -99,7 +99,7 @@ public final class ArrayUtils {
      * @param array  array
      * @return  blank - true , not blank - false
      */
-    public static boolean isBlank(Object[] array){
+    public static boolean isBlank(Object[] array) {
         return array == null || array.length == 0;
     }
 
@@ -120,7 +120,7 @@ public final class ArrayUtils {
      * @param element  ele
      * @return  exist - true , not exist - false
      */
-    public static <T> boolean isInArray(T[] array, T element){
+    public static <T> boolean isInArray(T[] array, T element) {
 
         if(isBlank(array)) //collection can not be blank
             return false;
@@ -175,7 +175,6 @@ public final class ArrayUtils {
         return result;
     }
 
-
     /**
      * distinct the array.
      * @param objs  array
@@ -196,7 +195,7 @@ public final class ArrayUtils {
             T m = objs[i];
             c2 : for(int j = 0 ; j <= distinctLen ; j ++) {
                 T d = distinct[j];
-                if(m == d) continue c1;
+                if(Objects.equals(m,d)) continue c1;
             }
             distinct[distinctLen ++] = m;
         }
