@@ -56,7 +56,7 @@ public final class CollectionUtils {
      */
     public static <T> List<T> newArrayList(T... ts) {
 
-        if(ArrayUtils.isNotBlank(ts)){
+        if(ArrayUtils.isNotBlank(ts)) {
             List<T> l = new ArrayList<>(ts.length + 8);
             Collections.addAll(l,ts);
             return l;

@@ -3,6 +3,7 @@ package cn.mikylin.myths.common;
 import cn.mikylin.myths.common.lang.StringUtils;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -73,11 +74,9 @@ public final class ClassUtils {
      * @return class's package name
      */
     public static String packageName(Class<?> clz) {
-        Objects.requireNonNull(clz);
-        String pakName;
-        if(StringUtils.isNotBlank(pakName = clz.getPackageName()))
-            return pakName;
-        return null;
+        if(Objects.isNull(clz))
+            return null;
+        return clz.getPackageName();
     }
 
     /**
@@ -87,6 +86,7 @@ public final class ClassUtils {
      * @return class's super class
      */
     public static String superClassName(Class<?> clz) {
+        Objects.requireNonNull(clz);
         Class<?> superClass;
         if((superClass = clz.getSuperclass()) != null)
             return superClass.getName();
@@ -95,14 +95,14 @@ public final class ClassUtils {
 
     public static List<String> getInterfaces(Class<?> clz) {
 
-        List<String> l = CollectionUtils.newArrayList();
+        Objects.requireNonNull(clz);
 
+        List<String> l = CollectionUtils.newArrayList();
         Class<?>[] interfaces = clz.getInterfaces();
-        if(ArrayUtils.isNotBlank(interfaces)){
-            for (Class<?> i : interfaces) {
-                l.add(i.getName());
-            }
-        }
+
+        for (Class<?> i : interfaces)
+            l.add(i.getName());
+
         return l;
     }
 
@@ -117,8 +117,7 @@ public final class ClassUtils {
     public static <T> T instance(Class<T> clz,Object... params) {
         // 使用 constructor 去反射创建对象
         try {
-            T t = clz.getConstructor().newInstance(params);
-            return t;
+            return clz.getConstructor().newInstance(params);
         } catch (Exception e) {
             throw new RuntimeException("Bean [" + clz.getName() + "] create exception");
         }
