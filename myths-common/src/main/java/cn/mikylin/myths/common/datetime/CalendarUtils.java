@@ -114,6 +114,10 @@ public final class CalendarUtils {
         return start.getTime();
     }
 
+    public static Date beginOfTheDay() {
+        return beginOfTheDay(new Date());
+    }
+
     /**
      * the begin time of the day.
      * @param year  year
@@ -141,6 +145,10 @@ public final class CalendarUtils {
         return end.getTime();
     }
 
+    public static Date endOfTheDay() {
+        return endOfTheDay(new Date());
+    }
+
     /**
      * the end time of the day.
      * @param year  year
@@ -164,6 +172,10 @@ public final class CalendarUtils {
         return ca.get(Calendar.MONTH) - 1;
     }
 
+    public static int getMonth() {
+        return getMonth(new Date());
+    }
+
     /**
      * get month day of the date.
      * @param d  base date
@@ -174,6 +186,10 @@ public final class CalendarUtils {
         return ca.get(Calendar.DAY_OF_MONTH);
     }
 
+    public static int getMonthOfDay() {
+        return getMonthOfDay(new Date());
+    }
+
     /**
      * get year day of the date.
      * @param d  base date
@@ -182,6 +198,10 @@ public final class CalendarUtils {
     public static int getYearOfDay(Date d) {
         Calendar ca = getCalendar(d);
         return ca.get(Calendar.DAY_OF_YEAR);
+    }
+
+    public static int getYearOfDay() {
+        return getYearOfDay(new Date());
     }
 
     /**
