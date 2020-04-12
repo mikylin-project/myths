@@ -1,34 +1,35 @@
 package cn.mikylin.myths.common.random;
 
 import cn.mikylin.myths.common.ArrayUtils;
-
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class RandomUtils {
+/**
+ * random utils
+ *
+ * @author mikylin
+ * @date 20200410
+ */
+public final class RandomUtils {
 
-    private static ThreadLocalRandom random = ThreadLocalRandom.current();
-    private static ThreadLocal<Random> rs = new ThreadLocal<>();
-    private static AtomicLong choose = new AtomicLong(0L);
+    private RandomUtils() {}
+
+    private static final ThreadLocalRandom random = ThreadLocalRandom.current();
+    private static final ThreadLocal<Random> rs = new ThreadLocal<>();
+    private static final AtomicInteger choose = new AtomicInteger(0);
 
     private static Random random() {
-        Random random = rs.get();
-        if(random == null)
-            synchronized (RandomUtils.class) {
-                if(random == null) {
-                    random = new Random();
-                    rs.set(random);
-                }
-            }
-
-        random.setSeed(System.currentTimeMillis());
-
+        Random r = rs.get();
+        if(r == null) {
+            r = new Random(System.currentTimeMillis());
+            rs.set(r);
+        }
         return random;
     }
 
     private static int chooseRandom() {
-        return (int)(choose.incrementAndGet() % 3L);
+        return choose.incrementAndGet() % 3;
     }
 
 
@@ -42,35 +43,28 @@ public class RandomUtils {
 
     public static int nextInt(int min,int max) {
 
-        if(min == max)
+        if(min >= max)
             return min;
 
-        int i = chooseRandom();
-        if(i == 0)
-            return random().nextInt(max - min);
-        else if(i == 1)
-            return randomHash() % (max - min) + min;
-        return random.nextInt(min,max);
+        switch (chooseRandom()) {
+            case 0 : return random().nextInt(max - min);
+            case 1 : return randomHash() % (max - min) + min;
+            default: return random.nextInt(min,max);
+        }
     }
 
     public static double nextDouble(double min,double max) {
-        int i = chooseRandom();
-        if(i == 0)
-            return min + random().nextDouble() * (max - min);
-        else if(i == 1) {
-            int hash = randomHash();
-            double i1 = ((double) hash) / (10 ^ (String.valueOf(hash).length()));
-            return min + randomHash() % 10;
+
+        if(min >= max)
+            return min;
+
+        switch (chooseRandom()) {
+            case 0 : return min + random().nextDouble() * (max - min);
+            case 1 : return min + randomHash() / 10d;
+            default: return random.nextDouble(min,max);
         }
-
-        return random.nextDouble(min,max);
     }
 
-    public static void main(String[] args) {
-        int hash = randomHash();
-        double i1 = ((double) hash) / (10 ^ (String.valueOf(hash).length()));
-        System.out.println(i1);
-    }
 
     public static long nextLong(long max) {
         return nextLong(0,max);
@@ -78,22 +72,23 @@ public class RandomUtils {
 
     public static long nextLong(long min,long max) {
 
-        if(min == max)
+        if(min >= max)
             return min;
 
-        int i = chooseRandom();
-        if(i == 0) {
-            long n = max - min;
-            long bits, val;
-            do {
-                bits = (random().nextLong() << 1) >>> 1;
-                val = bits % n;
-            } while (bits - val + (n - 1) < 0L);
-            return min + val;
-        } else if(i == 1) {
-            // todo
+        switch (chooseRandom()) {
+            case 0 :
+                long n = max - min;
+                long bits, val;
+                do {
+                    bits = (random().nextLong() << 1) >>> 1;
+                    val = bits % n;
+                } while (bits - val + (n - 1) < 0L);
+                return min + val;
+            case 1 :
+                return (long)randomHash() << 32 + randomHash();
+            default: return random.nextLong(min,max);
         }
-        return random.nextLong(min,max);
+
     }
 
     public static int[] rowNumsSafe(int count, int per, int range,

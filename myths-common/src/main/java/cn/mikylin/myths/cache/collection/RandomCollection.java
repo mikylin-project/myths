@@ -16,7 +16,7 @@ import java.util.*;
 public abstract class RandomCollection<T> {
 
 
-    private static class Set<T> extends RandomCollection<T> {
+    private static final class Set<T> extends RandomCollection<T> {
 
         private Set() {
             super(new TreeSet<>((o1, o2) -> o1.index > o2.index ? 1 : -1));
@@ -32,7 +32,7 @@ public abstract class RandomCollection<T> {
         }
     }
 
-    private static class List<T> extends RandomCollection<T> {
+    private static final class List<T> extends RandomCollection<T> {
 
         private List(int size) {
             super(new ArrayList<>(size));
@@ -64,13 +64,13 @@ public abstract class RandomCollection<T> {
     }
 
 
-    private Entry<T>[] sub;
-    private boolean subFlag = false;
+    private volatile Entry<T>[] sub;
+    private volatile boolean subFlag = false;
 
 
-    // jdk 9 +，使用 var handler
+    // jdk 9 + 中使用 var handler
     private long indexLong = 0L;
-    private static VarHandle INDEX_LONG;
+    private static final VarHandle INDEX_LONG;
     static {
         try {
             INDEX_LONG = MethodHandles
@@ -101,10 +101,9 @@ public abstract class RandomCollection<T> {
     }
 
 
-    public void addCollection(Collection<T> c,int weight) {
-        for(T t : c) {
+    public void addCollection(final Collection<T> c,final int weight) {
+        for(T t : c)
             col.add(Entry.create(t,getIndex(),weight));
-        }
     }
 
     public void addCollection(Collection<T> c) {
