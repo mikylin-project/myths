@@ -13,13 +13,10 @@ import java.util.concurrent.locks.Condition;
  * @author mikylin
  * @date 20200222
  */
-public class TokenLimiter {
+public final class TokenLimiter implements Limiter {
 
-    private long maxToken; // token quantity.
-    private long rate; // token create rate / per second.
-
-    private static final long SECOND = 1000l; // 1s = 1000ms
-
+    private final long maxToken; // token quantity.
+    private final long rate; // token create rate / per second.
 
     // condition queue use to await the thread.
     private Condition con = new SimpleCondition();
@@ -31,13 +28,9 @@ public class TokenLimiter {
         token(tokens); // create the limit number of rate once.
     }
 
-    /**
-     * quick to create a limiter.
-     * @param rate  qps which want to limit.
-     * @return limiter.
-     */
-    public static TokenLimiter create(long rate) {
-        return new TokenLimiter(rate,rate);
+    @Override
+    public long maxLimit() {
+        return maxToken;
     }
 
     /**
@@ -46,6 +39,7 @@ public class TokenLimiter {
      * @param i  try to get rates.
      * @return true -- get success ; false -- get fail.
      */
+    @Override
     public boolean tryAcquire(long i) {
         if(i <= 0L || i > maxToken)
             throw new RuntimeException();
@@ -67,6 +61,7 @@ public class TokenLimiter {
      *
      * @param i  try to get rates.
      */
+    @Override
     public void acquire(long i) {
         for(;!tryAcquire(i);)
             await(i);
@@ -84,9 +79,9 @@ public class TokenLimiter {
      */
     private void await(long i) {
         long t = System.currentTimeMillis() - lastTime();
-        if(t < SECOND || !tryAcquire(i)) {
+        if(t < ONE_SECOND || !tryAcquire(i)) {
             try {
-                con.await(t % SECOND, TimeUnit.MILLISECONDS);
+                con.await(t % ONE_SECOND, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
                 throw new RuntimeException("thread intterupted.");
             }
@@ -99,13 +94,13 @@ public class TokenLimiter {
      */
     private void rate() {
         long now = System.currentTimeMillis();
-        if(now - lastTime() < SECOND)
+        if(now - lastTime() < ONE_SECOND)
             return;
 
         long lastTime = getAndSetTime(now);
 
         long time = now - lastTime;
-        long addNumber = time / SECOND * rate;
+        long addNumber = time / ONE_SECOND * rate;
         for(;;) {
             long t = token();
             long newToken = t + addNumber;
@@ -120,7 +115,7 @@ public class TokenLimiter {
 
 
     /**
-     * the code use in jdk9 +.
+     * the code used by jdk9 + version.
      * recommend this code.
      */
     private long lastTime; // the last time to get the rate.
