@@ -34,6 +34,10 @@ public final class ThreadUtils {
         sleepSecond(time);
     }
 
+    public static void sleepMilliSecond(long time) {
+        sleep(TimeUnit.MILLISECONDS,time);
+    }
+
     /**
      * thread sleep.
      */
