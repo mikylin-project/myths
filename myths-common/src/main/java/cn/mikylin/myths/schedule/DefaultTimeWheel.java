@@ -4,6 +4,7 @@ import cn.mikylin.myths.common.lang.ThreadUtils;
 import cn.mikylin.myths.common.lang.TimeUtils;
 
 import java.util.Iterator;
+import java.util.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -63,6 +64,7 @@ public final class DefaultTimeWheel extends AbstractTaskThread implements TimeWh
 
         // 设置为非守护线程
         setDaemon(false);
+
     }
 
     /**
