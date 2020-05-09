@@ -10,7 +10,7 @@ public class TimeWheelTaskTest {
     @Test
     public void test1() {
 
-        TimeWheel wheel = new DefaultTimeWheel(100L, TimeUnit.SECONDS,10L);
+        TimeWheel wheel = new SecondTimeWheel(100);
 
 
         Schedule s = new DefaultSchedule();
@@ -20,8 +20,9 @@ public class TimeWheelTaskTest {
             public void run() {
                 System.out.println("111");
             }
-        },5L,TimeUnit.SECONDS,TaskStatus.DO_ONCE);
+        },10L,TimeUnit.SECONDS,TaskStatus.DO_ONCE);
 
+        System.out.println(System.currentTimeMillis());
         wheel.start();
 
     }

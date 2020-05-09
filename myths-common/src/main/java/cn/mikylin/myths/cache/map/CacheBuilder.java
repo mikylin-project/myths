@@ -99,16 +99,5 @@ public final class CacheBuilder {
         }
     }
 
-    /**
-     * quick to create bi map
-     */
-
-    public static <K,V> BiHashMap<K,V> bi(Map<K,V> normal, Map<V,K> rever){
-        return new BiHashMap<>(normal,rever);
-    }
-
-    public static <K,V> BiHashMap<K,V> bi(){
-        return bi(MapUtils.newConcurrentMap(),MapUtils.newConcurrentMap());
-    }
 
 }

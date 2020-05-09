@@ -25,4 +25,12 @@ public interface BiMap<K,V> extends Map<K,V> {
      * @param value  value
      */
     void revPut(K key, V value);
+
+    /**
+     * set k-v.
+     *
+     * @param key  key
+     * @param value  value
+     */
+    BiMap<K,V> set(K key,V value);
 }

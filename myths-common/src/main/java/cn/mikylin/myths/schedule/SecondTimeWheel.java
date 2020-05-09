@@ -1,14 +1,9 @@
 package cn.mikylin.myths.schedule;
 
-import cn.mikylin.myths.common.lang.ThreadUtils;
-import cn.mikylin.myths.common.lang.TimeUtils;
-
 import java.util.Iterator;
-import java.util.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 时间轮默认实现
@@ -16,74 +11,46 @@ import java.util.concurrent.TimeUnit;
  * @author mikylin
  * @date 20200503
  */
-public final class DefaultTimeWheel extends AbstractTaskThread implements TimeWheel {
-
-    /**
-     * 一轮时间的分段
-     */
-    private final int segment;
-
-    /**
-     * 休眠时间，单位 ms
-     */
-    private final long intervalTime;
+public final class SecondTimeWheel extends NewThreadTimeWheel {
 
     /**
      * 任务执行线程
      */
-    private AbstractTaskThread t;
-
-    public DefaultTimeWheel(long time,TimeUnit unit,long intervalTime,ExecutorService taskPool) {
-        this(TimeUtils.currentTimeMillis(unit,time),intervalTime,taskPool);
-    }
-
-    public DefaultTimeWheel(long time,TimeUnit unit,long intervalTime) {
-        this(TimeUtils.currentTimeMillis(unit,time),intervalTime,null);
-    }
+    private final Thread t;
+    private final TaskThreadRunner taskRunner;
 
     /**
      * 构造方法
-     * @param milliSecond  一轮的总时间
-     * @param intervalTime  休眠时间
+     * @param segment  一轮的总时间
      * @param taskPool  执行任务的线程池
      */
-    public DefaultTimeWheel(long milliSecond,long intervalTime,ExecutorService taskPool) {
+    public SecondTimeWheel(int segment,ExecutorService taskPool) {
 
-        // 分段
-        this.segment = (int) (milliSecond / intervalTime);
-
-        // 休眠时间
-        this.intervalTime = intervalTime;
+        super(segment,1000L);
 
         // 线程池
         ExecutorService pool = taskPool;
         if(pool == null)
             pool = Executors.newSingleThreadExecutor();
 
-        t = new DefaultTaskThread(intervalTime,segment,pool);
+        taskRunner = new TaskThreadRunner(1000,segment,pool);
+        t = new Thread(taskRunner);
+        t.start();
+    }
 
-        // 设置为非守护线程
-        setDaemon(false);
-
+    public SecondTimeWheel(int segment) {
+        this(segment,Executors.newSingleThreadExecutor());
     }
 
     /**
      * 执行时间轮
      */
     @Override
-    public void run() {
-
-        // 启动任务执行线程
-        t.start();
-
-        final DefaultTaskThread dtt = (DefaultTaskThread)t;
-
-        // 休眠时间轮线程，并定期去唤醒任务执行线程
-        for(;;) {
-            ThreadUtils.sleepMilliSecond(intervalTime);
-            dtt.notifyTaskThread();
-        }
+    void doTickTask() {
+        taskRunner.notifyTaskThread();
     }
+
+
 
     /**
      * 优雅关闭
@@ -93,18 +60,8 @@ public final class DefaultTimeWheel extends AbstractTaskThread implements TimeWh
         synchronized (this) {
             if(t == null)
                 throw new RuntimeException();
-            t.shutdownGracefully();
+            taskRunner.shutdownGracefully();
         }
-    }
-
-    @Override
-    Segment getSegment(int index) {
-        throw new RuntimeException();
-    }
-
-    @Override
-    void doTask(int index) {
-        throw new RuntimeException();
     }
 
     /**
@@ -113,30 +70,28 @@ public final class DefaultTimeWheel extends AbstractTaskThread implements TimeWh
      */
     @Override
     public void registTask(TimeWheelTask task) {
-        t.registTask(task);
+        taskRunner.registTask(task);
     }
 
 
     /**
      * 工作线程
      */
-    static class DefaultTaskThread extends AbstractTaskThread {
+    static class TaskThreadRunner implements Runnable {
 
         boolean notify = true;
         boolean stop = false;
-        int index = 1;
+        int index = 0;
         final int segment;
         final long intervalTime;
         ExecutorService pool;
 
         private final Segment[] segments;
 
-        DefaultTaskThread(long intervalTime, int segment, ExecutorService pool) {
+        TaskThreadRunner(long intervalTime, int segment, ExecutorService pool) {
             this.intervalTime = intervalTime;
             this.segment = segment;
             this.pool = pool;
-
-            setDaemon(true);
 
             this.segments = new Segment[segment];
             for(int i = 0 ; i < segments.length ; i ++)
@@ -190,6 +145,7 @@ public final class DefaultTimeWheel extends AbstractTaskThread implements TimeWh
                     pool.execute(() -> {
                         if(task.notCancel()) {
                             registAfterBeginRunning(task);
+                            System.out.println(System.currentTimeMillis());
                             task.run();
                             registAfterFinish(task);
                         }
@@ -202,7 +158,7 @@ public final class DefaultTimeWheel extends AbstractTaskThread implements TimeWh
          * 休眠执行线程
          */
         void waitTaskThread() {
-            for(;notify;)
+            for(;notify;) {
                 synchronized (this) {
                     try {
                         wait();
@@ -210,6 +166,9 @@ public final class DefaultTimeWheel extends AbstractTaskThread implements TimeWh
                         e.printStackTrace();
                     }
                 }
+            }
+
+            notify = true;
         }
 
 
@@ -219,7 +178,7 @@ public final class DefaultTimeWheel extends AbstractTaskThread implements TimeWh
         void notifyTaskThread() {
             notify = false;
             synchronized (this) {
-                this.notify();
+                notifyAll();
             }
         }
 
@@ -227,7 +186,6 @@ public final class DefaultTimeWheel extends AbstractTaskThread implements TimeWh
          * 注册 task 到时间轮里
          * @param task  任务
          */
-        @Override
         void registTask(TimeWheelTask task) {
             synchronized (this) {
                 int i = taskExecuteIndex(task);
@@ -240,11 +198,8 @@ public final class DefaultTimeWheel extends AbstractTaskThread implements TimeWh
             s.addTask(task);
         }
 
-        @Override
-        void shutdownGracefully() {
-            synchronized (this) {
-                stop = true;
-            }
+        synchronized void shutdownGracefully() {
+            stop = true;
         }
 
 
@@ -259,7 +214,15 @@ public final class DefaultTimeWheel extends AbstractTaskThread implements TimeWh
         }
 
         int taskExecuteIndex(TimeWheelTask task) {
-            return (int)(task.getDelayMilliSecond() / intervalTime) + 1 + index;
+            long delayMilliSecond = task.getDelayMilliSecond();
+
+            int delay = 0;
+            if(delayMilliSecond % intervalTime != 0L) {
+                delay = 1;
+            }
+
+            int i = (int)(delayMilliSecond / intervalTime);
+            return i + index + delay;
         }
 
     }

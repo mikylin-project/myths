@@ -50,6 +50,10 @@ public class SnowFlakeWorker {
         this.lastSeq = 0L;
     }
 
+    public SnowFlakeWorker(int dataId,int workerId) {
+        this(System.currentTimeMillis(),dataId,workerId);
+    }
+
     /**
      * 生成 id
      */
