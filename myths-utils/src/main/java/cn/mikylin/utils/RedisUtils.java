@@ -17,7 +17,7 @@ import java.util.Set;
  * @author mikylin
  * @date 20191112
  */
-public class RedisUtils {
+public final class RedisUtils {
 
 
     // 缓存生存时间

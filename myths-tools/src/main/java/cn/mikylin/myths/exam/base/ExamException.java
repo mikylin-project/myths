@@ -1,6 +1,6 @@
 package cn.mikylin.myths.exam.base;
 
-public class ExamException extends RuntimeException{
+public class ExamException extends RuntimeException {
 
     private CheckResult result;
 

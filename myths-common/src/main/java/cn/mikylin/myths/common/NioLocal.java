@@ -1,5 +1,6 @@
 package cn.mikylin.myths.common;
 
+import cn.mikylin.myths.common.lang.ArrayUtils;
 import cn.mikylin.myths.common.lang.StringUtils;
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +8,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * summarized by nio jdk7 Files.

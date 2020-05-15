@@ -1,15 +1,16 @@
 package cn.mikylin.utils;
 
-import cn.mikylin.myths.common.ArrayUtils;
-import cn.mikylin.myths.common.lang.StringUtils;
-import lombok.extern.slf4j.Slf4j;
+import cn.mikylin.myths.common.lang.*;
 import org.zeroturnaround.zip.ZipUtil;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
-@Slf4j
+/**
+ * zip utils
+ *
+ * @author mikylin
+ * @date 20200515
+ */
 public class ZipUtils {
-
 
     /**
      * 将当前文件替换掉 zip 包中的文件
@@ -33,11 +34,9 @@ public class ZipUtils {
         // 替换文件
         File newZip = new File(zip.getParent() + File.separator + System.currentTimeMillis() + ".zip");
         boolean r = ZipUtil.replaceEntry(zip, file, content, newZip);
-        log.info("zip 文件" + (r ? "替换成功" : "替换失败"));
 
         if (r && deleteOld) {
-            boolean isdeleted = zip.delete();
-            log.info(isdeleted ? "原文件已被删除" : "源文件删除失败");
+            zip.delete();
         }
     }
 

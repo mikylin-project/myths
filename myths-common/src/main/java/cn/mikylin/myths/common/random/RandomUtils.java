@@ -1,6 +1,6 @@
 package cn.mikylin.myths.common.random;
 
-import cn.mikylin.myths.common.ArrayUtils;
+import cn.mikylin.myths.common.lang.*;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;

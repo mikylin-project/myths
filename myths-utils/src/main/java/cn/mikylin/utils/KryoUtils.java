@@ -5,22 +5,32 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
 /**
- * kryo serialize frameworker
+ * kryo serialize frameworker.
+ *
  * @author mikylin
  * @date 20190819
  */
 public final class KryoUtils {
 
     /**
-     * thread safe
+     * thread safe kryos
      */
     private static ThreadLocal<Kryo> kryos;
     static {
         kryos = new ThreadLocal<>();
     }
 
+    private static Kryo getKryo() {
+        Kryo kryo = kryos.get();
+        if(kryo == null) {
+            kryo = new Kryo();
+            kryos.set(kryo);
+        }
+        return kryo;
+    }
 
-    public static byte[] serialize(Object obj,int size,Class... clzs){
+
+    public static byte[] serialize(Object obj,int size,Class... clzs) {
 
         Kryo kryo = getKryo();
 
@@ -46,13 +56,6 @@ public final class KryoUtils {
         return (T)o;
     }
 
-    private static Kryo getKryo(){
-        Kryo kryo = kryos.get();
-        if(kryo == null){
-            kryo = new Kryo();
-            kryos.set(kryo);
-        }
-        return kryo;
-    }
+
 
 }

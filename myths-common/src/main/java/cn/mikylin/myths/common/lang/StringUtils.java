@@ -1,5 +1,8 @@
 package cn.mikylin.myths.common.lang;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 /**
  * string utils.
  *
@@ -7,6 +10,8 @@ package cn.mikylin.myths.common.lang;
  * @date 20190619
  */
 public final class StringUtils {
+
+    private static final Charset c = CharsetUtils.getDefault();
 
     /**
      * check the string is blank.
@@ -74,5 +79,25 @@ public final class StringUtils {
         for(Object obj : objs)
             builder.append(obj);
         return builder.toString();
+    }
+
+    public static String toString(Charset c,byte[] bs) {
+        if(c == null || ArrayUtils.isBlank(bs))
+            throw new IllegalArgumentException();
+        return new String(bs,c);
+    }
+
+    public static String toString(byte[] bs) {
+        return toString(c,bs);
+    }
+
+    public static byte[] toBytes(Charset c,String s) {
+        if(c == null || isBlank(s))
+            throw new IllegalArgumentException();
+        return s.getBytes(c);
+    }
+
+    public static byte[] toBytes(String s) {
+        return toBytes(c,s);
     }
 }

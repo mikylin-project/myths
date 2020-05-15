@@ -1,7 +1,6 @@
 package cn.mikylin.myths.common.secret;
 
-import cn.mikylin.myths.common.Constants;
-import java.io.UnsupportedEncodingException;
+import cn.mikylin.myths.common.lang.StringUtils;
 import java.util.Base64;
 
 /**
@@ -18,7 +17,7 @@ public final class Base64Utils {
      * @param url base url
      * @return string
      */
-    public String encodeUrl(String url) {
+    public static String encodeUrl(String url) {
         return encode(Base64.getUrlEncoder(),url);
     }
 
@@ -27,7 +26,7 @@ public final class Base64Utils {
      *
      * @param encodeString encode string
      */
-    public String decodeUrl(String encodeString) {
+    public static String decodeUrl(String encodeString) {
         return decode(Base64.getUrlDecoder(),encodeString);
     }
 
@@ -36,7 +35,7 @@ public final class Base64Utils {
      * @param url base url
      *            @return string
      */
-    public String encodeMime(String url) {
+    public static String encodeMime(String url) {
         return encode(Base64.getMimeEncoder(),url);
     }
 
@@ -46,7 +45,7 @@ public final class Base64Utils {
      * @param encodeString encode string
      * @return string
      */
-    public String decodeMime(String encodeString) {
+    public static String decodeMime(String encodeString) {
         return decode(Base64.getMimeDecoder(),encodeString);
     }
 
@@ -56,7 +55,11 @@ public final class Base64Utils {
      * @param url base url
      * @return string
      */
-    public String encode(String url) {
+    public static String encode(String url) {
+        return encode(Base64.getEncoder(),url);
+    }
+
+    public static String encode(byte[] url) {
         return encode(Base64.getEncoder(),url);
     }
 
@@ -66,29 +69,35 @@ public final class Base64Utils {
      * @param encodeString encode string
      * @return string
      */
-    public String decode(String encodeString) {
+    public static String decode(String encodeString) {
         return decode(Base64.getDecoder(),encodeString);
     }
 
-
-
-
-    private String encode(Base64.Encoder encoder,String url) {
-        try {
-            // 加密的过程
-            return encoder.encodeToString(url.getBytes(Constants.Charset.UTF8));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("string to bytes exception");
-        }
+    public static String decode(byte[] bs) {
+        return decode(Base64.getDecoder(),bs);
     }
 
-    private String decode(Base64.Decoder decoder,String encodeString) {
-        try {
-            // 解密的过程
-            return new String(decoder.decode(encodeString),Constants.Charset.UTF8);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("bytes to string exception");
-        }
+
+    /**
+     * 加密
+     */
+    private static String encode(Base64.Encoder encoder,String url) {
+        return encode(encoder, StringUtils.toBytes(url));
+    }
+
+    private static String encode(Base64.Encoder encoder,byte[] url) {
+        return encoder.encodeToString(url);
+    }
+
+    /**
+     * 解密
+     */
+    private static String decode(Base64.Decoder decoder,String encodeString) {
+        return StringUtils.toString(decoder.decode(encodeString));
+    }
+
+    private static String decode(Base64.Decoder decoder,byte[] encodeByte) {
+        return StringUtils.toString(decoder.decode(encodeByte));
     }
 
 

@@ -11,10 +11,7 @@ import java.util.*;
  */
 public final class CalendarUtils {
 
-    private static TimeZone defaultZone;
-    static {
-        defaultZone = TimeZone.getTimeZone(Constants.Time.TIME_ZONE);
-    }
+    private static TimeZone defaultZone = TimeZone.getTimeZone(Constants.Time.TIME_ZONE);
 
 
     private static Calendar getCalendar() {

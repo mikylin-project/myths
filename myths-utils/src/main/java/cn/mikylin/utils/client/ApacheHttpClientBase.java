@@ -1,8 +1,7 @@
 package cn.mikylin.utils.client;
 
-import cn.mikylin.myths.common.ArrayUtils;
 import cn.mikylin.myths.common.MapUtils;
-import cn.mikylin.myths.common.lang.StringUtils;
+import cn.mikylin.myths.common.lang.*;
 import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -13,7 +12,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -22,7 +20,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
- * the base interface for apache http client
+ * the base interface for apache http client.
+ *
  * @author mikylin
  * @date 20190715
  */
