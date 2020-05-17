@@ -113,6 +113,15 @@
             <version>2.11.0</version>
         </dependency>
 
+        <!-- zookeeper -->
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.6.1</version>
+        </dependency>
+
+        <!-- zookeeper finish -->
+
 
     </dependencies>
 

@@ -8,38 +8,36 @@ import java.util.concurrent.TimeUnit;
 
 public class DefaultSchedule implements Schedule {
 
-    private List<TimeWheel> wheels;
+    private TimeWheel wheel;
     private Map<String, TimeWheelTask> tasks;
 
-    public DefaultSchedule() {
-        this.wheels = new ArrayList<>(1);
+    public DefaultSchedule(TimeWheel wheel) {
+        registWheel(wheel);
         this.tasks = new ConcurrentHashMap<>();
     }
 
 
     @Override
-    public void registWheel(TimeWheel wheel) {
+    public synchronized void registWheel(TimeWheel wheel) {
         if(wheel == null)
-            throw new RuntimeException();
-        wheels.add(wheel);
+            throw new IllegalArgumentException();
+        this.wheel = wheel;
     }
 
     @Override
-    public void registTask(String taskName, Runnable task,
+    public synchronized void registTask(String taskName, Runnable task,
                            long time, TimeUnit unit, TaskStatus status) {
-        long delayTime = TimeUtils.currentTimeMillis(unit, time);
+        long delayTime = TimeUtils.currentTimeMillis(unit,time);
         registTask(taskName,new TimeWheelTask(task,delayTime,status));
     }
 
     @Override
-    public void registTask(String taskName, TimeWheelTask task) {
-        if(wheels.isEmpty())
+    public synchronized void registTask(String taskName, TimeWheelTask task) {
+        if(wheel == null)
             throw new RuntimeException();
 
-        for(TimeWheel w : wheels) {
-            w.registTask(task);
-            tasks.put(taskName,task);
-        }
+        wheel.registTask(task);
+        tasks.put(taskName,task);
     }
 
 

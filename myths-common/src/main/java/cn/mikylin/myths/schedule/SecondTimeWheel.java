@@ -214,7 +214,7 @@ public final class SecondTimeWheel extends NewThreadTimeWheel {
         }
 
         int taskExecuteIndex(TimeWheelTask task) {
-            long delayMilliSecond = task.getDelayMilliSecond();
+            long delayMilliSecond = task.delay();
 
             int delay = 0;
             if(delayMilliSecond % intervalTime != 0L) {

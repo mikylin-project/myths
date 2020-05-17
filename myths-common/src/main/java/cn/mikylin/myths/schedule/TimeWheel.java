@@ -30,8 +30,8 @@ public interface TimeWheel extends Runnable {
      * @param milliTime  休眠的毫秒数
      */
     default void tick(final long milliTime) {
-        for(long wakeUpTime = System.currentTimeMillis() + milliTime;;) {
-            long sleepTime = wakeUpTime - System.currentTimeMillis();
+        for(long wakeUpTime = SystemClock.now() + milliTime;;) {
+            long sleepTime = wakeUpTime - SystemClock.now();
             if(sleepTime > 0) {
                 try {
                     TimeUnit.MILLISECONDS.sleep(sleepTime);

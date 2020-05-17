@@ -17,16 +17,16 @@ public final class TimeWheelTask implements Runnable {
     private TaskStatus status;
 
     // 执行间隔时间
-    private long delayMilliSecond;
+    private long delay;
 
-    public TimeWheelTask(Runnable task, long delayMilliSecond, TaskStatus taskStatus) {
+    public TimeWheelTask(Runnable task, long delay, TaskStatus taskStatus) {
 
         if(taskStatus == null || taskStatus == CANCEL || task == null)
             throw new RuntimeException();
 
         this.task = task;
         this.status = taskStatus;
-        this.delayMilliSecond = delayMilliSecond;
+        this.delay = delay;
     }
 
     @Override
@@ -40,8 +40,8 @@ public final class TimeWheelTask implements Runnable {
         return status;
     }
 
-    public long getDelayMilliSecond() {
-        return delayMilliSecond;
+    public long delay() {
+        return delay;
     }
 
     public void cancel() {
