@@ -3,6 +3,8 @@ package cn.mikylin.utils.client;
 import cn.mikylin.myths.common.CollectionUtils;
 import cn.mikylin.myths.common.lang.StringUtils;
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -10,9 +12,18 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.ExecutionContext;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 经典的 apache httpclient 工具类
@@ -147,7 +158,6 @@ public class CommonHttpClient implements ApacheHttpClientBase{
         }
         Header[] hs = (Header[])headers.toArray();
         return xml(url,xml,hs);
-
     }
 
 
@@ -155,11 +165,51 @@ public class CommonHttpClient implements ApacheHttpClientBase{
      * 连接服务端，并返回字符串
      */
     private String link(HttpRequestBase req) throws IOException {
-
         //执行连接
         CloseableHttpResponse response = client.execute(req);
         return getResponseEntity(response);
     }
 
+
+
+
+
+
+
+
+
+
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        CloseableHttpClient client = HttpClients.custom().build();
+
+        String url = "http://all.vod.siqiangame.com/vod/zhenqujuping/20200409/592161-0918TUGOH德国米技炉周年庆纪念装/u.m3u8";
+//        if(StringUtils.isContainChinese(url))
+//            url = URLEncoder.encode(url, "UTF-8");
+        HttpGet get = new HttpGet(url);
+        get.setHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36");
+        get.setHeader("Upgrade-Insecure-Requests","1");
+        try {
+            HttpContext httpContext = new BasicHttpContext();
+            CloseableHttpResponse execute = client.execute(get,httpContext);
+            HttpHost currentHost = (HttpHost) httpContext.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+            HttpUriRequest req = (HttpUriRequest) httpContext.getAttribute(ExecutionContext.HTTP_REQUEST);
+            System.out.println(currentHost.toURI() + req.getURI());
+            HttpEntity entity = execute.getEntity();
+            String s = EntityUtils.toString(entity, "UTF-8");
+            System.out.println(s);
+
+            Pattern p = Pattern.compile("#EXTINF:[0-9]\\d*\\.?\\d*,");
+            Matcher m = p.matcher(s);
+            System.out.println(m.find());
+            while (m.find()) {
+                String group = m.group(0);
+                String substring = group.substring(8, group.length() - 1);
+                System.out.println(substring);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

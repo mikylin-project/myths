@@ -2,6 +2,8 @@ package cn.mikylin.myths.common.lang;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * string utils.
@@ -100,4 +102,8 @@ public final class StringUtils {
     public static byte[] toBytes(String s) {
         return toBytes(c,s);
     }
+
+
+
+
 }

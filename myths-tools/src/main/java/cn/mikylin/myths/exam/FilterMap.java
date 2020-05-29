@@ -1,6 +1,8 @@
 package cn.mikylin.myths.exam;
 
-import cn.mikylin.myths.common.*;
+import cn.mikylin.myths.common.ClassUtils;
+import cn.mikylin.myths.common.MapUtils;
+import cn.mikylin.myths.common.lang.ArrayUtils;
 import cn.mikylin.myths.exam.base.BaseFilter;
 
 import java.util.Map;
