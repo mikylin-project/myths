@@ -2,7 +2,6 @@ package cn.mikylin.myths.common;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
@@ -15,20 +14,20 @@ import java.util.concurrent.Executors;
  * @author mikylin
  * @date 20190817
  */
-public final class JDK11HttpClient {
+public final class HttpClient {
 
     private static Integer TIMEOUT = 5000;
 
-    private HttpClient client;
+    private java.net.http.HttpClient client;
 
-    public JDK11HttpClient() {
-        this(TIMEOUT, HttpClient.Version.HTTP_1_1, Executors.newFixedThreadPool(5));
+    public HttpClient() {
+        this(TIMEOUT, java.net.http.HttpClient.Version.HTTP_1_1, Executors.newFixedThreadPool(5));
     }
 
-    public JDK11HttpClient(long timeout, HttpClient.Version defaultHttpVersion,
-                           ExecutorService pool){
+    public HttpClient(long timeout, java.net.http.HttpClient.Version defaultHttpVersion,
+                      ExecutorService pool) {
         //创建 builder
-        HttpClient.Builder builder = HttpClient.newBuilder();
+        java.net.http.HttpClient.Builder builder = java.net.http.HttpClient.newBuilder();
 
         //链式调用
         client = builder
@@ -40,7 +39,7 @@ public final class JDK11HttpClient {
                 .connectTimeout(Duration.ofMillis(timeout)) //.connectTimeout(Duration.ofMinutes(1))
 
                 //连接完成之后的转发策略
-                .followRedirects(HttpClient.Redirect.NEVER) //.followRedirects(HttpClient.Redirect.ALWAYS)
+                .followRedirects(java.net.http.HttpClient.Redirect.NEVER) //.followRedirects(HttpClient.Redirect.ALWAYS)
 
                 //指定线程池
                 .executor(pool)
@@ -59,7 +58,7 @@ public final class JDK11HttpClient {
     }
 
 
-    public String json(String url,String json,HttpClient.Version version) {
+    public String json(String url, String json, java.net.http.HttpClient.Version version) {
         //创建 builder
         HttpRequest.Builder reBuilder = HttpRequest.newBuilder();
 
@@ -93,7 +92,7 @@ public final class JDK11HttpClient {
         return link(request);
     }
 
-    public String get(String url,HttpClient.Version version) {
+    public String get(String url, java.net.http.HttpClient.Version version) {
         //创建 builder
         HttpRequest.Builder reBuilder = HttpRequest.newBuilder();
 

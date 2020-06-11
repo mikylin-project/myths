@@ -1,10 +1,15 @@
 package cn.mikylin.myths.common.datetime;
 
 import cn.mikylin.myths.common.MapUtils;
+import cn.mikylin.myths.common.lang.StringUtils;
+
+import java.text.DateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * jdk8 local date time utils.
@@ -14,7 +19,7 @@ import java.util.Map;
  */
 public final class LocalDateTimeUtils {
 
-    private static Map<String,DateTimeFormatter> formatterMap;
+    private static volatile Map<String,DateTimeFormatter> formatterMap;
     static {
         formatterMap = MapUtils.newHashMap();
     }
@@ -27,6 +32,8 @@ public final class LocalDateTimeUtils {
      */
     private static DateTimeFormatter formatter(String format) {
 
+        StringUtils.requireNotBlank(format);
+
         DateTimeFormatter formatter = formatterMap.get(format);
 
         if(formatter == null)
@@ -38,6 +45,13 @@ public final class LocalDateTimeUtils {
             }
 
         return formatter;
+    }
+
+
+    public String toString(TemporalAccessor accessor, String format) {
+        Objects.requireNonNull(accessor);
+        DateTimeFormatter formatter = formatter(format);
+        return formatter.format(accessor);
     }
 
     /**
@@ -81,5 +95,19 @@ public final class LocalDateTimeUtils {
      */
     public static Date toDate(LocalDate localDate) {
         return toDate(localDate.atStartOfDay());
+    }
+
+
+    /**
+     * is leap year?
+     *
+     * @param year  lear
+     * @return true - leap year , false - normal year
+     */
+    public static boolean isLeapYear(int year) {
+        if(year <= 0)
+            throw new IllegalArgumentException("year can not be less then zero.");
+        LocalDate of = LocalDate.of(year, 1, 1);
+        return of.isLeapYear();
     }
 }

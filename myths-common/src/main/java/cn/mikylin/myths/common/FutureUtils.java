@@ -1,5 +1,6 @@
 package cn.mikylin.myths.common;
 
+import java.util.Objects;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -12,19 +13,26 @@ import java.util.concurrent.TimeUnit;
 public final class FutureUtils {
 
     public static <T> T get(Future<T> f) {
+
+        if(f == null || f.isCancelled())
+            return null;
+
         try {
             return f.get();
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("future get exception.");
+            throw new RuntimeException(e);
         }
     }
 
     public static <T> T tryGet(Future<T> f) {
+
+        if(f == null || f.isCancelled())
+            return null;
+
         try {
             return f.get(1L,TimeUnit.MILLISECONDS);
         } catch (Exception e) {
-            throw new RuntimeException("future try get exception.");
+            throw new RuntimeException(e);
         }
     }
 }
