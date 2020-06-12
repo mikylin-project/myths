@@ -1,6 +1,5 @@
 package cn.mikylin.myths.common;
 
-import java.util.Objects;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 

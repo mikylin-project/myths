@@ -45,7 +45,7 @@ public final class KryoUtils {
         return bytes;
     }
 
-    public static <T> T unSerialize(byte[] bs,Class<T> clz){
+    public static <T> T unSerialize(byte[] bs,Class<T> clz) {
         Kryo kryo = getKryo();
 
         kryo.register(clz);
@@ -56,6 +56,16 @@ public final class KryoUtils {
         return (T)o;
     }
 
-
+    /**
+     * deep copy.
+     *
+     * @param t
+     * @param <T>
+     * @return
+     */
+    public static <T> T deepCopy(T t) {
+        Kryo kryo = getKryo();
+        return kryo.copy(t);
+    }
 
 }
