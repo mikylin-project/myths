@@ -6,7 +6,7 @@ import java.time.temporal.ChronoField;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * stop watch
+ * stop watch.
  *
  * @author mikylin
  * @date 20200114

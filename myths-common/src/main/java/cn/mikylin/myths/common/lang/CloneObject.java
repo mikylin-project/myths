@@ -17,7 +17,7 @@ public interface CloneObject<T> extends Cloneable {
         try {
             return (T)clone();
         } catch (CloneNotSupportedException ex) {
-            throw new RuntimeException("clone failed.");
+            throw new RuntimeException(ex);
         }
     }
 

@@ -1,7 +1,7 @@
 package cn.mikylin.myths.common;
 
 /**
- * myths common constant
+ * myths common constant.
  *
  * @author mikylin
  * @date 20191108

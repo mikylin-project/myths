@@ -1,9 +1,7 @@
 package cn.mikylin.myths.cache.collection;
 
 import cn.mikylin.myths.common.random.RandomUtils;
-
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.VarHandle;
+import java.lang.invoke.*;
 import java.util.*;
 // import java.util.concurrent.atomic.AtomicLong;
 

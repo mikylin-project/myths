@@ -1,12 +1,8 @@
 package cn.mikylin.myths.common.bean;
 
-import cn.mikylin.myths.common.Constants;
-import cn.mikylin.myths.common.MapUtils;
+import cn.mikylin.myths.common.*;
 import cn.mikylin.myths.common.lang.StringUtils;
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+import java.beans.*;
 import java.lang.reflect.Method;
 import java.util.Map;
 

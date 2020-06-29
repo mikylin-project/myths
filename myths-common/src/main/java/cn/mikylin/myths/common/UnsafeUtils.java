@@ -3,8 +3,6 @@ package cn.mikylin.myths.common;
 import sun.misc.Unsafe;
 import java.lang.reflect.Field;
 
-import static sun.misc.Unsafe.getUnsafe;
-
 /**
  * unsafe utils.
  *

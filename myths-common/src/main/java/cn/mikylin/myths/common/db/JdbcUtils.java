@@ -36,7 +36,7 @@ public final class JdbcUtils {
     }
 
     public static <T> void addFactory(Class<T> clz,ResultSetFactory<T> factory) {
-        if(factory != null)
+        if(factory != null && clz != null)
             factoryMap.put(clz,factory);
     }
 

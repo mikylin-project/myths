@@ -1,7 +1,6 @@
 package cn.mikylin.myths.common;
 
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * future utils.

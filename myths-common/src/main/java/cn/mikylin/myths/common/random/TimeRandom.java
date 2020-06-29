@@ -1,6 +1,6 @@
 package cn.mikylin.myths.common.random;
 
-import cn.mikylin.myths.common.lang.TimeUtils;
+import cn.mikylin.myths.common.lang.*;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 

@@ -32,6 +32,16 @@ public final class CollectionUtils {
     }
 
     /**
+     * list size.
+     *
+     * @param col collection
+     * @return list size
+     */
+    public static int size(Collection<?> col) {
+        return isBlank(col) ? 0 : col.size();
+    }
+
+    /**
      * bool the some of one element in collection.
      *
      * @param col collection

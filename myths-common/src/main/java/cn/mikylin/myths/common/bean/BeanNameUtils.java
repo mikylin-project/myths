@@ -3,7 +3,6 @@ package cn.mikylin.myths.common.bean;
 import cn.mikylin.myths.common.Constants;
 import cn.mikylin.myths.common.MapUtils;
 import cn.mikylin.myths.common.lang.StringUtils;
-
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
