@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common;
+package cn.mikylin.myths.common.file;
 
 import cn.mikylin.myths.common.lang.ArrayUtils;
 import cn.mikylin.myths.common.lang.StringUtils;
