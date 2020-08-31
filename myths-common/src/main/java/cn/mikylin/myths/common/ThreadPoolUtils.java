@@ -1,9 +1,8 @@
 package cn.mikylin.myths.common;
 
 import cn.mikylin.myths.common.lang.*;
-import cn.mikylin.myths.concurrent.PriorityThreadPoolExecutor;
-import java.util.Objects;
-import java.util.Queue;
+import cn.mikylin.myths.concurrent.*;
+import java.util.*;
 import java.util.concurrent.*;
 
 /**
@@ -39,24 +38,37 @@ public final class ThreadPoolUtils {
 
         Objects.requireNonNull(pool,"thread pool can not be null.");
 
-        Queue<Runnable> q = pool.getQueue();
+        if(activeCount < 0 || workCount < 0 || spanTime < 0 || sleepTime < 0L)
+            throw new IllegalArgumentException("param can not be negative.");
 
-        for (int i = 0 ;
-                !pool.isShutdown()
-                  && (pool.getActiveCount() > activeCount || q.size() > workCount) ;
-        ) {
-
-            if(i < spanTime) {
-                i ++;
-                Thread.yield();
-                continue;
+        if(spanTime == 0 && sleepTime == 0) {
+            for (; isLowActive(pool,activeCount,workCount) ; ) { }
+        } else if(spanTime == 0) {
+            for (; isLowActive(pool,activeCount,workCount) ; ) {
+                ThreadUtils.sleep(sleepTime);
             }
+        }
 
-            if(sleepTime > 0L)
+
+
+
+        else {
+
+            for (int i = 0 ; isLowActive(pool,activeCount,workCount) ; ) {
+
+                if(i < spanTime) {
+                    i ++;
+                    Thread.yield();
+                    continue;
+                }
+
                 ThreadUtils.sleep(sleepTime);
 
-            i = 0;
+                i = 0;
+            }
         }
+
+
     }
 
     public static void latch(final ThreadPoolExecutor pool) {
@@ -80,6 +92,14 @@ public final class ThreadPoolUtils {
         final long finalSleepTime = defaultSleepTime;
         latch(pool,0,0,
                 finalSpanTime,finalSleepTime);
+    }
+
+
+    public static boolean isLowActive(final ThreadPoolExecutor pool,
+                      final int activeCount, final int workCount) {
+        Queue<Runnable> q = pool.getQueue();
+        return !pool.isShutdown()
+                && (pool.getActiveCount() > activeCount || q.size() > workCount);
     }
 
     /**

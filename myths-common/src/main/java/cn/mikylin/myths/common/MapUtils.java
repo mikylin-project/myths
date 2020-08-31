@@ -65,13 +65,8 @@ public final class MapUtils {
     }
 
     public static <K,V> ConcurrentHashMap<K,V> newConcurrentMap(int size,Object[]... kvs) {
-        return (ConcurrentHashMap<K,V>) create (
-                new MapFactory() {
-                    @Override
-                    public <K,V> Map<K,V> getMap() {
-                        return new ConcurrentHashMap<>(size);
-                    }
-                }, kvs);
+        return (ConcurrentHashMap<K,V>)
+                create ((MapFactory) ConcurrentHashMap::new,size,kvs);
     }
 
 
@@ -82,44 +77,43 @@ public final class MapUtils {
         return newHashMap(kvs == null || kvs.length == 0 ? 16 : kvs.length,kvs);
     }
 
+
     public static <K,V> HashMap<K,V> newHashMap(int size,Object[]... kvs) {
-        return (HashMap<K,V>) create (
-                new MapFactory() {
-                        @Override
-                        public <K,V> Map<K,V> getMap() {
-                            return new HashMap<>(size);
-                        }
-                }, kvs);
+        return (HashMap<K,V>)
+                create((MapFactory) HashMap::new,size,kvs);
     }
 
-    private static <K,V> Map<K,V> create(MapFactory factory,Object[]... kvs) {
+    private static <K,V> Map<K,V> create(MapFactory factory, int size,Object[]... kvs) {
 
-        Map<K,V> map = factory.getMap();
+        Map<K,V> map = factory.getMap(size);
 
-        for(Object[] kv : kvs) {
+        if(kvs != null) {
+            for(Object[] kv : kvs) {
 
-            if(kv.length != 2)
-                throw new RuntimeException("param length not be 2");
+                if(kv.length != 2)
+                    throw new RuntimeException("param length not be 2");
 
-            K key;
-            V value;
-            try {
-                key = (K) kv[0];
-                value = (V) kv[1];
-            } catch (Exception e) {
-                throw new RuntimeException("param type trans exception");
+                K key;
+                V value;
+                try {
+                    key = (K) kv[0];
+                    value = (V) kv[1];
+                } catch (Exception e) {
+                    throw new RuntimeException("param type trans exception");
+                }
+
+                if(key == null)
+                    throw new RuntimeException("param key can not be null");
+
+                map.put(key,value);
             }
-
-            if(key == null)
-                throw new RuntimeException("param key can not be null");
-
-            map.put(key,value);
         }
+
         return map;
     }
 
 
     private interface MapFactory {
-        <K,V> Map<K,V> getMap();
+        <K,V> Map<K,V> getMap(int size);
     }
 }

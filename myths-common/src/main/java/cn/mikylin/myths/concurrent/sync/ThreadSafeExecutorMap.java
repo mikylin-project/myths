@@ -22,14 +22,14 @@ public class ThreadSafeExecutorMap<T> {
     public T get(ThreadSafeExecutor key) {
         if(null == map.get(key))
             synchronized (this) {
-                if(null == map.get(key))
+                if(map.get(key) == null)
                     map.put(key,factory.create());
             }
 
         return map.get(this);
     }
 
-    interface ValueFactory<T> {
+    public interface ValueFactory<T> {
         T create();
     }
 

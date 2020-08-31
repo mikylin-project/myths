@@ -2,7 +2,6 @@ package cn.mikylin.myths.schedule;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * system clock.
@@ -12,30 +11,34 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public final class SystemClock {
 
-    private static volatile SystemClock CLOCK = new SystemClock();
-
-    private AtomicLong now = new AtomicLong();
-    private long last;
+    private volatile long now = 0L;
 
     private SystemClock() {
 
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
+        TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                now.set(System.currentTimeMillis());
+                now = System.currentTimeMillis();
             }
-        },1L,1L);
+        };
 
-        long l = System.currentTimeMillis();
-        now.set(l);
-        last = l;
+        task.run();
+
+        Timer t = new Timer();
+        t.schedule(task,1L,1L);
     }
 
+
+    private static volatile SystemClock CLOCK = null;
+
     public static long now() {
-        long now = CLOCK.now.get();
-        long last = CLOCK.last;
-        return last > now ? last : now;
+        if(CLOCK == null) {
+            synchronized (SystemClock.class) {
+                if(CLOCK == null)
+                    CLOCK = new SystemClock();
+            }
+        }
+        return CLOCK.now;
     }
 
 }
