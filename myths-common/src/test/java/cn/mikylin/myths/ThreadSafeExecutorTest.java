@@ -7,8 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * simple test for
- * {@link SpanExecutor}
+ * simple test for {@link cn.mikylin.myths.concurrent.sync.SpanExecutor}
  *
  * @author mikylin
  * @date 20200222

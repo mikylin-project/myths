@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * simple test for {@link SnowFlakeWorker}
+ * simple test for {@link cn.mikylin.myths.concurrent.token.SnowFlakeWorker}
  *
  * @author mikylin
  * @date 20200222

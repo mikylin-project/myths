@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * simple test for {@link TokenLimiter}
+ * simple test for {@link cn.mikylin.myths.concurrent.token.TokenLimiter}
  *
  * @author mikylin
  * @date 20200222
