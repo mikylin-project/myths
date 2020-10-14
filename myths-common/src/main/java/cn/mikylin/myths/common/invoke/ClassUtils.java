@@ -1,9 +1,10 @@
-package cn.mikylin.myths.common;
+package cn.mikylin.myths.common.invoke;
 
+import cn.mikylin.myths.common.CollectionUtils;
+import cn.mikylin.myths.common.Constants;
 import cn.mikylin.myths.common.lang.StringUtils;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,12 +24,7 @@ public final class ClassUtils {
      * @return class
      */
     public static Class<?> loadClass(String classPath) {
-        classPath = dealClassPath(classPath);
-        try {
-            return Class.forName(classPath);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("class load exception");
-        }
+        return loadClass(classPath,null);
     }
 
     /**
@@ -45,7 +41,7 @@ public final class ClassUtils {
         try {
             return loader.loadClass(classPath);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("class load exception");
+            throw new RuntimeException(e);
         }
     }
 
@@ -74,9 +70,7 @@ public final class ClassUtils {
      * @return class's package name
      */
     public static String packageName(Class<?> clz) {
-        if(Objects.isNull(clz))
-            return null;
-        return clz.getPackageName();
+        return Objects.isNull(clz) ? null : clz.getPackageName();
     }
 
     /**
@@ -85,25 +79,12 @@ public final class ClassUtils {
      * @param clz class
      * @return class's super class
      */
-    public static String superClassName(Class<?> clz) {
-        Objects.requireNonNull(clz);
-        Class<?> superClass;
-        if((superClass = clz.getSuperclass()) != null)
-            return superClass.getName();
-        return null;
+    public static Class<?> superClass(Class<?> clz) {
+        return Objects.isNull(clz) ? null : clz.getSuperclass();
     }
 
-    public static List<String> getInterfaces(Class<?> clz) {
-
-        Objects.requireNonNull(clz);
-
-        List<String> l = CollectionUtils.newArrayList();
-        Class<?>[] interfaces = clz.getInterfaces();
-
-        for (Class<?> i : interfaces)
-            l.add(i.getName());
-
-        return l;
+    public static Class<?>[] getInterfaces(Class<?> clz) {
+        return Objects.isNull(clz) ? null : clz.getInterfaces();
     }
 
 

@@ -2,6 +2,7 @@ package cn.mikylin.myths.common.db;
 
 import cn.mikylin.myths.common.*;
 import cn.mikylin.myths.common.bean.*;
+import cn.mikylin.myths.common.invoke.ClassUtils;
 import cn.mikylin.myths.common.lang.ObjectUtils;
 
 import java.lang.reflect.Method;

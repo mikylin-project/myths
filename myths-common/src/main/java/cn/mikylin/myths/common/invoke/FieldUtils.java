@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common;
+package cn.mikylin.myths.common.invoke;
 
 import java.lang.reflect.Field;
 

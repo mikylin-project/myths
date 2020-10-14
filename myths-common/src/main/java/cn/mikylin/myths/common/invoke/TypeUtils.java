@@ -1,4 +1,4 @@
-package cn.mikylin.myths.common;
+package cn.mikylin.myths.common.invoke;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -19,7 +19,7 @@ public final class TypeUtils {
      * @throws IllegalArgumentException
      * @return object's generic params
      */
-    public static List<Type> genericTypes(Type type) {
+    public static Type[] genericTypes(Type type) {
 
         // 判空
         Objects.requireNonNull(type);
@@ -30,9 +30,8 @@ public final class TypeUtils {
             throw new IllegalArgumentException();
 
         // 通过 ParmeterizzedType 获取到该对象的泛型
-        // 组装成 list 并返回
         Type[] tTypes = ((ParameterizedType)type).getActualTypeArguments();
-        return CollectionUtils.newArrayList(tTypes);
+        return tTypes;
     }
 
     /**
@@ -42,7 +41,7 @@ public final class TypeUtils {
      * @return class
      */
     public static <T> Class<T> firstGeneric(Type type) {
-        return (Class<T>)(genericTypes(type).get(0));
+        return (Class<T>)(genericTypes(type)[0]);
     }
 
 
@@ -56,8 +55,13 @@ public final class TypeUtils {
      */
     public static boolean isTheChildOrOwnType(Class parent,Class child) {
         // 判断 child class 是否是 parent class 的子类
-        Objects.requireNonNull(parent);
-        Objects.requireNonNull(child);
-        return parent.isAssignableFrom(child);
+        /*
+            parent = null - false
+            child = null - false
+            parent == child - true
+            parent 是 child 的父类 - true
+         */
+        return parent != null && child != null &&
+                (parent == child || parent.isAssignableFrom(child));
     }
 }
