@@ -1,6 +1,6 @@
 package cn.mikylin.myths;
 
-import cn.mikylin.utils.KryoUtils;
+import cn.mikylin.utils.serial.KryoUtils;
 import com.esotericsoftware.kryo.Kryo;
 import org.junit.jupiter.api.Test;
 

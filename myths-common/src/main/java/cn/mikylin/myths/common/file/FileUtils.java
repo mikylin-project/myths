@@ -1,7 +1,6 @@
 package cn.mikylin.myths.common.file;
 
-import cn.mikylin.myths.common.lang.ArrayUtils;
-import cn.mikylin.myths.common.lang.StringUtils;
+import cn.mikylin.myths.common.lang.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

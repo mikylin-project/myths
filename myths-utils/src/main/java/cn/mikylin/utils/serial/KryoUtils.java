@@ -1,4 +1,4 @@
-package cn.mikylin.utils;
+package cn.mikylin.utils.serial;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;

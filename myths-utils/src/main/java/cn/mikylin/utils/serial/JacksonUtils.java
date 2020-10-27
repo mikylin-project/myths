@@ -1,4 +1,4 @@
-package cn.mikylin.utils;
+package cn.mikylin.utils.serial;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
