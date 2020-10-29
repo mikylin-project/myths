@@ -1,6 +1,6 @@
 package cn.mikylin.myths.concurrent.token;
 
-import cn.mikylin.myths.concurrent.sync.SimpleCondition;
+import cn.mikylin.myths.concurrent.SimpleCondition;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;

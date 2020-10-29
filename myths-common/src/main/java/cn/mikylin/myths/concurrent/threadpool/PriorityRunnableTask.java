@@ -1,6 +1,4 @@
-package cn.mikylin.myths.concurrent;
-
-import cn.mikylin.myths.common.lang.CloneObjectAdapter;
+package cn.mikylin.myths.concurrent.threadpool;
 
 /**
  * priority runnable
@@ -9,7 +7,6 @@ import cn.mikylin.myths.common.lang.CloneObjectAdapter;
  * @date 20200110
  */
 public final class PriorityRunnableTask
-        extends CloneObjectAdapter<PriorityRunnableTask>
         implements Runnable,Comparable<PriorityRunnableTask> {
 
     private Runnable r;
@@ -37,13 +34,13 @@ public final class PriorityRunnableTask
 
 
     public static PriorityRunnableTask create(Runnable r, int priority) {
-        if(r instanceof PriorityRunnableTask)
+        if (r instanceof PriorityRunnableTask)
             throw new RuntimeException("priority can not be set priority again.");
         return new PriorityRunnableTask(r,priority);
     }
 
     public static PriorityRunnableTask create(Runnable r) {
-        if(r instanceof PriorityRunnableTask)
+        if (r instanceof PriorityRunnableTask)
             return (PriorityRunnableTask)r;
         return new PriorityRunnableTask(r);
     }

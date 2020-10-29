@@ -1,4 +1,4 @@
-package cn.mikylin.myths.concurrent.sync;
+package cn.mikylin.myths.concurrent;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -29,12 +29,11 @@ public final class SimpleCondition implements Condition {
 
     @Override
     public void await() throws InterruptedException {
+        lock.lock();
         try {
-            lock.lock();
             condition.await();
-        } catch (InterruptedException e) {
+        } finally {
             lock.unlock();
-            throw e;
         }
 
     }
@@ -42,7 +41,11 @@ public final class SimpleCondition implements Condition {
     @Override
     public void awaitUninterruptibly() {
         lock.lock();
-        condition.awaitUninterruptibly();
+        try {
+            condition.awaitUninterruptibly();
+        } finally {
+            lock.unlock();
+        }
     }
 
     @Override
@@ -50,9 +53,8 @@ public final class SimpleCondition implements Condition {
         lock.lock();
         try {
             return condition.awaitNanos(t);
-        } catch (InterruptedException e) {
+        } finally {
             lock.unlock();
-            throw e;
         }
 
     }
@@ -62,9 +64,8 @@ public final class SimpleCondition implements Condition {
         lock.lock();
         try {
             return condition.await(time,unit);
-        } catch (InterruptedException e) {
+        } finally {
             lock.unlock();
-            throw e;
         }
     }
 
@@ -73,9 +74,8 @@ public final class SimpleCondition implements Condition {
         lock.lock();
         try {
             return condition.awaitUntil(deadline);
-        } catch (InterruptedException e) {
+        } finally {
             lock.unlock();
-            throw e;
         }
 
     }

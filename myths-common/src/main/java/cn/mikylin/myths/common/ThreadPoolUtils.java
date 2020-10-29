@@ -1,7 +1,7 @@
 package cn.mikylin.myths.common;
 
-import cn.mikylin.myths.common.lang.*;
-import cn.mikylin.myths.concurrent.*;
+import cn.mikylin.myths.concurrent.threadpool.PriorityThreadPoolExecutor;
+
 import java.util.*;
 import java.util.concurrent.*;
 
