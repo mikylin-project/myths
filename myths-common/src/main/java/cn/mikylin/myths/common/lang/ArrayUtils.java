@@ -149,10 +149,10 @@ public final class ArrayUtils {
      * @return  distinct array
      */
     public static int[] distinctArray(int[] ints) {
-        if(isBlank(ints))
+        if (isBlank(ints))
             throw new RuntimeException("array is blank.");
 
-        if(ints.length == 1)
+        if (ints.length == 1)
             return ints;
 
         int[] distinct = new int[ints.length];
@@ -163,13 +163,13 @@ public final class ArrayUtils {
             int m = ints[i];
             c2 : for(int j = 0 ; j <= distinctLen ; j ++) {
                 int d = distinct[j];
-                if(m == d) continue c1;
+                if (m == d) continue c1;
             }
             distinct[distinctLen ++] = m;
         }
 
         int[] result = new int[distinctLen];
-        for(int i = 0 ; i < distinctLen ; i ++)
+        for (int i = 0 ; i < distinctLen ; i ++)
             result[i] = distinct[i];
 
         return result;
@@ -181,27 +181,27 @@ public final class ArrayUtils {
      * @return  distinct array
      */
     public static <T> T[] distinctArray(T[] objs) {
-        if(isBlank(objs))
+        if (isBlank(objs))
             throw new RuntimeException("array is blank.");
 
-        if(objs.length == 1)
+        if (objs.length == 1)
             return objs;
 
         T[] distinct = (T[])new Object[objs.length];
 
         int distinctLen = 0;
 
-        c1 : for(int i = 0 ; i < objs.length ; i ++) {
+        c1 : for (int i = 0 ; i < objs.length ; i ++) {
             T m = objs[i];
-            c2 : for(int j = 0 ; j <= distinctLen ; j ++) {
+            c2 : for (int j = 0 ; j <= distinctLen ; j ++) {
                 T d = distinct[j];
-                if(Objects.equals(m,d)) continue c1;
+                if (Objects.equals(m,d)) continue c1;
             }
             distinct[distinctLen ++] = m;
         }
 
         T[] result = (T[])new Object[distinctLen];
-        for(int i = 0 ; i < distinctLen ; i ++)
+        for (int i = 0 ; i < distinctLen ; i ++)
             result[i] = distinct[i];
 
         return result;

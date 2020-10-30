@@ -31,9 +31,9 @@ public final class Ipv4Random {
         return ip;
     }
 
-    /*
+    /**
      * 将十进制转换成 IP 地址
-     */
+     **/
     public static String num2ip(int ip) {
         int[] b = new int[4];
         String x = "";

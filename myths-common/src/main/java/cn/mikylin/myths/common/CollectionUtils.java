@@ -50,11 +50,11 @@ public final class CollectionUtils {
      */
     public static <T> boolean isInCollection(Collection<T> col, T element) {
 
-        if(isBlank(col)) //collection can not be blank
+        if (isBlank(col)) //collection can not be blank
             return false;
 
-        for(T t : col)
-            if(Objects.equals(t,element))
+        for (T t : col)
+            if (Objects.equals(t,element))
                 return true;
         return false;
     }
@@ -67,7 +67,7 @@ public final class CollectionUtils {
      */
     public static <T> List<T> newArrayList(T... ts) {
 
-        if(ArrayUtils.isNotBlank(ts)) {
+        if (ArrayUtils.isNotBlank(ts)) {
             List<T> l = new ArrayList<>(ts.length + 8);
             Collections.addAll(l,ts);
             return l;
@@ -82,7 +82,7 @@ public final class CollectionUtils {
      * @return list
      */
     public static <T> List<T> newArrayList(Set<T> s) {
-        if(isBlank(s))
+        if (isBlank(s))
             return newArrayList();
         return new ArrayList<>(s);
     }
@@ -95,7 +95,8 @@ public final class CollectionUtils {
      * @throws NullPointerException
      */
     public static <T> void requireNotBlank(Collection<T> col,String message) {
-        if(isBlank(col)) throw new NullPointerException(message);
+        if (isBlank(col))
+            throw new NullPointerException(message);
     }
 
     /**

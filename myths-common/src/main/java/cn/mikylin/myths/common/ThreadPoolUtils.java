@@ -1,7 +1,7 @@
 package cn.mikylin.myths.common;
 
 import cn.mikylin.myths.concurrent.threadpool.PriorityThreadPoolExecutor;
-
+import cn.mikylin.myths.common.lang.*;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -38,16 +38,15 @@ public final class ThreadPoolUtils {
 
         Objects.requireNonNull(pool,"thread pool can not be null.");
 
-        if(activeCount < 0 || workCount < 0 || spanTime < 0 || sleepTime < 0L)
+        if (activeCount < 0 || workCount < 0 || spanTime < 0 || sleepTime < 0L)
             throw new IllegalArgumentException("param can not be negative.");
 
-        if(spanTime == 0 && sleepTime == 0) {
+        if (spanTime == 0 && sleepTime == 0)
             for (; isLowActive(pool,activeCount,workCount) ; ) { }
-        } else if(spanTime == 0) {
-            for (; isLowActive(pool,activeCount,workCount) ; ) {
+        else if (spanTime == 0)
+            for (; isLowActive(pool,activeCount,workCount) ; )
                 ThreadUtils.sleep(sleepTime);
-            }
-        }
+
 
 
 
@@ -56,7 +55,7 @@ public final class ThreadPoolUtils {
 
             for (int i = 0 ; isLowActive(pool,activeCount,workCount) ; ) {
 
-                if(i < spanTime) {
+                if (i < spanTime) {
                     i ++;
                     Thread.yield();
                     continue;
@@ -68,14 +67,18 @@ public final class ThreadPoolUtils {
             }
         }
 
-
     }
+
+
+
 
     public static void latch(final ThreadPoolExecutor pool) {
         final int finalSpanTime = defaultSpanTime;
         final long finalSleepTime = defaultSleepTime;
         latch(pool,0,0,finalSpanTime,finalSleepTime);
     }
+
+
 
     public static void latch(final ExecutorService pool,
                              final int activeCount, final int workCount,
@@ -86,6 +89,8 @@ public final class ThreadPoolUtils {
         latch((ThreadPoolExecutor) pool,activeCount,
                 workCount,spanTime,sleepTime);
     }
+
+
 
     public static void latch(final ExecutorService pool) {
         final int finalSpanTime = defaultSpanTime;

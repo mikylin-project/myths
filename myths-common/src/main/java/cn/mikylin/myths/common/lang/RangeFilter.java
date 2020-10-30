@@ -8,7 +8,8 @@ import java.util.Objects;
  * @author mikylin
  * @date 20200224
  */
-public abstract class RangeFilter<T extends Comparable> implements Serializable {
+public abstract class RangeFilter<T extends Comparable>
+        implements Serializable {
 
     private T min;
     private T max;
@@ -18,7 +19,7 @@ public abstract class RangeFilter<T extends Comparable> implements Serializable 
     protected RangeFilter(T min, T max) {
         ObjectUtils.requireNotNull(min,max);
 
-        if(min.compareTo(max) >= 0)
+        if (min.compareTo(max) >= 0)
             throw new RuntimeException("min most be smaller than max.");
 
         this.min = min;

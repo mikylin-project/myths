@@ -1,6 +1,6 @@
 package cn.mikylin.myths;
 
-import cn.mikylin.myths.concurrent.token.SnowFlakeWorker;
+import cn.mikylin.myths.concurrent.token.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CountDownLatch;

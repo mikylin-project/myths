@@ -1,7 +1,7 @@
 package cn.mikylin.myths.common.bean;
 
 import cn.mikylin.myths.common.*;
-import cn.mikylin.myths.common.lang.StringUtils;
+import cn.mikylin.myths.common.lang.*;
 import java.beans.*;
 import java.lang.reflect.Method;
 import java.util.Map;

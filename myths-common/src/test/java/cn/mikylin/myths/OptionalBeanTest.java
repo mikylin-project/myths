@@ -1,6 +1,6 @@
 package cn.mikylin.myths;
 
-import cn.mikylin.myths.common.bean.OptionalBean;
+import cn.mikylin.myths.common.bean.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

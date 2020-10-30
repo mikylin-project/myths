@@ -13,7 +13,7 @@ package cn.mikylin.myths.concurrent.token;
  * @author mikylin
  * @date 20200307
  */
-public class SnowFlakeWorker {
+public final class SnowFlakeWorker {
 
     private long startTimeStamp;
     private int dataId;
@@ -31,16 +31,16 @@ public class SnowFlakeWorker {
     public SnowFlakeWorker(long startTimeStamp,int dataId,int workerId) {
 
         // 时间戳，验证是否非法或者已经过期
-        if(startTimeStamp <= 0L
+        if (startTimeStamp <= 0L
                 || System.currentTimeMillis() - startTimeStamp >= 2175984000000L)
             throw new RuntimeException("start time stamp most be near now.");
 
         this.startTimeStamp = startTimeStamp; // 开始的时间
 
         // 数据中心 id 和 服务实例 id 必须在 0 和 31 之间
-        if(dataId > 31 || dataId < 0)
+        if (dataId > 31 || dataId < 0)
             throw new RuntimeException("data id most be 0 to 31.");
-        if(workerId > 31 || workerId < 0)
+        if (workerId > 31 || workerId < 0)
             throw new RuntimeException("worker id most be 0 to 31.");
 
         this.dataId = dataId << 17;
@@ -70,7 +70,7 @@ public class SnowFlakeWorker {
                 throw new RuntimeException(String.format("System time error!"));
             } else if (now == lastTimeStamp) {
                 lastSeq = lastSeq + 1L & 4095L;
-                if(lastSeq == 0)
+                if (lastSeq == 0)
                     for(;now <= lastTimeStamp;now = System.currentTimeMillis()) {}
             } else {
                 lastSeq = 0;

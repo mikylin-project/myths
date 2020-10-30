@@ -1,8 +1,7 @@
 package cn.mikylin.myths.common.bean;
 
-import cn.mikylin.myths.common.Constants;
-import cn.mikylin.myths.common.MapUtils;
-import cn.mikylin.myths.common.lang.StringUtils;
+import cn.mikylin.myths.common.*;
+import cn.mikylin.myths.common.lang.*;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,13 +75,13 @@ public final class BeanNameUtils {
                 || originType == null || transType == null)
             throw new RuntimeException("bean name utils trans params exception");
 
-        if(originType == transType)
+        if (originType == transType)
             return nameOrigin;
 
-        if(originType == BeanNameType.UNDERLINE
+        if (originType == BeanNameType.UNDERLINE
                 && transType == BeanNameType.HUMP)
             return underlineToHump(nameOrigin);
-        else if(transType == BeanNameType.UNDERLINE
+        else if (transType == BeanNameType.UNDERLINE
                 && originType == BeanNameType.HUMP)
             return humpToUnderline(nameOrigin);
 

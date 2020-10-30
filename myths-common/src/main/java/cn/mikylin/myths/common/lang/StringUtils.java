@@ -42,7 +42,7 @@ public final class StringUtils {
      * @param message  message
      */
     public static void requireNotBlank(String str,String message) {
-        if(isBlank(str))
+        if (isBlank(str))
             throw new NullPointerException(message);
     }
 
@@ -75,13 +75,13 @@ public final class StringUtils {
      */
     public static String toString(Object... objs) {
         StringBuilder builder = new StringBuilder();
-        for(Object obj : objs)
+        for (Object obj : objs)
             builder.append(obj);
         return builder.toString();
     }
 
     public static String toString(Charset c,byte[] bs) {
-        if(c == null || ArrayUtils.isBlank(bs))
+        if (c == null || ArrayUtils.isBlank(bs))
             throw new IllegalArgumentException();
         return new String(bs,c);
     }
@@ -91,7 +91,7 @@ public final class StringUtils {
     }
 
     public static byte[] toBytes(Charset c,String s) {
-        if(c == null || isBlank(s))
+        if (c == null || isBlank(s))
             throw new IllegalArgumentException();
         return s.getBytes(c);
     }

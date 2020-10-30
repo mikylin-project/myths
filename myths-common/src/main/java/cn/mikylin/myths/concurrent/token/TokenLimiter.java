@@ -1,7 +1,6 @@
 package cn.mikylin.myths.concurrent.token;
 
 import cn.mikylin.myths.concurrent.SimpleCondition;
-
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.util.concurrent.TimeUnit;
@@ -15,10 +14,14 @@ import java.util.concurrent.locks.Condition;
  */
 public final class TokenLimiter implements Limiter {
 
-    private final long maxToken; // token quantity.
-    private final long rate; // token create rate / per second.
+    // token quantity.
+    private final long maxToken;
+    // token create rate / per second.
+    private final long rate;
 
-    // condition queue use to await the thread.
+    /**
+     * condition queue use to await the thread.
+      */
     private Condition con = new SimpleCondition();
 
     public TokenLimiter(long tokens, long rate) {
@@ -41,7 +44,7 @@ public final class TokenLimiter implements Limiter {
      */
     @Override
     public boolean tryAcquire(long i) {
-        if(i <= 0L || i > maxToken)
+        if (i <= 0L || i > maxToken)
             throw new RuntimeException();
         rate();
         long t = token();
@@ -79,7 +82,7 @@ public final class TokenLimiter implements Limiter {
      */
     private void await(long i) {
         long t = System.currentTimeMillis() - lastTime();
-        if(t < ONE_SECOND || !tryAcquire(i)) {
+        if (t < ONE_SECOND || !tryAcquire(i)) {
             try {
                 con.await(t % ONE_SECOND, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
@@ -94,14 +97,14 @@ public final class TokenLimiter implements Limiter {
      */
     private void rate() {
         long now = System.currentTimeMillis();
-        if(now - lastTime() < ONE_SECOND)
+        if (now - lastTime() < ONE_SECOND)
             return;
 
         long lastTime = getAndSetTime(now);
 
         long time = now - lastTime;
         long addNumber = time / ONE_SECOND * rate;
-        for(;;) {
+        for ( ; ; ) {
             long t = token();
             long newToken = t + addNumber;
             if(newToken > maxToken) {

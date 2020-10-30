@@ -1,7 +1,5 @@
 package cn.mikylin.myths.common.lang;
 
-import java.util.Objects;
-
 /**
  * object utils.
  *
@@ -44,7 +42,7 @@ public final class ObjectUtils {
     }
 
     public static void notify(Object o) {
-        if(o != null)
+        if (o != null)
             synchronized (o) {
                 o.notify();
             }
@@ -52,10 +50,10 @@ public final class ObjectUtils {
 
 
     public static void requireNotNull(Object... objs) {
-        if(objs == null || objs.length == 0)
+        if (objs == null || objs.length == 0)
             throw new RuntimeException("objs null.");
-        for(Object o : objs) {
-            if(o == null)
+        for (Object o : objs) {
+            if (o == null)
                 throw new RuntimeException("exists obj is null.");
         }
     }

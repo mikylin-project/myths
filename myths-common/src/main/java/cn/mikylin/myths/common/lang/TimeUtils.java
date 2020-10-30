@@ -1,6 +1,6 @@
 package cn.mikylin.myths.common.lang;
 
-import cn.mikylin.myths.common.Constants;
+import cn.mikylin.myths.common.*;
 import java.util.concurrent.TimeUnit;
 
 /**

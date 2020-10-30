@@ -8,7 +8,8 @@ package cn.mikylin.myths.concurrent.token;
  */
 public interface Limiter {
 
-    long ONE_SECOND = 1000l; // 1s = 1000ms
+    // 1s = 1000ms
+    long ONE_SECOND = 1000L;
 
     boolean tryAcquire(long i);
     void acquire(long i);

@@ -12,7 +12,7 @@ public final class FutureUtils {
 
     public static <T> T get(Future<T> f) {
 
-        if(f == null || f.isCancelled())
+        if (f == null || f.isCancelled())
             return null;
 
         try {
@@ -24,7 +24,7 @@ public final class FutureUtils {
 
     public static <T> T tryGet(Future<T> f) {
 
-        if(f == null || f.isCancelled())
+        if (f == null || f.isCancelled())
             return null;
 
         try {

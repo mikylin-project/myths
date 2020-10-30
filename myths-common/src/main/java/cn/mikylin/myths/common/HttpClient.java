@@ -21,7 +21,8 @@ public final class HttpClient {
     private java.net.http.HttpClient client;
 
     public HttpClient() {
-        this(TIMEOUT, java.net.http.HttpClient.Version.HTTP_1_1, Executors.newFixedThreadPool(5));
+        this(TIMEOUT,java.net.http.HttpClient.Version.HTTP_1_1,
+                Executors.newFixedThreadPool(5));
     }
 
     public HttpClient(long timeout, java.net.http.HttpClient.Version defaultHttpVersion,
@@ -136,7 +137,7 @@ public final class HttpClient {
             e.printStackTrace();
         }
 
-        if(response.statusCode() == Constants.Http.STATUS_OK)
+        if (response.statusCode() == Constants.Http.STATUS_OK)
             return response.body();
         return null;
     }
