@@ -8,7 +8,7 @@ public abstract class ProxyModelExecutorService implements ExecutorService {
 
     protected ExecutorService realPool;
 
-    public ProxyModelExecutorService(ExecutorService realPool) {
+    protected void init(ExecutorService realPool) {
         this.realPool = realPool;
     }
 

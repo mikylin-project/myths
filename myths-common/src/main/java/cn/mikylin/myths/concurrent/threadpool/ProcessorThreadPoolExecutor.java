@@ -8,7 +8,7 @@ public class ProcessorThreadPoolExecutor extends ProxyModelExecutorService {
 
     public ProcessorThreadPoolExecutor(ExecutorService realPool,
                                        ThreadPoolProcessor processor) {
-        super(realPool);
+        init(realPool);
         this.processor = processor;
     }
 
@@ -34,6 +34,7 @@ public class ProcessorThreadPoolExecutor extends ProxyModelExecutorService {
                 r.run();
             } catch (Throwable e) {
                 processor.mistakeTask(e,r);
+                throw e;
             }
             processor.successTask(r);
         }
