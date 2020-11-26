@@ -57,4 +57,18 @@ public final class Int {
         return is;
     }
 
+    /**
+     * 十进制 -> 二进制
+     */
+    public static String toBinaryString(int n) {
+        StringBuilder b = new StringBuilder();
+        for (int i = 0 ; i < 32 ; i ++) {
+            n = n >> 1;
+            b.append(n & 1);
+        }
+
+        return b.toString();
+    }
+
+
 }
