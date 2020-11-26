@@ -62,13 +62,10 @@ public final class Int {
      */
     public static String toBinaryString(int n) {
         StringBuilder b = new StringBuilder();
-        for (int i = 0 ; i < 32 ; i ++) {
-            n = n >>> 1;
+        for (var i : Int.range(0,31)) {
             b.append(n & 1);
+            n = n >>> 1;
         }
-
-        return b.toString();
+        return b.reverse().toString();
     }
-
-
 }
