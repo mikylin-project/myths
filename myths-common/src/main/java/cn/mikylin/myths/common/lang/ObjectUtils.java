@@ -19,7 +19,7 @@ public final class ObjectUtils {
             try {
                 ((AutoCloseable)closer).close();
             } catch (Exception e) {
-                throw new RuntimeException("close failed");
+                throw new RuntimeException(e);
             }
     }
 
@@ -30,7 +30,7 @@ public final class ObjectUtils {
                 try {
                     o.wait();
                 } catch (InterruptedException e) {
-                    throw new RuntimeException("wait exception.");
+                    throw new RuntimeException(e);
                 }
             }
     }
