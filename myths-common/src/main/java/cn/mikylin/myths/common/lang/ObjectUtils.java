@@ -13,10 +13,11 @@ public final class ObjectUtils {
      *
      * @param closer  object wait to close.
      */
-    public static void close(final AutoCloseable closer) {
-        if(closer != null)
+    public static void close(final Object closer) {
+
+        if (closer != null && closer instanceof AutoCloseable)
             try {
-                closer.close();
+                ((AutoCloseable)closer).close();
             } catch (Exception e) {
                 throw new RuntimeException("close failed");
             }

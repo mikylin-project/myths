@@ -27,7 +27,7 @@ public class KryoTest {
         /**
          * 序列化 object
          */
-        byte[] serialize = KryoUtils.serialize(ue, 100, UserEntity.class, Date.class);
+        byte[] serialize = KryoUtils.serialize(ue, UserEntity.class);
         UserEntity o = KryoUtils.unSerialize(serialize, UserEntity.class);
         System.out.println(o);
 
@@ -36,7 +36,7 @@ public class KryoTest {
          */
         List<UserEntity> list = new ArrayList<>();
         list.add(ue);
-        byte[] serializeList = KryoUtils.serialize(list, 100, UserEntity.class, Date.class,ArrayList.class);
+        byte[] serializeList = KryoUtils.serialize(list,ArrayList.class);
         List<UserEntity> l = (List<UserEntity>)KryoUtils.unSerialize(serializeList,ArrayList.class);
         System.out.println(l.get(0));
     }

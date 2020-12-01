@@ -29,31 +29,45 @@ public final class KryoUtils {
         return kryo;
     }
 
-
-    public static byte[] serialize(Object obj,int size,Class... clzs) {
-
-        Kryo kryo = getKryo();
-
-        for(Class clz : clzs)
+    public static void registeClass(Kryo kryo,Class... clzs) {
+        for (Class clz : clzs)
             kryo.register(clz);
+    }
 
-        Output output = new Output(size);
-        kryo.writeObject(output,obj);
+    public static void registeClass(Class... clzs) {
+        Kryo kryo = getKryo();
+        registeClass(kryo,clzs);
+    }
 
-        byte[] bytes = output.toBytes();
-        output.close();
-        return bytes;
+
+
+    public static <T> byte[] serialize(Object obj,Class<T> clz) {
+        Kryo kryo = getKryo();
+        return serialize(kryo,obj,clz);
+    }
+
+    public static <T> byte[] serialize(Kryo kryo,Object obj,Class<T> clz) {
+
+        registeClass(kryo,clz);
+
+        try (Output output = new Output()) {
+            kryo.writeObject(output,obj);
+            return output.toBytes();
+        }
     }
 
     public static <T> T unSerialize(byte[] bs,Class<T> clz) {
         Kryo kryo = getKryo();
+        return unSerialize(kryo,bs,clz);
+    }
 
-        kryo.register(clz);
+    public static <T> T unSerialize(Kryo kryo,byte[] bs,Class<T> clz) {
 
-        Input input = new Input(bs);
-        Object o = kryo.readObject(input, clz);
-        input.close();
-        return (T)o;
+        registeClass(kryo,clz);
+
+        try (Input input = new Input(bs)) {
+            return (T) kryo.readObject(input, clz);
+        }
     }
 
     /**
