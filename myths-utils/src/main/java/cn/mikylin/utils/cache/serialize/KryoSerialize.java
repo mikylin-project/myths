@@ -1,16 +1,22 @@
 package cn.mikylin.utils.cache.serialize;
 
-import cn.mikylin.utils.cache.common.NonBlockingQueuePool;
+import cn.mikylin.utils.cache.common.NonBlockingPool;
 import cn.mikylin.utils.cache.common.ObjectPool;
 import cn.mikylin.utils.serial.KryoUtils;
 import com.esotericsoftware.kryo.Kryo;
 
+/**
+ * kryo serialize.
+ *
+ * @author mikylin
+ * @date 20201203
+ */
 public final class KryoSerialize implements Serialize {
 
     private final ObjectPool<Kryo> objectPool;
 
     public KryoSerialize(int size) {
-        this.objectPool = new NonBlockingQueuePool<>(size, () -> new Kryo());
+        this.objectPool = new NonBlockingPool<>(size, () -> new Kryo());
     }
 
     @Override

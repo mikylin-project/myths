@@ -2,6 +2,12 @@ package cn.mikylin.utils.cache.common;
 
 import cn.mikylin.myths.common.lang.ObjectUtils;
 
+/**
+ * object pool.
+ *
+ * @author mikylin
+ * @date 20201203
+ */
 public interface ObjectPool<T> extends AutoCloseable {
 
     T getObject();

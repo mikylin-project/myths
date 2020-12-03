@@ -10,7 +10,7 @@ public interface FileOperator {
 
     String getFilePath();
 
-    byte[] read(int index);
+    byte[] read(int off,int len);
 
-    int writeObject(Object o);
+    long write(byte[] o);
 }

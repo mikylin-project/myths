@@ -2,12 +2,19 @@ package cn.mikylin.utils.cache.common;
 
 import java.util.concurrent.SynchronousQueue;
 
-public class SynchronousQueuePool<T> implements ObjectPool<T> {
+/**
+ * single object pool.
+ *
+ * @author mikylin
+ * @date 20201203
+ */
+public class SynchronousPool<T> implements ObjectPool<T> {
 
     private SynchronousQueue<T> pool;
 
-    public SynchronousQueuePool() {
+    public SynchronousPool(T t) {
         this.pool = new SynchronousQueue<>();
+        pool.add(t);
     }
 
 
