@@ -1,5 +1,6 @@
 package cn.mikylin.utils.cache.serialize;
 
+import cn.mikylin.utils.cache.common.NonBlockingQueuePool;
 import cn.mikylin.utils.cache.common.ObjectPool;
 import cn.mikylin.utils.serial.KryoUtils;
 import com.esotericsoftware.kryo.Kryo;
@@ -9,7 +10,7 @@ public final class KryoSerialize implements Serialize {
     private final ObjectPool<Kryo> objectPool;
 
     public KryoSerialize(int size) {
-        this.objectPool = new ObjectPool<>(size, () -> new Kryo());
+        this.objectPool = new NonBlockingQueuePool<>(size, () -> new Kryo());
     }
 
     @Override

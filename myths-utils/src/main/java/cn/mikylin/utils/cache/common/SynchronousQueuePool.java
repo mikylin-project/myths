@@ -16,10 +16,17 @@ public class SynchronousQueuePool<T> implements ObjectPool<T> {
         return pool.poll();
     }
 
+    @Override
     public void returnObject(T t) {
         if (t != null) {
             pool.add(t);
         }
+    }
+
+
+    @Override
+    public Object[] getAllObject() {
+        return pool.toArray();
     }
 
 }

@@ -1,8 +1,6 @@
 package cn.mikylin.utils.cache.common;
 
 import cn.mikylin.myths.common.lang.ObjectUtils;
-
-import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -35,5 +33,8 @@ public class NonBlockingQueuePool<T> implements ObjectPool<T> {
         }
     }
 
-
+    @Override
+    public Object[] getAllObject() {
+        return pool.toArray();
+    }
 }
