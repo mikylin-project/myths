@@ -4,7 +4,10 @@ import cn.mikylin.utils.cache.common.NonBlockingPool;
 import cn.mikylin.utils.cache.common.ObjectPool;
 import cn.mikylin.utils.cache.common.SynchronousPool;
 import cn.mikylin.utils.cache.utils.FileUtils;
+
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
@@ -13,18 +16,27 @@ import java.io.RandomAccessFile;
  * @author mikylin
  * @date 20201203
  */
-public class RandomAccessFileOperator<T> implements FileOperator {
+public class RandomAccessFileOperator implements FileOperator {
 
     private String filePath;
 
     private ObjectPool<RandomAccessFile> readers;
     private ObjectPool<RandomAccessFile> writers;
 
-    public RandomAccessFileOperator(String filePath,Integer readerSize)
-            throws FileNotFoundException {
+    public RandomAccessFileOperator(String filePath,Integer readerSize) {
+        File f = new File(filePath);
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         this.filePath = filePath;
         this.readers = new NonBlockingPool<>(readerSize, () -> create(filePath,"r"));
         this.writers = new SynchronousPool<>(create(filePath,"rw"));
+
 
     }
 
