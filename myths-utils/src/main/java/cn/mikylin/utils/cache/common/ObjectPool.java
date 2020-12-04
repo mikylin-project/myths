@@ -24,9 +24,4 @@ public interface ObjectPool<T> extends AutoCloseable {
         }
     }
 
-
-
-    interface ObjectLoader<T> {
-        T load();
-    }
 }
