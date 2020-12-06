@@ -1,6 +1,6 @@
 package cn.mikylin.myths.common;
 
-import cn.mikylin.myths.common.lang.ArrayUtils;
+import cn.mikylin.myths.common.lang.*;
 import java.util.*;
 
 /**
