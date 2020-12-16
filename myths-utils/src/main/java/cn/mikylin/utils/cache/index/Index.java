@@ -13,4 +13,6 @@ public interface Index {
     long offset();
 
     long len();
+
+    String fileName();
 }

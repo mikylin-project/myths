@@ -4,10 +4,12 @@ public abstract class AbstractIndex implements Index {
 
     private final long offset;
     private final long len;
+    private final String fileName;
 
-    protected AbstractIndex(long offset,long len) {
+    protected AbstractIndex(long offset,long len,String fileName) {
         this.offset = offset;
         this.len = len;
+        this.fileName = fileName;
     }
 
     @Override
@@ -18,6 +20,11 @@ public abstract class AbstractIndex implements Index {
     @Override
     public long len() {
         return len;
+    }
+
+    @Override
+    public String fileName() {
+        return fileName;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package cn.mikylin.utils.cache.common;
 
-import cn.mikylin.myths.common.lang.ObjectUtils;
+import cn.mikylin.utils.cache.utils.ObjectUtils;
 
 /**
  * object pool.

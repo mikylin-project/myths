@@ -4,8 +4,8 @@ public class StringIndex extends AbstractIndex {
 
     private final String key;
 
-    public StringIndex(String key,long offset,long len) {
-        super(offset,len);
+    public StringIndex(String key,long offset,long len,String fileName) {
+        super(offset,len,fileName);
         this.key = key;
     }
 

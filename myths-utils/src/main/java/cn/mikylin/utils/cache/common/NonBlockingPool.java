@@ -1,6 +1,6 @@
 package cn.mikylin.utils.cache.common;
 
-import cn.mikylin.myths.common.lang.ObjectUtils;
+import cn.mikylin.utils.cache.utils.ObjectUtils;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ArrayBlockingQueue;
 

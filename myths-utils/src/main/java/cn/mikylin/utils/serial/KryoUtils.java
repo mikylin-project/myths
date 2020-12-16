@@ -50,7 +50,7 @@ public final class KryoUtils {
 
         registeClass(kryo,clz);
 
-        try (Output output = new Output()) {
+        try (Output output = new Output(10000)) {
             kryo.writeObject(output,obj);
             return output.toBytes();
         }
@@ -66,7 +66,7 @@ public final class KryoUtils {
         registeClass(kryo,clz);
 
         try (Input input = new Input(bs)) {
-            return (T) kryo.readObject(input, clz);
+            return kryo.readObject(input, clz);
         }
     }
 
